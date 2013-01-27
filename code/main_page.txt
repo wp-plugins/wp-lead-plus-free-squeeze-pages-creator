@@ -1,0 +1,19 @@
+<div id="main_page">
+	<div id="thankyou">
+		<h2>Thanks for your purchase</h2>
+		<p>We hope you enjoy the product. If you have any suggestion, request, please find us at:</p>
+		<p>Skype: cbnoob</p>
+		<p>Gmail: t2dx.inc@gmail.com</p>
+		<p>We will get back to you a.s.a.p</p>
+	</div>
+	
+	<div id="activation">
+		<h2>Activate your copy</h2>
+		<label>Enter the email you used to purchase</label>
+		<input type="text" id="spring_code" name="activation_code" /> <br />
+		<input type="submit" class="button-primary" value="Activate" id="spring_submit" /> 
+		
+		
+	</div>
+	
+</div>

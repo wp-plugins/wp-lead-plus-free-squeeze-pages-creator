@@ -1,0 +1,80 @@
+<!-- EDIT PANEL -->
+<div id='buttons_panel'></div>
+<div id='bgs_panel'></div>
+<div id='posts_panel'></div>
+
+
+<div id="gallery_panel">
+	<input type="button" value="Video" id="videothemeb" class="blueb" />
+	<input type="button" value="No Video" id="nonvidb" class="greenb" />
+</div>
+
+<!-- Show panel button -->
+<input type="button" id="showb" value="Show" class="blueb" />
+
+<div id="editing_panel">
+	<input type="button" value="Switch color" id="edit_switch_colorb" class="navyb" />
+	<input type="button" value="Add" id="edit_addb" class="blueb" />
+	<input type="button" value="Remove" id="edit_removeb" class="redb" />
+	<input type="button" value="Change BG" id="edit_changebgb" class="greenb" />
+	<input type="button" value="Change Btn" id="edit_changebtnb" class="orangeb" />
+	<input type="button" value="Edit Page" id="edit_editpageb" class="violetb" />
+	<input type="button" value="Insert Img" id="edit_insert_img" class="greenb" />
+</div>
+
+<div id="code_panel">
+	<input type="button" value="Media" id="code_mediab" class="blueb" />
+	<input type="button" value="Email" id="code_emailb" class="redb" />
+	<input type="button" value="Facebook" id="code_faceb" class="greenb" />
+	<input type="button" value="FB Connect" id="code_faceconn" class="blueb" />
+</div>
+<!-- CODE PANEL -->
+
+<div id="code_boxes">
+		<textarea id="face_code">Enter your autoresponder code with facebook connect here</textarea>
+		<textarea id="email_code">Enter your autoresponder code here</textarea>
+		<textarea id="media_code">Enter your video url/image url here</textarea>
+</div>
+<!-- CODE PANEL -->
+
+
+<!-- FOOTER PANEL -->
+<div id="foot_panel">
+	
+	<div id="ediboxes">
+		<input type="text" id="linkurl" value="your url comes here" />
+	</div>
+	<div id="buttons_right">
+		<a style="font-size: 16px; padding: 0 10px;" href="http://wpleadplus.com/" target="_blank">Upgrade to PRO version for lots for features and special discount today. Click Here</a>
+		<input type="button" value="Edit this" id="editthispageb" class="blueb" style="display:none;" />
+		<input type="button" value="Edit this" id="editthisb" class="blueb" style="display:none;" />
+		<input type="button" value="Choose this" id="choosethisbtnb" class="blueb" style="display:none;" />
+		<input type="button" value="Choose this" id="choosethisbgb" class="blueb" style="display:none;" />		
+		<input type="button" value="Publish" id="publishb" class="redb" style="display: none;"/>
+		<input type="button" value="Code" id="codeb" class="blueb" />
+		<input type="button" value="Edit" id="editb" class="greenb" />
+		<input type="button" value="Select" id="selectb" class="orangeb" />
+		
+		<input type="button" value="Hide" id="hideb" class="navyb" />
+	</div>
+	
+	
+	<!-- HIDDEN FIELD -->
+		<div id="current_id" style="display:none;"></div>
+		<div id="container_id" style="display:none;"></div>
+		
+		<div id="current_theme_url" style="display: none;"></div>
+		<div id="selected_theme" style="display:none;"></div>
+		<div id="current_theme_name" style="display: none;">1</div> <!-- this seems to be dup with the selected theme but not -->
+		<div id="current_sub_theme" style="display: none;">1</div>
+		<div id="current_theme_type" style="display: none;">video</div>
+		
+		<div id="selected_button" style="display:none;"></div>
+		<div id="selected_bg" style="display:none;"></div>
+		<div id="changeable_bg" style="display:none;"></div>
+		<div id="facebook_mail_code" style="display:none;"></div>
+		<div id="sq_temp_edit_text" style="display:none;"></div>
+	<!-- END HIDDEN FIELD -->
+</div>
+
+<!-- END FOOTER PANEL -->
