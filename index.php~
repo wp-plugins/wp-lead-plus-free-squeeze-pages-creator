@@ -4,8 +4,8 @@
 	 * Plugin URI: http://wpleadplus.com/
 	 * Author: Bueno Gato
 	 * Author URI: http://wpleadplus.com/
-	 * Description: Creating high converting squeeze pages can't be easier. Simply point and click and you will get a really awesome squeeze page. Find out more at http://wpleadplus.com/
-	 * Version: 1.4
+	 * Description: New way of creating squeeze pages/squeeze popup/squeeze sidebar optin. Forget about confusing code. &copy WP Lead Plus. A production of Bueno Gato
+	 * Version: 1.3
 	 */
 	if (!($_SESSION))
 	{
@@ -22,4 +22,5 @@
 	register_activation_hook(__FILE__, 'add_backgrounds_to_db');
 	//add the theme to the db
 	register_activation_hook(__FILE__, 'add_theme_to_db');
-
+	//create the popup/widget table
+	register_activation_hook(__FILE__, 'add_sq_widget_popup_table');
