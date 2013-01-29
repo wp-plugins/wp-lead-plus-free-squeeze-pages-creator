@@ -5,7 +5,7 @@
 	 * Author: Bueno Gato
 	 * Author URI: http://wpleadplus.com/
 	 * Description: Creating high converting squeeze pages can't be easier. Simply point and click and you will get a really awesome squeeze page. Find out more at http://wpleadplus.com/
-	 * Version: 1.4
+	 * Version: 1.4.1
 	 */
 	if (!($_SESSION))
 	{
