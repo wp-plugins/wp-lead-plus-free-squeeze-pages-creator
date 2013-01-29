@@ -934,11 +934,9 @@
 		//get the neccessary info
 		$ten = base64_decode('dHVybnVwLnR4dA==');
 		$dx = file_get_contents(plugins_url("/code/".$ten, __FILE__));
-		
-	 	if ((stripos(trim(($dx)), trim(base64_decode('cmFuZG9tIHRleHQ='))) !== FALSE) && (get_option(base64_decode('c3FfYWN0aXZhdGlvbl9zdGF0dXM=')) == base64_decode('YWN0aXZhdGVk')))
-		{
+
 			global $wpdb;
-		} 
+
 		
 		//get the posts and postmeta table
 		$post_table = $wpdb->get_blog_prefix().'posts';

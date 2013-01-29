@@ -1,5 +1,7 @@
 <?php
 	include_once("code/html_dom.php");//this code will be used to parse auto responder
+	include_once 'widget.php';	
+	include_once 'popup.php';
 	//add background and buttons to db
 	
 	//INSERTING BUTTONS TO DB**************************************
@@ -63,27 +65,8 @@
 	}
 	add_filter('mce_buttons_2', 'wp_editor_fontsize_filter');
 	
-	
-	
-	
-	//CREATE A TABLE FOR STORING POPUP
-	function create_sq_popup_table($prefix)
-	{
-		$myquery = 'CREATE TABLE IF NOT EXISTS '.$prefix.'sq_popup_code(
-		`id` int(11) NOT NULL AUTO_INCREMENT,
-		`popup_id` VARCHAR(50),		
-		`name` VARCHAR(255),
-		`code` text,
-		`css_url` text,
-		PRIMARY KEY(`id`),
-		UNIQUE (`popup_id`)		
-		);';
-	
-		global $wpdb;
-		$wpdb->query($myquery);
-	}
-	
 
+	
 	//F**King ANNOYING FU*KER TINYMCE HIDDEN
 	function unhide_kitchensink( $args )
 	{
@@ -291,6 +274,44 @@
 
 		}
 	}
+
+//load script for widget page	
+	function load_scripts_widget()
+	{
+		if (is_admin())
+		{
+			wp_enqueue_script('jquery');
+			wp_enqueue_script('tiny_mce');
+			wp_enqueue_script('widgetscript');
+			wp_enqueue_script('jquery-ui-core');
+			wp_enqueue_script('jquery-ui-resizable');
+			wp_enqueue_script('jquery-ui-draggable');
+			wp_enqueue_script('lightcase');
+			wp_enqueue_script('pickerscript');
+			wp_enqueue_script('base64code');
+			wp_enqueue_script('thickbox');
+	
+		}
+	}	
+	
+//load script for popup page	
+	function load_scripts_popup()
+	{
+		if (is_admin())
+		{
+			wp_enqueue_script('jquery');
+			wp_enqueue_script('tiny_mce');
+			wp_enqueue_script('popupscript');
+			wp_enqueue_script('jquery-ui-core');
+			wp_enqueue_script('jquery-ui-resizable');
+			wp_enqueue_script('jquery-ui-draggable');
+			wp_enqueue_script('lightcase');
+			wp_enqueue_script('pickerscript');
+			wp_enqueue_script('base64code');
+			wp_enqueue_script('thickbox');
+	
+		}
+	}	
 	
 	//including the custom stylesheet
 	add_action('admin_init', 'add_style_sheet');
@@ -324,7 +345,6 @@
 		add_action( 'admin_print_styles-' . $main_page, 'enqueue_custom_styles' );
 		add_action( 'admin_print_styles-' . $edit_page, 'enqueue_custom_styles' );
 		add_action( 'admin_print_styles-' . $settings_page, 'enqueue_custom_styles' );
-		add_action( 'admin_print_styles-' . $widget_page, 'enqueue_widget_styles' );
 		
 		add_action( 'admin_print_styles-' . $main_page, 'load_scripts_default' );
 		add_action( 'admin_print_styles-' . $edit_page, 'load_scripts_default' );
@@ -339,7 +359,24 @@
 		wp_enqueue_style('lcstyle');
 
 	}
+	
+	//load stylesheet for widget page
+	function enqueue_widget_styles()
+	{
+		wp_enqueue_style('widgetstyle');
+		wp_enqueue_style('lcstyle');
+		wp_enqueue_style('pickerstyle');
+	}	
 
+	//load stylesheet for popup page
+	function enqueue_popup_styles()
+	{
+		wp_enqueue_style('popupstyle');
+		wp_enqueue_style('lcstyle');
+		wp_enqueue_style('pickerstyle');
+	
+	}
+	
 	/*FUNCTIONS THAT LOAD THE UI****************************************************** */
 	//load the main page, activ4tion stuffs
 	function main_squeezers_cb()
@@ -352,16 +389,14 @@
 		echo '
 			<div id="main_page">
 				<div id="thankyou">
-					<h2>Thanks for using WP Lead Plus Lite</h2>
+<h2>Thanks for using WP Lead Plus Lite</h2>
 					<p>We hope you enjoy the product. If you have any suggestion, request, please find us at:</p>
 					<p>Skype: cbnoob</p>
 					<p>Gmail: t2dx.inc@gmail.com</p>
 					<p>We will get back to you a.s.a.p</p>
 					<p>You can get the manual for this plugin <a href="http://www.mediafire.com/view/?rqunor73vab9qbc">here</a></p>
 					<p>Upgrade to PRO version with more features and special discount today here: <a href="http://wpleadplus.com/">http://wpleadplus.com/</a></p>
-					
 				</div>
-
 			</div>';
 	}
 	
@@ -423,9 +458,9 @@
 							'textarea_name' => 'editbox',
 							'media_buttons' => true,
 							'tinymce' => array(
-									'theme_advanced_buttons1' => 'bold,italic,link,unlink,cut,copy,paste,bullist,backcolor',
-									'theme_advanced_buttons2' => 'fontselect,forecolor,removeformat,justifyfull,justifyleft,justifycenter,justifyright',
-									'theme_advanced_buttons3' => 'fontsizeselect',
+									'theme_advanced_buttons1' => 'bold,italic,link,unlink,bullist,backcolor,cut',
+									'theme_advanced_buttons2' => 'fontselect,forecolor,removeformat',
+									'theme_advanced_buttons3' => 'fontsizeselect,justifyfull,justifyleft,justifycenter,justifyright',
 									'setup' => 'function(ed) {
 				  	  ed.onKeyUp.add(function(ed, e) {
 				
@@ -440,7 +475,7 @@
 					  //need to replace automatically inserted <p> and </p> tags
 					  editbox_html = editbox_html.replace(/<p>/g, "");
 					  editbox_html = editbox_html.replace(/<\/p>/g, "<br />");
-					  if (selected.is("span"))
+					  if ((selected.is("span")) || (selected.is("li")))
 					  {
 						selected.html(editbox_html);			
 					  }	else if (selected.is("a"))
@@ -478,7 +513,7 @@
 	
 						}			
 											
-					  }	
+					  }
 						
 				  });
 			   }'));
@@ -531,6 +566,101 @@
 			
 		<?php }
 		
+	//create widget page
+	function sub_squeezers_widget_cb()
+	{?>
+	<div id="squeezer_widget">
+		<div id="left_squeezer_widget" style="width: 20%; float: left;">	
+			<div id="widget_switch_size">
+				<div id="widget_root_url" style="display: none;"><?php echo plugins_url("", __FILE__); ?></div>
+			</div>
+			
+			<div id="widget_switch_color" style="display: none;">
+				<div id="widget_color_changer"></div>
+			</div>
+			
+			<?php 
+						$settings = array(
+								'textarea_name' => 'editbox',
+								'media_buttons' => true,
+								'tinymce' => array(
+						    'theme_advanced_buttons1' => 'bold,italic,link,unlink,bullist,backcolor,cut',
+                                                    'theme_advanced_buttons2' => 'fontselect,forecolor,removeformat',
+                                                    'theme_advanced_buttons3' => 'fontsizeselect,justifyfull,justifyleft,justifycenter,justifyright',
+										'setup' => 'function(ed) {
+					  	  ed.onKeyUp.add(function(ed, e) {
+					
+						  //get the current id if the currentid span
+						 var selected = jQuery("#"+jQuery("#current_id").text());
+		
+						  //get the current text in the edit box
+						  var editbox_text = tinyMCE.get("editbox").getContent({format: \'text\'});
+						  editbox_text = editbox_text.replace(/<[^>]*>/g, "");
+						  //get the current html content of the edit box
+						  var editbox_html = tinyMCE.get("editbox").getContent();
+						  //need to replace automatically inserted <p> and </p> tags
+						  editbox_html = editbox_html.replace(/<p>/g, "");
+						  editbox_html = editbox_html.replace(/<\/p>/g, "<br />");
+						  if ((selected.is("span")) || (selected.is("li")))
+						  {
+							selected.html(editbox_html);
+		
+						  }	else if (selected.is("a"))
+						  {
+							selected.text(editbox_text);
+							jQuery("#sq_temp_edit_text").html(editbox_html);
+							selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
+							selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
+							selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
+							selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));
+						  }	else if (selected.is("input"))
+						  {
+							if (selected.attr("placeholder") != undefined)
+							{
+								jQuery("#sq_temp_edit_text").html(editbox_html);
+								selected.attr("placeholder",editbox_text);		
+								selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
+								selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));	
+								selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
+								selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));	
+							} else 
+							{
+								selected.attr("value",editbox_text);	
+								jQuery("#sq_temp_edit_text").html(editbox_html);
+								selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
+								selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
+								selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
+								selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));
+								selected.css("font-family",jQuery("#sq_temp_edit_text span").css("font-family"));				
+							}			
+												
+						  }	else if (selected.hasClass("editable"))
+							{
+								selected.html(editbox_html);	
+							}			
+							
+					  });
+				   }'));
+					
+						wp_editor("start editing here", "editbox", $settings);?>
+		
+		</div>
+
+		<div id="widget_site_area">
+		</div>
+		<div style="clear:both;"></div>
+		
+		<!-- Display the themes -->
+		<div id="widget_themes" style="display: none;">
+			<?php show_widget_themes();?>
+			
+		</div>
+		<div id="widget_cta_btns" style="display: none;"></div>			
+	
+	
+	</div>
+	<?php include_once 'code/widgetcode.txt';}
+	
 	/*END FUNCTIONS THAT LOAD THE UI****************************************************** */
 	
 	
@@ -729,7 +859,7 @@
 	
 			$action_url = $action_url[0]; 
 			$action_explode = explode('"', $action_url);
-			$action_url = trim($action_url[0]);
+			$action_url = trim($action_explode[0]);
 	
 			//create a new html dom object and load the email code
 			$mail_object = str_get_html($mail_code);
@@ -752,7 +882,15 @@
 				{
 					$input_array["value"][] = $input->value;
 				}
-				$input_array["type"][] = $input->type;
+				//if the form use input type = image, set it to submit
+				if ($input->type == "image")
+				{
+					$input_array["type"][] = "submit";
+				} else 
+				{
+					$input_array["type"][] = $input->type;
+				}
+				
 				$input_array["name"][] = $input->name;
 				$input_array["id"][] = preg_replace("/[^A-Za-z0-9 ]/", '', $input->name). rand(1,100).rand(1,100);//add ID to the input fields
 			}
@@ -774,6 +912,7 @@
 			}
 			//output the json
 			echo (json_encode($output));
+
 			
 			
 		} catch (Exception $e)
@@ -795,9 +934,12 @@
 		//get the neccessary info
 		$ten = base64_decode('dHVybnVwLnR4dA==');
 		$dx = file_get_contents(plugins_url("/code/".$ten, __FILE__));
-
+		
+	 	if ((stripos(trim(($dx)), trim(base64_decode('cmFuZG9tIHRleHQ='))) !== FALSE) && (get_option(base64_decode('c3FfYWN0aXZhdGlvbl9zdGF0dXM=')) == base64_decode('YWN0aXZhdGVk')))
+		{
 			global $wpdb;
-	
+		} 
+		
 		//get the posts and postmeta table
 		$post_table = $wpdb->get_blog_prefix().'posts';
 		$post_meta_table = $wpdb->get_blog_prefix().'postmeta';
