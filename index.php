@@ -1,6 +1,6 @@
 <?php
 	error_reporting('E_ALL');
-	/* Plugin name: WP Lead Plus
+	/* Plugin name: WP Lead Plus Free Squeeze Page Creator
 	 * Plugin URI: http://wpleadplus.com/
 	 * Author: Bueno Gato
 	 * Author URI: http://wpleadplus.com/

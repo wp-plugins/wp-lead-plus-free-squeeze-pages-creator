@@ -454,70 +454,76 @@
 				</div>
 				
 					<?php 
-					$settings = array(
-							'textarea_name' => 'editbox',
-							'media_buttons' => true,
-							'tinymce' => array(
-									'theme_advanced_buttons1' => 'bold,italic,link,unlink,bullist,backcolor,cut',
-									'theme_advanced_buttons2' => 'fontselect,forecolor,removeformat',
-									'theme_advanced_buttons3' => 'fontsizeselect,justifyfull,justifyleft,justifycenter,justifyright',
-									'setup' => 'function(ed) {
-				  	  ed.onKeyUp.add(function(ed, e) {
-				
-					  //get the current id if the currentid span
-					 var selected = jQuery("#"+jQuery("#current_id").text());
-	
-					  //get the current text in the edit box
-					  var editbox_text = tinyMCE.get("editbox").getContent({format: \'text\'});
-					  editbox_text = editbox_text.replace(/<[^>]*>/g, "");
-					  //get the current html content of the edit box
-					  var editbox_html = tinyMCE.get("editbox").getContent();
-					  //need to replace automatically inserted <p> and </p> tags
-					  editbox_html = editbox_html.replace(/<p>/g, "");
-					  editbox_html = editbox_html.replace(/<\/p>/g, "<br />");
-					  if ((selected.is("span")) || (selected.is("li")))
-					  {
-						selected.html(editbox_html);			
-					  }	else if (selected.is("a"))
-					  {
-						selected.text(editbox_text);
-						jQuery("#sq_temp_edit_text").html(editbox_html);
-						selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
-						selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
-						selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
-						selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));
+        $settings = array(
+								'textarea_name' => 'editbox',
+								'media_buttons' => true,
+								'tinymce' => array(
+										'theme_advanced_buttons1' => 'bold,italic,link,unlink,bullist,backcolor,cut',
+                                                                                'theme_advanced_buttons2' => 'fontselect,forecolor,removeformat,justifyfull',
+                                                                                'theme_advanced_buttons3' => 'fontsizeselect,justifyleft,justifycenter,justifyright',
+										'setup' => 'function(ed) {
+					  	  ed.onKeyUp.add(function(ed, e) {
+					
+						  //get the current id if the currentid span
+						 var selected = jQuery("#"+jQuery("#current_id").text());
+		
+						  //get the current text in the edit box
+						  var editbox_text = tinyMCE.get("editbox").getContent({format: \'text\'});
+						  editbox_text = editbox_text.replace(/<[^>]*>/g, "");
+						  //get the current html content of the edit box
+						  var editbox_html = tinyMCE.get("editbox").getContent();
+						  //need to replace automatically inserted <p> and </p> tags
+						  editbox_html = editbox_html.replace(/<p>/g, "");
+						  editbox_html = editbox_html.replace(/<\/p>/g, "<br />");
+						  if ((selected.is("span")) || (selected.is("li")))
+						  {
+							selected.html(editbox_html);			
+						  }	else if (selected.is("a"))
+						  {
+							selected.text(editbox_text);
+							jQuery("#sq_temp_edit_text").html(editbox_html);
+							selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
+							selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
+							selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
+							selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));	
+						  }	else if (selected.is("input"))
+						  {
+							if (selected.attr("placeholder") != undefined)
+							{
+								jQuery("#sq_temp_edit_text").html(editbox_html);
+								selected.attr("placeholder",editbox_text);		
+								selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
+								selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
+								selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
+								selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));
+								selected.css("font-family",jQuery("#sq_temp_edit_text span").css("font-family"));						
+							} else 
+							{
+								selected.attr("value",editbox_text);	
+								jQuery("#sq_temp_edit_text").html(editbox_html);
+								selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
+								selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
+								selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
+								selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));	
+								selected.css("font-family",jQuery("#sq_temp_edit_text span").css("font-family"));			
+							}			
+												
+						  }	else if (selected.hasClass("editable"))
+							{
+								selected.html(editbox_html);	
+							} else if (selected.is("img")) //if selected is an image			
+                                                        {
+                                                            jQuery("#sq_temp_edit_text").html(editbox_html);
+                                                            selected.attr("src", jQuery("#sq_temp_edit_text img").attr("src"));
+                                                            selected.attr("width", jQuery("#sq_temp_edit_text img").attr("width"));
+                                                            selected.attr("height", jQuery("#sq_temp_edit_text img").attr("height"));
+                                                            selected.attr("alt", jQuery("#sq_temp_edit_text img").attr("alt"));
 
+                                                        }
 							
-
-					  }	else if (selected.is("input"))
-					  {
-						if (selected.attr("placeholder") != undefined)
-						{
-							jQuery("#sq_temp_edit_text").html(editbox_html);
-							selected.attr("placeholder",editbox_text);		
-							selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
-							selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
-							selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
-							selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));
-							selected.css("font-family",jQuery("#sq_temp_edit_text span").css("font-family"));
-
-						} else 
-						{
-							selected.attr("value",editbox_text);	
-							jQuery("#sq_temp_edit_text").html(editbox_html);
-							selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
-							selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
-							selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
-							selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));
-							selected.css("font-family",jQuery("#sq_temp_edit_text span").css("font-family"));				
-	
-						}			
-											
-					  }
-						
-				  });
-			   }'));
-				
+					  });
+				   }'));
+					
 					wp_editor("start editing here", "editbox", $settings);?>
 	
 	

@@ -206,33 +206,54 @@ jQuery(document).ready(function(){
 //EDITING THE CONTENT ON PAGE************************************************
 	//register the id of clicked element to currentid div
 	jQuery("#site_area a,#site_area .editable, #site_area input,#site_area img").live("click", function(){
-		//register the id
-		jQuery("#current_id").text("");
-		jQuery("#current_id").text(jQuery(this).attr("id"));
-		//update the content to the edit box
-		if (jQuery(this).is("input")) //in case the clicked element is an input, put the text into the editbox
-		{
-			if (jQuery(this).attr("placeholder") != undefined)//html5, if placeholder is used
+			//register the id
+			jQuery("#current_id").text("");
+                        
+                        //create an id if the current element doesn't have an ID
+                        if (jQuery(this).attr("id") == undefined)
+                        {
+                            var random = 'rand_id' + Math.round((Math.random()*1000 + Math.random()*1000 + Math.random()*1000));
+                            jQuery(this).attr("id", random);
+                        }
+                        
+			jQuery("#current_id").text(jQuery(this).attr("id"));
+			//update the content to the edit box
+			if (jQuery(this).is("input")) //in case the clicked element is an input, put the text into the editbox
 			{
-				var text = jQuery(this).attr("placeholder");
-			} else 
-			{
-				var text = jQuery(this).attr("value");
-			}
-			
-			tinyMCE.get("editbox").setContent(text);
-			return false;
+				if (jQuery(this).attr("placeholder") != undefined)//html5, if placeholder is used
+				{
+					var text = jQuery(this).attr("placeholder");
+				} else 
+				{
+					var text = jQuery(this).attr("value");
+				}
+				
+				tinyMCE.get("editbox").setContent(text);
+				return false;
 
-		} else if ((jQuery(this).is("span")) || (jQuery(this).is("li"))) 
-		{
-			tinyMCE.get("editbox").setContent(jQuery(this).html());
-			
-		} else if (jQuery(this).is("a"))
-		{
-			jQuery("#linkurl").fadeIn();
-			tinyMCE.get("editbox").setContent(jQuery(this).text());
-			return false;
-		}
+			} else if ((jQuery(this).is("span")) || (jQuery(this).is("li"))) 
+			{
+				tinyMCE.get("editbox").setContent(jQuery(this).html());
+				
+			} else if (jQuery(this).is("img"))
+                        {
+                                var cloner = jQuery(this).clone();
+                                //clear the temp edit
+                                jQuery('#sq_temp_edit_text').html("");
+                                cloner.removeAttr("id");
+                                cloner.appendTo('#sq_temp_edit_text');
+                                tinyMCE.get("editbox").setContent(jQuery('#sq_temp_edit_text').html());
+                                
+                                
+                        } else if (jQuery(this).is("a"))
+			{
+				jQuery("#linkurl").fadeIn();
+				tinyMCE.get("editbox").setContent(jQuery(this).text());
+				return false;
+			} else if (jQuery(this).hasClass("editable"))
+			{
+				tinyMCE.get("editbox").setContent(jQuery(this).html());
+			} 
 	});
 	
 	//update the url for the link
