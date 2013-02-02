@@ -567,7 +567,7 @@
 			
 			<!-- Get the footer panel -->		
 			<div id="insert_code">
-				<?php include_once '/code/editcode.txt'; ?>
+				<?php include_once 'code/editcode.txt'; ?>
 			</div>
 			
 		<?php }
