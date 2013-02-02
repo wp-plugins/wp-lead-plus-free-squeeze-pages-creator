@@ -567,7 +567,7 @@
 			
 			<!-- Get the footer panel -->		
 			<div id="insert_code">
-				<?php echo file_get_contents(plugins_url('/code/editcode.txt', __FILE__)); ?>
+				<?php include_once '/code/editcode.txt'; ?>
 			</div>
 			
 		<?php }
@@ -1300,3 +1300,11 @@
 	}
 	//End setting page save_tracking
 	
+	    //add custom font-size to the editor
+	function sq_my_new_text_sizes($initArray){
+		$initArray['theme_advanced_font_sizes'] = "8px,9px,10px,11px,12px,13px,14px,15px,16px,17px,18px,19px,20px,21px,22px,23px,24px,25px,26px,27px,28px,29px,30px,32px,36px,38px,40px,42px,44px,46px,48px,50px,60px,68px,72px";
+		return $initArray;
+	}
+	
+	// Assigns customize_text_sizes() to "tiny_mce_before_init" filter
+	add_filter('tiny_mce_before_init', 'sq_my_new_text_sizes');

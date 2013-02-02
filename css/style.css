@@ -1,3 +1,7 @@
+/* EDITBOX STYLE */
+.mceText[title$="px"] {
+	font-size: 1em !important;
+}
 
 #wpbody-content {
 	position: absolute;

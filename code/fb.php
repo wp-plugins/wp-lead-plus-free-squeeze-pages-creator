@@ -27,7 +27,7 @@
 		setInterval(function(){
 			var text = $("#wplike").html();
 
-			if (text.indexOf("28px") !== -1)
+			if (text.indexOf("29px") !== -1)
 			{
 				jQuery("#checklog").text("here");
 				return;
