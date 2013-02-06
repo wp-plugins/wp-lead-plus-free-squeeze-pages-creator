@@ -482,10 +482,12 @@
 						  {
 							selected.text(editbox_text);
 							jQuery("#sq_temp_edit_text").html(editbox_html);
-							selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
-							selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
-							selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
-							selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));	
+							selected.css("font-size",jQuery("#sq_temp_edit_text a").css("font-size"));
+							selected.css("color",jQuery("#sq_temp_edit_text a").css("color"));
+							selected.css("font-style",jQuery("#sq_temp_edit_text a").css("font-style"));
+							selected.css("font-weight",jQuery("#sq_temp_edit_text a").css("font-weight"));	
+							selected.attr("href",jQuery("#sq_temp_edit_text a").attr("href"));	
+							selected.attr("title",jQuery("#sq_temp_edit_text a").attr("title"));
 						  }	else if (selected.is("input"))
 						  {
 							if (selected.attr("placeholder") != undefined)

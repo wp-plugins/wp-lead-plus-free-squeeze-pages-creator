@@ -247,9 +247,14 @@ jQuery(document).ready(function(){
                                 
                         } else if (jQuery(this).is("a"))
 			{
-				jQuery("#linkurl").fadeIn();
-				tinyMCE.get("editbox").setContent(jQuery(this).text());
-				return false;
+				var cloner = jQuery(this).clone();
+						//clear the temp edit
+						jQuery('#sq_temp_edit_text').html("");
+						cloner.removeAttr("id");
+						cloner.appendTo('#sq_temp_edit_text');
+						tinyMCE.get("editbox").setContent(jQuery('#sq_temp_edit_text').html());
+						
+						return false;
 			} else if (jQuery(this).hasClass("editable"))
 			{
 				tinyMCE.get("editbox").setContent(jQuery(this).html());
