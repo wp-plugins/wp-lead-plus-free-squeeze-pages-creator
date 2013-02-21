@@ -160,7 +160,28 @@ jQuery(document).ready(function(){
 		//jQuery("#site_area").children().contents().filter(function(){	return (this.nodeType == 3); }).wrap("<span class='editable'></span>");
 	});
 
-
+				//use submit button as a link
+		jQuery("#sq_submit_url").blur(function(){
+			//get the current select element, check if it is a submit button
+			var current_elem = "#" + jQuery("#current_id").text();
+			
+			//if the user entered a valid url, wrap the link around the submit button
+			if (jQuery(this).val().indexOf("http") != -1)
+			{
+				
+				//check if the current selected element is a submit button
+				if ((jQuery(current_elem).is("input[type=submit]")) || (jQuery(current_elem).is("input[type=image]")))
+				{
+					//add the onlick property to the element
+					jQuery(current_elem).attr("onclick", 'window.open(\''+jQuery(this).val()+ '\');')
+					
+				}	
+			} else if (jQuery.trim(jQuery(this).val()) == "")
+			{
+				jQuery(current_elem).removeAttr("onclick");
+			}
+			
+		});
 	//SWITCH COLOR OF THE THEME
 	
 	//show the color options
@@ -205,7 +226,7 @@ jQuery(document).ready(function(){
 	
 //EDITING THE CONTENT ON PAGE************************************************
 	//register the id of clicked element to currentid div
-	jQuery("#site_area a,#site_area .editable, #site_area input,#site_area img").live("click", function(){
+		jQuery("#site_area a, #site_area .editable, #site_area input, #site_area img").live("click", function(){
 			//register the id
 			jQuery("#current_id").text("");
                         
@@ -247,19 +268,14 @@ jQuery(document).ready(function(){
                                 
                         } else if (jQuery(this).is("a"))
 			{
-				var cloner = jQuery(this).clone();
-						//clear the temp edit
-						jQuery('#sq_temp_edit_text').html("");
-						cloner.removeAttr("id");
-						cloner.appendTo('#sq_temp_edit_text');
-						tinyMCE.get("editbox").setContent(jQuery('#sq_temp_edit_text').html());
-						
-						return false;
+				jQuery("#linkurl").fadeIn();
+				tinyMCE.get("editbox").setContent(jQuery(this).text());
+				return false;
 			} else if (jQuery(this).hasClass("editable"))
 			{
 				tinyMCE.get("editbox").setContent(jQuery(this).html());
 			} 
-	});
+		});		
 	
 	//update the url for the link
 	  jQuery("#linkurl").keyup(function(){
@@ -381,15 +397,20 @@ jQuery(document).ready(function(){
 				current_element.toggle();
 			}	
 			
-		} else if (current_element.hasClass("editable"))
-		{
-			current_element.parent().toggle();
 		} else if (current_element.is("img"))
 		{
 			current_element.toggle();
 		} else if (current_element.is("li"))
 		{
-			current_element.toggle();
+            current_element.toggle();
+			
+		} else if (current_element.is("input"))
+		{
+            current_element.toggle();
+			
+		}else if (current_element.hasClass("editable"))
+		{
+			current_element.parent().toggle();
 		}
 		
 		

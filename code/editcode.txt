@@ -45,7 +45,7 @@
 		<input type="text" id="linkurl" value="your url comes here" />
 	</div>
 	<div id="buttons_right">
-		<a style="font-size: 16px; padding: 0 10px;" href="http://wpleadplus.com/" target="_blank">Upgrade to PRO version for lots for features and special discount today. Click Here</a>
+		<a style="font-size: 16px; padding: 0 10px;" href="http://wpleadplus.com/comparison.php" target="_blank">Upgrade to PRO version for lots for features and special discount today. Click Here</a>
 		<input type="button" value="Edit this" id="editthispageb" class="blueb" style="display:none;" />
 		<input type="button" value="Edit this" id="editthisb" class="blueb" style="display:none;" />
 		<input type="button" value="Choose this" id="choosethisbtnb" class="blueb" style="display:none;" />

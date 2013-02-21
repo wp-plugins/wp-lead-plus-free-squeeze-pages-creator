@@ -395,7 +395,7 @@
 					<p>Gmail: t2dx.inc@gmail.com</p>
 					<p>We will get back to you a.s.a.p</p>
 					<p>You can get the manual for this plugin <a href="http://www.mediafire.com/view/?rqunor73vab9qbc">here</a></p>
-					<p>Upgrade to PRO version with more features and special discount today here: <a href="http://wpleadplus.com/">http://wpleadplus.com/</a></p>
+					<p>Upgrade to PRO version with more features and special discount today here: <a href="http://wpleadplus.com/comparison.php">Upgrade now!</a></p>
 				</div>
 			</div>';
 	}
@@ -436,6 +436,8 @@
 					<input type="text" name="custom_bg" id="custom_bg" class="widefat" />
 					<label for="page_url">Custom CTA<span style="font-size: 0.8em"> .jpg/.png file</span></label>
 					<input type="text" name="custom_cta" id="custom_cta" class="widefat" />
+					<label for="sq_submit_url">Submit URL</label>
+					<input type="text" id="sq_submit_url" class="widefat" />
 					
 					<div id="switch_color" style="display: none;">
 						<h4>Switch color</h4>
@@ -448,6 +450,7 @@
 						<div class="widefat">R: <input type="text" id="custom_img_right" /></div>
 						<div class="widefat">T: <input type="text" id="custom_img_top" /></div>
 						<div class="widefat">B: <input type="text" id="custom_img_bottom" /></div>
+						
 					</div>
 					
 					<div id="tempo_responder" style="display: none;"></div>
