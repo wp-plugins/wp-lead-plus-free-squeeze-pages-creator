@@ -12,7 +12,10 @@
 	echo the_title();
 
 	?></title>
+	<?php if (get_option('sq_user_tracking_code') !== false) 
+		{echo get_option('sq_user_tracking_code');}
 	
+	?>
 	<?php while ( have_posts() ) : the_post(); ?>
 
 					<?php the_content(); ?>

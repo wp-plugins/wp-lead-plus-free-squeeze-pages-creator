@@ -1006,13 +1006,14 @@
 		
 		
 		//add the tracking code if any
-		if (get_option('sq_user_tracking_code') !== FALSE)
+		$head .= '</head>';
+		/*if (get_option('sq_user_tracking_code') !== FALSE)
 		{
 			$head .= get_option('sq_user_tracking_code').'</head>';
 		} else 
 		{
 			$head .= '</head>';
-		}
+		}*/
 		
 		$post_content = "<body>".$post_content;
 		//prepare the data before inserting
