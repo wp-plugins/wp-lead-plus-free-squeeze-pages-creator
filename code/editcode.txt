@@ -16,6 +16,7 @@
 	<input type="button" value="Switch color" id="edit_switch_colorb" class="navyb" />
 	<input type="button" value="Add" id="edit_addb" class="blueb" />
 	<input type="button" value="Remove" id="edit_removeb" class="redb" />
+	<input type="button" value="Undo" id="edit_undob" class="blueb" />
 	<input type="button" value="Change BG" id="edit_changebgb" class="greenb" />
 	<input type="button" value="Change Btn" id="edit_changebtnb" class="orangeb" />
 	<input type="button" value="Edit Page" id="edit_editpageb" class="violetb" />
@@ -74,6 +75,7 @@
 		<div id="changeable_bg" style="display:none;"></div>
 		<div id="facebook_mail_code" style="display:none;"></div>
 		<div id="sq_temp_edit_text" style="display:none;"></div>
+		<ul id="sq_remove_history" style="display:none;"></ul>
 	<!-- END HIDDEN FIELD -->
 </div>
 

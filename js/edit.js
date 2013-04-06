@@ -384,7 +384,7 @@ jQuery(document).ready(function(){
 		/* get the current element, decide what it is, if it's an editable, remove its parent, if it's an image, remove
 		 * itself, if it's a link inside a li, remove its parent, do nothing with a input
 		 */
-	jQuery("#edit_removeb").click(function(){
+jQuery("#edit_removeb").click(function(){
 		//get the current selected id
 		var current_element = jQuery("#"+jQuery("#current_id").text());
 		if (current_element.is("a"))
@@ -392,25 +392,70 @@ jQuery(document).ready(function(){
 			if (current_element.parent().is("li"))
 			{
 				current_element.parent().toggle()
+				
+				//if the parent doesn't have an ID, add one
+				if (current_element.parent().attr("id") == undefined) {
+					current_element.parent().attr("id", "rmvid"+Math.random(1,1000) + Math.random(1,10000));
+				}	
+				
+				//append the hidden element id to the history
+				if (!current_element.parent().is(":visible"))
+				{
+					jQuery('#sq_remove_history').append("<li>"+current_element.parent().attr("id")+"</li>");	
+				}
+				
 			} else
 			{
 				current_element.toggle();
+				//append the hidden element id to the history
+				if (!current_element.is(":visible"))
+				{
+					jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
+				}
+				
 			}	
 			
 		} else if (current_element.is("img"))
 		{
 			current_element.toggle();
+			//append the hidden element id to the history
+			if (!current_element.is(":visible"))
+			{
+				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
+			}
+			
 		} else if (current_element.is("li"))
 		{
             current_element.toggle();
+			//append the hidden element id to the history
+			if (!current_element.is(":visible"))
+			{
+				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
+			}
 			
 		} else if (current_element.is("input"))
 		{
             current_element.toggle();
+			//append the hidden element id to the history
+			if (!current_element.is(":visible"))
+			{
+				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
+			}
 			
 		}else if (current_element.hasClass("editable"))
 		{
 			current_element.parent().toggle();
+			
+			//if the parent doesn't have an ID, add one
+			if (current_element.parent().attr("id") == undefined) {
+				current_element.parent().attr("id", "rmvid"+Math.round(Math.random()*10000 )+ Math.round(Math.random()*10000));
+			}
+			//append the hidden element id to the history
+			if (!current_element.parent().is(":visible"))
+			{
+				jQuery('#sq_remove_history').append("<li>"+current_element.parent().attr("id")+"</li>");
+			}
+			
 		}
 		
 		
@@ -475,6 +520,19 @@ jQuery(document).ready(function(){
 	});	
 	
 	//END ADD AND REMOVE BUTTON
+	
+	//UNDO button
+		//the undo button
+	jQuery('#edit_undob').click(function(){
+		//get the latest removed element's id and restore it then remove the li in the history
+		if (!jQuery('#' + jQuery('#sq_remove_history li:last-child').text()).is(":visible")) {
+			jQuery('#' + jQuery('#sq_remove_history li:last-child').text() ).fadeIn();
+		}
+		
+		jQuery('#sq_remove_history li:last-child').remove();
+	
+	});
+	
 	
 //END EDITING PANEL AND ITS BUTTONS BEHAVIOR************************************************	
 	
