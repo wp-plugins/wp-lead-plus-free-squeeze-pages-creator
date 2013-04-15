@@ -4,8 +4,8 @@
 	 * Plugin URI: http://wpleadplus.com/
 	 * Author: Bueno Gato
 	 * Author URI: http://wpleadplus.com/
-	 * Description: Creating high converting squeeze pages can't be easier. Simply point and click and you will get a really awesome squeeze page. Find out more at our homepage http://wpleadplus.com/
-	 * Version: 1.4.5
+	 * Description: Create stunning squeeze page with ease. Simply point-click-edit and your squeeze page is ready in less than 3 minutes.
+	 * Version: 1.4.6
 	 */
 	if (!($_SESSION))
 	{
