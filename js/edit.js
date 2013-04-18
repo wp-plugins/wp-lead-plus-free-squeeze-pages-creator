@@ -55,7 +55,10 @@ jQuery(document).ready(function(){
 			action: 'theme_loader',
 			theme_name: selected_theme
 		};
-		//send the rerquest
+		
+		//reset the post id
+		jQuery('#sq_current_post_id').text("");
+		//send the request
 		jQuery.post(
 		ajaxurl, data, function(response){
 			var return_array = jQuery.parseJSON(response);
@@ -102,11 +105,11 @@ jQuery(document).ready(function(){
 			jQuery("<link class='theme_css' rel='stylesheet' href='"+css_url+"' />").insertBefore(jQuery("head").children("link[href*='style.css']"));//insert before the stylesheet of the editing panels
 				
 			jQuery("#site_area").html(theme_content);
-			jQuery("#site_area *").not("a,li").contents().filter(function(){	return (this.nodeType == 3); }).wrap("<span class='editable'></span>");
-                        
-                        //add editable class to li
-                        jQuery("#site_area li").addClass("editable");
-			
+			jQuery("#site_area *").not("a,li,h1,h2,h3,h4,h5,h6,p").contents().filter(function(){	return (this.nodeType == 3); }).wrap("<span class='editable'></span>");
+            
+			//add editable class to elements
+			jQuery("#site_area li, #site_area h1, #site_area h2, #site_area h3, #site_area h4, #site_area h5, #site_area h6, #site_area p").addClass("editable");
+						
 			//remove blanks spans
 			jQuery(".editable").filter(function(){return ((jQuery.trim(jQuery(this).text())).length == false);}).remove();
 
@@ -144,44 +147,25 @@ jQuery(document).ready(function(){
 				}
 				
 			});
+                        //add the transparent wmode to the video
+                        jQuery("#site_area iframe").attr("src", jQuery("#site_area iframe").attr("src")+"?wmode=transparent");
 			//show the publish button
 			jQuery("#publishb").fadeIn();
 			//make the big box draggable, in themes which have image bg
-			//jQuery(".sq_movable").draggable();
-                        jQuery("#site_area iframe").attr("src", jQuery("#site_area iframe").attr("src")+"?wmode=transparent");
-
+                        //jQuery("#sq_box_container").draggable();
+			
 		}		
 		);
 		
 		jQuery("#gallery").fadeOut();
 		jQuery(this).fadeOut();
+                
 		
 		//make the text of the page editable
 		//jQuery("#site_area").children().contents().filter(function(){	return (this.nodeType == 3); }).wrap("<span class='editable'></span>");
 	});
 
-				//use submit button as a link
-		jQuery("#sq_submit_url").blur(function(){
-			//get the current select element, check if it is a submit button
-			var current_elem = "#" + jQuery("#current_id").text();
-			
-			//if the user entered a valid url, wrap the link around the submit button
-			if (jQuery(this).val().indexOf("http") != -1)
-			{
-				
-				//check if the current selected element is a submit button
-				if ((jQuery(current_elem).is("input[type=submit]")) || (jQuery(current_elem).is("input[type=image]")))
-				{
-					//add the onlick property to the element
-					jQuery(current_elem).attr("onclick", 'window.open(\''+jQuery(this).val()+ '\');')
-					
-				}	
-			} else if (jQuery.trim(jQuery(this).val()) == "")
-			{
-				jQuery(current_elem).removeAttr("onclick");
-			}
-			
-		});
+
 	//SWITCH COLOR OF THE THEME
 	
 	//show the color options
@@ -200,7 +184,7 @@ jQuery(document).ready(function(){
 				var colors_string = "";
 				for (var i=0; i<colors.length; i++)
 				{
-					colors_string += '<div class="theme_color_switch"><img src="'+jQuery('#current_theme_url').text()+'/colors/'+colors[i]+'.jpg" /><input type="radio" name="widget_color" id="widget_colors'+colors[i]+'" theme="'+colors[i]+'" /></div>';
+					colors_string += '<div class="theme_color_switch" style="float: left; text-align: center;"><img style="display: block;" src="'+jQuery('#current_theme_url').text()+'/colors/'+colors[i]+'.jpg" /><input type="radio" name="widget_color" id="widget_colors'+colors[i]+'" theme="'+colors[i]+'" /></div>';
 				}
 				
 				jQuery('#colors_gallery').html(colors_string);
@@ -225,58 +209,7 @@ jQuery(document).ready(function(){
 	//END SWITCHING COLOR OF THE THEME	
 	
 //EDITING THE CONTENT ON PAGE************************************************
-	//register the id of clicked element to currentid div
-		jQuery("#site_area a, #site_area .editable, #site_area input, #site_area img").live("click", function(){
-			//register the id
-			jQuery("#current_id").text("");
-                        
-                        //create an id if the current element doesn't have an ID
-                        if (jQuery(this).attr("id") == undefined)
-                        {
-                            var random = 'rand_id' + Math.round((Math.random()*1000 + Math.random()*1000 + Math.random()*1000));
-                            jQuery(this).attr("id", random);
-                        }
-                        
-			jQuery("#current_id").text(jQuery(this).attr("id"));
-			//update the content to the edit box
-			if (jQuery(this).is("input")) //in case the clicked element is an input, put the text into the editbox
-			{
-				if (jQuery(this).attr("placeholder") != undefined)//html5, if placeholder is used
-				{
-					var text = jQuery(this).attr("placeholder");
-				} else 
-				{
-					var text = jQuery(this).attr("value");
-				}
-				
-				tinyMCE.get("editbox").setContent(text);
-				return false;
 
-			} else if ((jQuery(this).is("span")) || (jQuery(this).is("li"))) 
-			{
-				tinyMCE.get("editbox").setContent(jQuery(this).html());
-				
-			} else if (jQuery(this).is("img"))
-                        {
-                                var cloner = jQuery(this).clone();
-                                //clear the temp edit
-                                jQuery('#sq_temp_edit_text').html("");
-                                cloner.removeAttr("id");
-                                cloner.appendTo('#sq_temp_edit_text');
-                                tinyMCE.get("editbox").setContent(jQuery('#sq_temp_edit_text').html());
-                                
-                                
-                        } else if (jQuery(this).is("a"))
-			{
-				jQuery("#linkurl").fadeIn();
-				tinyMCE.get("editbox").setContent(jQuery(this).text());
-				return false;
-			} else if (jQuery(this).hasClass("editable"))
-			{
-				tinyMCE.get("editbox").setContent(jQuery(this).html());
-			} 
-		});		
-	
 	//update the url for the link
 	  jQuery("#linkurl").keyup(function(){
 		var the_link = jQuery("#"+ jQuery("#current_id").text());
@@ -379,160 +312,7 @@ jQuery(document).ready(function(){
 	});
 	
 	//END CHANGING BACKGROUND BUTTON BEHAVIOR
-	
-	//ADD AND REMOVE BUTTON
-		/* get the current element, decide what it is, if it's an editable, remove its parent, if it's an image, remove
-		 * itself, if it's a link inside a li, remove its parent, do nothing with a input
-		 */
-jQuery("#edit_removeb").click(function(){
-		//get the current selected id
-		var current_element = jQuery("#"+jQuery("#current_id").text());
-		if (current_element.is("a"))
-		{
-			if (current_element.parent().is("li"))
-			{
-				current_element.parent().toggle()
-				
-				//if the parent doesn't have an ID, add one
-				if (current_element.parent().attr("id") == undefined) {
-					current_element.parent().attr("id", "rmvid"+Math.random(1,1000) + Math.random(1,10000));
-				}	
-				
-				//append the hidden element id to the history
-				if (!current_element.parent().is(":visible"))
-				{
-					jQuery('#sq_remove_history').append("<li>"+current_element.parent().attr("id")+"</li>");	
-				}
-				
-			} else
-			{
-				current_element.toggle();
-				//append the hidden element id to the history
-				if (!current_element.is(":visible"))
-				{
-					jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
-				}
-				
-			}	
-			
-		} else if (current_element.is("img"))
-		{
-			current_element.toggle();
-			//append the hidden element id to the history
-			if (!current_element.is(":visible"))
-			{
-				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
-			}
-			
-		} else if (current_element.is("li"))
-		{
-            current_element.toggle();
-			//append the hidden element id to the history
-			if (!current_element.is(":visible"))
-			{
-				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
-			}
-			
-		} else if (current_element.is("input"))
-		{
-            current_element.toggle();
-			//append the hidden element id to the history
-			if (!current_element.is(":visible"))
-			{
-				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
-			}
-			
-		}else if (current_element.hasClass("editable"))
-		{
-			current_element.parent().toggle();
-			
-			//if the parent doesn't have an ID, add one
-			if (current_element.parent().attr("id") == undefined) {
-				current_element.parent().attr("id", "rmvid"+Math.round(Math.random()*10000 )+ Math.round(Math.random()*10000));
-			}
-			//append the hidden element id to the history
-			if (!current_element.parent().is(":visible"))
-			{
-				jQuery('#sq_remove_history').append("<li>"+current_element.parent().attr("id")+"</li>");
-			}
-			
-		}
-		
-		
-	});
-	
-	//the add button
-	jQuery("#edit_addb").click(function(){
-		//get the current selected id
-		var current_element = jQuery("#"+jQuery("#current_id").text());
-		if (current_element.is("a"))
-		{
-			if (current_element.parent().is("li"))
-			{
-				var clone_elem = current_element.parent().clone();
-				var chil = clone_elem.find("*");//get all the children of current tr
-				var randnum = Math.floor((Math.random()*1000)+1); //generate a random number
-				for (var i = 0; i<chil.length; i++)
-				{
-					if (chil.eq(i).attr("id") != undefined)
-					{
-						chil.eq(i).removeAttr("id");//remove the current id
-						chil.eq(i).attr("id", "adder"+randnum+i);//assign new id
-					}
-				}
-				//get a new id for the inserted element
-				clone_elem.attr("id", "cloner"+randnum);
-				
-				//insert the newly created element into the page
-				clone_elem.insertAfter(current_element.parent());
-				
-			} else
-			{
-				var clone_elem = current_element.clone();
-				
-				//generate a random number
-				var randnum = Math.floor((Math.random()*1000)+1); //generate a random number
-				clone_elem.attr("id", "aclone"+ randnum);
-				//insert into dom
-				clone_elem.insertAfter(current_element);
-			}
-		} else if (current_element.hasClass("editable"))
-		{
-			var clone_elem = current_element.parent().clone();
-			var chil = clone_elem.find("*");//get all the children of current tr
-			var randnum = Math.floor((Math.random()*1000)+1); //generate a random number
-			for (var i = 0; i<chil.length; i++)
-			{
-				if (chil.eq(i).attr("id") != undefined)
-				{
-					chil.eq(i).removeAttr("id");//remove the current id
-					chil.eq(i).attr("id", "adder"+randnum+i);//assign new id
-				}
-			}
-			//get a new id for the inserted element
-			clone_elem.attr("id", "ecloner"+randnum);
-			//insert the newly created element into the page
-			clone_elem.insertAfter(current_element.parent());
-			
-		} 
-		
-		
-	});	
-	
-	//END ADD AND REMOVE BUTTON
-	
-	//UNDO button
-		//the undo button
-	jQuery('#edit_undob').click(function(){
-		//get the latest removed element's id and restore it then remove the li in the history
-		if (!jQuery('#' + jQuery('#sq_remove_history li:last-child').text()).is(":visible")) {
-			jQuery('#' + jQuery('#sq_remove_history li:last-child').text() ).fadeIn();
-		}
-		
-		jQuery('#sq_remove_history li:last-child').remove();
-	
-	});
-	
+
 	
 //END EDITING PANEL AND ITS BUTTONS BEHAVIOR************************************************	
 	
@@ -549,18 +329,18 @@ jQuery("#edit_removeb").click(function(){
 		
 	});
 
-	//show and hide the email button	
+	//show and hide the email box	
 	jQuery("#code_emailb").click(function(){
 		jQuery("#code_boxes textarea").not("#email_code").fadeOut();
 		jQuery("#email_code").fadeToggle();
 		
 	});	
 	
+	
 	//show and hide the video button
 	jQuery("#code_trackingb").click(function(){
 		jQuery("#code_boxes textarea").not("#tracking_code").fadeOut();
 		jQuery("#tracking_code").fadeToggle();
-		
 	});	
 	
 	//show and hide the facebook button
@@ -577,65 +357,74 @@ jQuery("#edit_removeb").click(function(){
 	});
 	
 	//THE CODING BOXES AND THEIR ON BLUR BEHAVIOR
-		//insert the video to the page
+	
+	//insert the video to the page
 	jQuery("#media_code").blur(function(){
-		if((jQuery(this).val().indexOf(".jpg") != -1) || (jQuery(this).val().indexOf(".png") != -1) || (jQuery(this).val().indexOf(".gif") != -1))//in case the user has pased the image code in
+		if(((jQuery(this).val().indexOf(".jpg") != -1) || (jQuery(this).val().indexOf(".png") != -1) || (jQuery(this).val().indexOf(".gif") != -1)) && (jQuery(this).val().indexOf("*") == -1))//in case the user has pased the image code in
 		{
 			jQuery('#sq_media').html('<img width="95%" height="95%" src="'+jQuery(this).val()+'" />');
-		} else if((jQuery(this).val().indexOf("youtube.com") != -1) || (jQuery(this).val().indexOf("vimeo.com") != -1) || (jQuery(this).val().indexOf("blip.tv") != -1) || (jQuery(this).val().indexOf("dailymotion.com") != -1) || (jQuery(this).val().indexOf("metacafe.com") != -1))//in case the user has pased the video url in
+		} else if((jQuery(this).val().indexOf("youtube.com") != -1) || (jQuery(this).val().indexOf("vimeo.com") != -1) || (jQuery(this).val().indexOf("blip.tv") != -1) || (jQuery(this).val().indexOf("dailymotion.com") != -1) || (jQuery(this).val().indexOf("metacafe.com") != -1) || (jQuery(this).val().indexOf("wistia.com") != -1) || (jQuery(this).val().indexOf("screencast.com") != -1))//in case the user has pased the video url in
 		{
 			var code = '';
 			code = '<iframe width="95%" height="95%" src="'+jQuery(this).val()+'?wmode=transparent" frameborder="0" allowfullscreen></iframe>';
 			
 			jQuery('#sq_media').html(code);
+		} else if ((jQuery(this).val().indexOf(".mp4") != -1) || (jQuery(this).val().indexOf(".webm") != -1) || (jQuery(this).val().indexOf(".ogv") != -1) || (jQuery(this).val().indexOf(".3gp") != -1))
+		{
+			function get_vid_type(url_string)
+			{
+				var type = '';
+			
+				if (url_string.indexOf(".mp4") != -1)
+				{
+					type = 'mp4';
+				} else if (url_string.indexOf(".webm") != -1)
+				{
+					type = 'webm';
+				} else if (url_string.indexOf(".ogv") != -1)
+				{
+					type = 'ogg';
+				}
+				
+				return type;
+			}
+			
+			//get the video link and type
+			var video_array = jQuery(this).val().split("*");
+
+			var code = '';
+
+			var vide_encode = encodeURIComponent(jQuery(this).val());
+			code = '<video controls="controls" width="100%" height="100%">';
+			
+			for (var i = 0; i < video_array.length; i++)
+			{
+				code += '<source src="'+video_array[i]+'" type="video/'+get_vid_type(video_array[i])+'" />';	
+			}
+			
+			code += '<object type="application/x-shockwave-flash" data="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" width="95%" height="95%">';
+			code += '<param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />';
+			code += '<param name="allowFullScreen" value="true" />';
+			code += '<param name="wmode" value="transparent" />';
+			code += '<param name="flashVars" value="controlbar=over&amp;file='+vide_encode+'" />';
+			code += '<span title="No video playback capabilities, please download the video below"></span>';
+			code += '</object></video>';	
+
+			
+			jQuery('#sq_media').html(code);
 		} else if (jQuery.trim(jQuery(this).val()) =="")
 		{
 			
+		} else if (jQuery.trim((jQuery(this))).substring(0,3) =="http")  {//suppose the user enters a link, treat it like a video
+			var code = '';
+			code = '<iframe width="100%" height="100%" src="'+jQuery(this).val()+'?wmode=transparent" frameborder="0" allowfullscreen></iframe>';
+			jQuery('#sq_media').html(code);
 		}
 		
 		jQuery(this).fadeOut();	
 	});
 	
-		//insert the email code
-	jQuery("#email_code").blur(function(){
-		if(jQuery(this).val().indexOf("method") != -1)//in case the user has pased the autoresponder code in, at least not default
-		{
-			//filter the data before sending to server
-			var email_code = jQuery(jQuery(this).val());
-			
-			jQuery("#tempo_responder").html(email_code);
-			jQuery("#tempo_responder li, #tempo_responder div").filter(function(){return jQuery(this).css("display") == 'none';}).find("input[type='text']").remove();
-			//prepare the data before sending to server
-			data = {
-					action: 'parse_autoresponder',
-					ar_code: BASE64.encode(jQuery("#tempo_responder").html())
-			};
-			//send the code to server to process
-			jQuery.post(ajaxurl, data, function(response){
-				if (response == 'something wrong')
-				{
-					alert("something wrong with your code, please check it again");
-				} else 
-				{
-					var action_url = jQuery("#tempo_responder form").attr("action");
-					var form_elements = jQuery.parseJSON(response);
-					jQuery("#site_area form").attr("action", action_url);//add the action path to the form
 
-					//add the input fields to the form
-					var input_code = "";
-					for (var i=1; i<form_elements.length; i++)
-					{
-						input_code += form_elements[i];
-					}
-					
-					//insert into form
-					jQuery("#site_area form").html(input_code);
-				}
-			});
-		}
-		
-		jQuery(this).fadeOut();
-	});
 
 	//insert the facebook code to the page
 	jQuery("#face_code").blur(function(){
@@ -650,9 +439,7 @@ jQuery("#edit_removeb").click(function(){
 	});
 	
 	
-	//insert custom elements into the page
-	
-	
+
 	
 	//END THE CODING BOXES AND THEIR ON BLUR BEHAVIOR	
 	
@@ -677,13 +464,23 @@ jQuery("#edit_removeb").click(function(){
 			{
 				var raw_url = jQuery("#sq_body_container").attr("style");
 				//get the url
-				bg_url = "http"+raw_url.match(/http(.*?)jpg/i)[1] + "jpg";
+				bg_url = "http"+ raw_url.match(/http(.*?(.jpg|.png))/i)[1];
 				 
 			} else
 			{
 				bg_url = 'default'; 
 			}
 		}
+		
+		//get the custom css sq_css_code
+		if ((jQuery('#sq_css_code').val() == "Enter your css code here") || (jQuery.trim(jQuery('#sq_css_code').val()) == "") || (jQuery.trim(jQuery('#sq_css_code').val()) == "clear"))
+		{
+			var custom_css_code = "none";	
+		} else
+		{
+			var custom_css_code = BASE64.encode(jQuery('#sq_css_code').val());
+		}
+		
 		
 		//get the text from input boxes
 		var input_array = new Array(); //this will store the id and the value of the input fields
@@ -706,12 +503,16 @@ jQuery("#edit_removeb").click(function(){
 			current_theme_url: jQuery('#current_theme_url').text(),
 			current_sub_theme: jQuery('#current_sub_theme').text(),
 			current_theme_name: jQuery('#current_theme_name').text(),
-			current_theme_type: jQuery('#current_theme_type').text()
+			current_theme_type: jQuery('#current_theme_type').text(),
+			current_post_id: jQuery('#sq_current_post_id').text(),
+			custom_css_code: custom_css_code
 			
 		};
 		
 		jQuery.post(ajaxurl, data, function(response){
-			alert(response);
+			var server_response = jQuery.parseJSON(response);
+			alert(server_response['message']);
+			jQuery('#sq_current_post_id').text(jQuery.trim(server_response['current_post_id']));
 		});
 
 	});	
@@ -754,7 +555,7 @@ jQuery("#edit_removeb").click(function(){
 	jQuery("#editthispageb").click(function(){
 		jQuery(this).fadeOut();
 		jQuery("#posts_panel").fadeOut();
-		
+		jQuery('#sq_current_post_id').text(jQuery(this).attr("selected_post"));
 		//send the ajax call to the server
 		data = {
 				action: 'edit_created_page',
@@ -798,6 +599,8 @@ jQuery("#edit_removeb").click(function(){
 			jQuery('#current_theme_name').text(return_data['current_theme_name']);
 			jQuery('#current_theme_type').text(return_data['current_theme_type']);
 			
+			//make the box draggable
+			//jQuery("#sq_box_container").draggable();
 			
 		});
 	});
@@ -892,28 +695,18 @@ jQuery("#edit_removeb").click(function(){
 	jQuery("#spring_submit").click(function(){
 		var us_email = jQuery("#spring_code").val();//send the email to the server, check response, if ok, write down the lc
 		var data = {
-				action: 'check_email',
+				action: 'sq_check_email',
 				us_email: us_email
 		};
 		
 		jQuery.post(ajaxurl, data, function(response){
-			if (response.indexOf('looksgood') != -1)
+			if (response.indexOf('done') != -1)
 			{
-				var good_data = {
-						action: 'goodmail_action',
-						info: 'goodmail'
-				};
-				
-				jQuery.post(ajaxurl, good_data, function(good_response){
-					if (good_response == 'done')
-					{
-						alert('activation complete!');
-						location.reload();
-					} else 
-					{
-						alert(good_response);
-					}
-				});
+				alert('activation complete!');
+				location.reload();
+			} else
+			{
+				alert(response);
 			}
 		});
 		

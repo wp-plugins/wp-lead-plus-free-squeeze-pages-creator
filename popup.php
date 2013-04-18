@@ -1,86 +1,42 @@
 <?php
 	include_once 'code/html_dom.php';
-//create popup page
+        include_once 'code/common.php';
+//create popup page, this is the UI where user creates and manage the popup
 	function sub_squeezers_popup_create_cb()
 	{?>
 	<div id="squeezer_popup">
 		<div id="left_squeezer_popup" style="width: 20%; float: left;">	
 		
 			<div id="popup_switch_color" style="display: none;">
-				<div id="popup_color_changer"></div>
+				<?php
+					for ($i = 1; $i<10; $i++)
+					{
+						echo '<div class="pop_color_switch" style="float: left; text-align: center;">
+							<img src="'.plugins_url('themes/popups/colors/'.$i.'.jpg',__FILE__).'" style="border: 1px solid #333;" /><br />
+							<input type="radio" name="switch_color" color="'.$i.'" />
+						</div>';
+					}
+				?>
+				<div style="clear:both;"></div>
 			</div>
 			<div class="popup_name">
-				<h4>Set a name for your popup</h4>
+				<label for="popup_name">Set a name for your popup</label>
 				<input type="text" class="widefat" id="popup_name" />
+				
+				<label for="sq_submit_url">Submit URL</label>
+				<input type="text" id="sq_submit_url" class="widefat" />
+				<div id="custom_code_position" style="display: none;">
+					<input type="radio" name="custom_code" value="below" /> Below
+					<input type="radio" name="custom_code" value="above" /> Above	
+				</div>
 			</div>
-			<?php 
-						$settings = array(
-								'textarea_name' => 'editbox',
-								'media_buttons' => true,
-								'tinymce' => array(
-										'theme_advanced_buttons1' => 'bold,italic,link,unlink,bullist,backcolor,cut',
-                                                                                'theme_advanced_buttons2' => 'fontselect,forecolor,removeformat',
-                                                                                'theme_advanced_buttons3' => 'fontsizeselect,justifyfull,justifyleft,justifycenter,justifyright',
-										'setup' => 'function(ed) {
-					  	  ed.onKeyUp.add(function(ed, e) {
-					
-						  //get the current id if the currentid span
-						 var selected = jQuery("#"+jQuery("#current_id").text());
-		
-						  //get the current text in the edit box
-						  var editbox_text = tinyMCE.get("editbox").getContent({format: \'text\'});
-						  editbox_text = editbox_text.replace(/<[^>]*>/g, "");
-						  //get the current html content of the edit box
-						  var editbox_html = tinyMCE.get("editbox").getContent();
-						  //need to replace automatically inserted <p> and </p> tags
-						  editbox_html = editbox_html.replace(/<p>/g, "");
-						  editbox_html = editbox_html.replace(/<\/p>/g, "<br />");
-						  if ((selected.is("span")) || (selected.is("li")))
-						  {
-							selected.html(editbox_html);			
-						  }	else if (selected.is("a"))
-						  {
-							selected.text(editbox_text);
-							jQuery("#sq_temp_edit_text").html(editbox_html);
-							selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
-							selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
-							selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
-							selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));	
-						  }	else if (selected.is("input"))
-						  {
-							if (selected.attr("placeholder") != undefined)
-							{
-								jQuery("#sq_temp_edit_text").html(editbox_html);
-								selected.attr("placeholder",editbox_text);		
-								selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
-								selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
-								selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
-								selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));
-								selected.css("font-family",jQuery("#sq_temp_edit_text span").css("font-family"));						
-							} else 
-							{
-								selected.attr("value",editbox_text);	
-								jQuery("#sq_temp_edit_text").html(editbox_html);
-								selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
-								selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
-								selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
-								selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));	
-								selected.css("font-family",jQuery("#sq_temp_edit_text span").css("font-family"));			
-							}			
-												
-						  }	else if (selected.hasClass("editable"))
-							{
-								selected.html(editbox_html);	
-							}			
-							
-					  });
-				   }'));
-					
-					wp_editor("start editing here", "editbox", $settings);?>
+                    
+			<?php sq_common_editbox(); //start the editbox?>
+						
 		
 		</div>
 
-		<div id="popup_site_area">
+		<div id="site_area">
 		</div>
 		<div style="clear:both;"></div>
 		
@@ -89,7 +45,10 @@
 			<?php show_popup_themes();?>
 			
 		</div>
-		<div id="popup_cta_btns" style="display: none;"></div>			
+		<div id="popup_cta_btns" style="display: none;">
+			
+			
+		</div>			
 	
 	
 	</div>
@@ -97,8 +56,8 @@
 	
 	function show_popup_themes()
 	{
-		$popup_url = plugins_url("/themes/popups/", __FILE__);
-		$popup_path = plugin_dir_path(__FILE__).'/themes/popups/';
+		$popup_url = plugins_url("themes/popups/", __FILE__);
+		$popup_path = plugin_dir_path(__FILE__).'themes/popups/';
 	
 		$thumbnail = scandir($popup_path.'thumbnail');
 	
@@ -120,115 +79,95 @@
 	
 	}
 	
+
+	//show the cta buttons
+		add_action('wp_ajax_show_pop_buttons', 'show_pop_buttons_callback');
+		
+
+	function show_pop_buttons_callback()
+	{
+		//get the path to current theme button
+		$current_theme_button = plugin_dir_path(__FILE__).'themes/'.$_POST['current_theme_type'].'/'.$_POST['current_theme_name'].'/themes/1/assets/imgs/submit.png';
+		
+		//get the button width and height
+		$image_info = getimagesize($current_theme_button);
+		//query the buttons
+		$min_width = $image_info[0] - 3;
+		$max_width = $image_info[0] + 3;
+		global $wpdb;
+			
+		//get the button table
+		$button_table = $wpdb->get_blog_prefix()."cta_buttons";
+		
+		//build the query
+		$query = 'SELECT name, width, height FROM '.$button_table.";";
+			
+		$button_name = array();//create an array to store the buttons' names
+		
+		//get the button from db
+		$button_db = $wpdb->get_results($query, "ARRAY_A");
+		for ($i=0; $i<count($button_db); $i++)
+		{
+			if (($button_db[$i]["width"] > $min_width) && ($button_db[$i]["width"] < $max_width))
+			{
+				$button_name[] = plugins_url("themes/buttons",__FILE__).'/'.$button_db[$i]["name"];
+			}
+		}
+	echo json_encode($button_name);
+	die();
+	}
+	
+	
 	//load the theme and return the code
 	add_action('wp_ajax_popup_theme_loader', 'popup_theme_loader_cb');
 	
 	function popup_theme_loader_cb() {
-		$content = file_get_contents(base64_decode($_POST['url']).'/code.txt');
+		$content = file_get_contents(base64_decode($_POST['url']).'/1/code.txt');
+		//change relative path to absolute path
+		$content = str_replace("assets/", base64_decode($_POST['url']).'/1/assets/', $content);
 		echo base64_encode($content);
 		die();
 		}
 	
 	/* PARSE THE EMAIL AND SEND BACK TO THE CLIENT */
-	add_action('wp_ajax_popup_parse_autoresponder', 'popup_parse_autoresponder_callback');
+	add_action('wp_ajax_popup_parse_autoresponder', 'parse_autoresponder_callback');
 	
-	function popup_parse_autoresponder_callback()
-		{
-		//get the email code passed by the client
-		$mail_code = base64_decode($_POST['ar_code']);
-			try {
-			//get the action url
-			$action_url = array();
-		preg_match('/\baction.*\b/', $mail_code, $action_url);
-		preg_match('/\bhttp.*\b/', $action_url[0], $action_url);
-	
-		$action_url = $action_url[0];
-		$action_explode = explode('"', $action_url);
-		$action_url = trim($action_url[0]);
-	
-		//create a new html dom object and load the email code
-		$mail_object = str_get_html($mail_code);
-	
-		//get the input fields
-		$inputs = $mail_object->find("input");
-	
-		//declare an array to store input fields
-		$input_array = array();
-	
-		foreach ($inputs as $input)
-			{
-				if (($input->value == null) && ($input->type != 'hidden'))
-				{
-					
-					$input_array["value"][] = $input->name;//in case the value of the  element is not set, make one
-					
-					
-				} else
-				{
-					$input_array["value"][] = $input->value;
-				}
-				//if the form use input type = image, set it to submit
-				if ($input->type == "image")
-				{
-					$input_array["type"][] = "submit";
-				} else 
-				{
-					$input_array["type"][] = $input->type;
-				}
-				
-				$input_array["name"][] = $input->name;
-				$input_array["id"][] = preg_replace("/[^A-Za-z0-9 ]/", '', $input->name). rand(1,100).rand(1,100);//add ID to the input fields
-			}
-			
-			if ((in_array('submit', $input_array['type']) === FALSE) && (in_array('image', $input_array['type']) === FALSE)) //if some stupid providers don't use standard submit button
-			{
-				$input_array["type"][] = 'submit';
-				$input_array["name"][] = 'submit';
-				$input_array["value"][] = 'Submit';
-				$input_array["id"][] = 'submit' . rand(1,100).rand(1,100);//add ID to the input fields
-			}
-			 
-			//output the text to the js
-			$output = array();
-			$output[0] = $action_url;
-			for ($i=0; $i<count($input_array["name"]); $i++)
-			{
-				$output[] ='<input type="'.$input_array["type"][$i].'" name="'.$input_array["name"][$i].'" value="'.$input_array["value"][$i].'" id="'.$input_array["id"][$i].'" />';
-			}
-			//output the json
-			echo (json_encode($output));
-	
-		} catch (Exception $e)
-		{
-		echo "something wrong";
-		}
-	
-	
-		die();
-		}
-	
-		/* END PARSING THE EMAIL AND SEND BACK TO THE CLIENT */
+	/* END PARSING THE EMAIL AND SEND BACK TO THE CLIENT */
 	
 		/* SHOW THE BUTTONS TO USERS */
 		add_action('wp_ajax_popup_show_buttons', 'popup_show_button_cb');
 	
 		function popup_show_button_cb()
 		{
-		$buttons = scandir(plugin_dir_path(__FILE__).'themes/popups/buttons/'.$_POST['size']);
-		
-			$valid_buttons = array();
-		
-			for ($i=0; $i<count($buttons); $i++)
-		{
-		if (stripos($buttons[$i], '.png') !== FALSE)
-		{
-		$valid_buttons[] = $buttons[$i];
-		}
-		}
+			//get the path to current theme button
+			$current_theme_button = plugin_dir_path(__FILE__).'themes/popups/themes/'.$_POST['theme'].'/1/assets/submit.png';
 			
-				echo json_encode($valid_buttons);
-					
-				die();
+			//get the button width and height
+			$image_info = getimagesize($current_theme_button);
+			//query the buttons
+			$min_width = $image_info[0] - 3;
+			$max_width = $image_info[0] + 3;
+			global $wpdb;
+				
+			//get the button table
+			$button_table = $wpdb->get_blog_prefix()."cta_buttons";
+			
+			//build the query
+			$query = 'SELECT name, width, height FROM '.$button_table.";";
+				
+			$button_name = array();//create an array to store the buttons' names
+			
+			//get the button from db
+			$button_db = $wpdb->get_results($query, "ARRAY_A");
+			for ($i=0; $i<count($button_db); $i++)
+			{
+				if (($button_db[$i]["width"] > $min_width) && ($button_db[$i]["width"] < $max_width))
+				{
+					$button_name[] = plugins_url("themes/buttons",__FILE__).'/'.$button_db[$i]["name"];
+				}
+			}
+		echo json_encode($button_name);
+		die();
 		}
 		/* END SHOWING THE BUTTONS TO USERS */
 		
@@ -659,12 +598,26 @@
 		}
 		
 		
-		//display the popup
+		//display the popup on the page, this is different from shortcode
+		add_action('wp_footer', 'sq_popup_display');
 		
-		add_filter('the_content', 'sq_popup_display');
-		
-		function sq_popup_display($content)
+		function sq_popup_display()
 		{
+		
+			//do not display the popup on squeeze page
+			$id = get_the_ID();
+			if (get_post_meta($id, '_wp_page_template', true) == 'sq_ddx_blankpage.php')
+			{
+				return false;
+			}
+			
+			//don't display in the admin area
+			if (is_admin())
+			{
+				return false;
+			}
+			
+		
 			//get the currently active popup
 			global $wpdb;
 			$table = $wpdb->get_blog_prefix().'sq_popup_option';
@@ -672,7 +625,7 @@
 			
 			if ($active_popup == NULL)
 			{
-				return $content;
+				return false;
 			} else 
 			{
 				$popup_id = $active_popup['popup_id'];
@@ -687,12 +640,12 @@
 				//if the user only wants it to display on particular post, no need to execute more
 				if ($display_area == 'pop_display_particular')
 				{
-					return $content;
+					return false;
 				}
 					
 				if (isset($_SESSION['sq_pop_disabled']) && ($_SESSION['sq_pop_disabled'] == true) && $frequency == 'once')
 				{
-					return $content;
+					return false;
 				}
 					
 				//set the behavior of the close button, this relate to the frequency. if frequency == once, closing button will set the session value to true
@@ -716,7 +669,8 @@
 				//declare some variables to insert to the return code
 				$outer_div = "";
 				$inner_div = "";
-					
+				
+//if background cover is on, the content on the website is covered. If it's off, content is not covered		
 				if ($background_cover == 'pop_cover_no')
 				{
 					if ($appear_position == 'pop_top_left')
@@ -746,17 +700,17 @@
 					if ($appear_position == 'pop_top_left')
 					{
 						$outer_div = 'top: 0; left: 0; right: 0; bottom: 0;  position: fixed;';
-						$inner_div = "position: absolute; top:0; left:0;";
+						$inner_div = "position: absolute; top:20px; left:20px;";
 							
 					} else if ($appear_position == 'pop_top_right')
 					{
 						$outer_div = 'top: 0; left: 0; right: 0; bottom: 0;  position: fixed;';
-						$inner_div = "position: absolute; top:0px; right:10px;";
+						$inner_div = "position: absolute; top:20px; right:0px;";
 							
 					} else if ($appear_position == 'pop_bottom_left')
 					{
 						$outer_div = 'top: 0; left: 0; right: 0; bottom: 0;  position: fixed;';
-						$inner_div = "position: absolute; bottom:0; left:0;";
+						$inner_div = "position: absolute; bottom:0; left:20px;";
 							
 					} else if ($appear_position == 'pop_bottom_right')
 					{
@@ -777,7 +731,7 @@
 					$display_script = '
 									jQuery(document).ready(function(){
 										jQuery("html").mouseleave(function(e){
-											if (e.pageY < 10)
+											if (e.pageY < 40)
 											{
 												jQuery("#sq_pop_outer").fadeIn();
 											}
@@ -786,7 +740,7 @@
 									  jQuery("#close_btn").click(function(){
 											jQuery("#sexy_container").fadeOut();
 										});
-									});';
+									});'; 
 				} else if ($appear_behavior == 'pop_timer')
 				{
 					$delay = $delay*1000;
@@ -816,13 +770,11 @@
 				$popup_table = $wpdb->get_blog_prefix().'sq_popup_code';
 				$popup_query = $wpdb->get_row("SELECT code, css_url FROM $popup_table WHERE popup_id = $popup_id", 'ARRAY_A');
 				$popup_code = $popup_query['code'];
-				$css_url = base64_decode($popup_query['css_url']);
+				$css_url = $popup_query['css_url'];
 					
-				$return_code = "<div style='display: none; $outer_div z-index: 999999; $outer_background' id='sq_pop_outer'><div style='$inner_div'>".base64_decode($popup_code)."</div></div><script>$display_script $close_script jQuery('head').append('$css_url');</script>";
-				return $content.$return_code;
+				$return_code = "<div style='display: none; $outer_div z-index: 999999; $outer_background;' id='sq_pop_outer'><div style='$inner_div'>".base64_decode($popup_code)."</div></div><script>jQuery(document).ready(function(){".$display_script . $close_script."jQuery('head').append('".base64_decode($css_url)."');}); </script>";
+				echo $return_code;
 			}
-			
-
 		}
 		
 		//disable the popup when the user click the close btn
@@ -834,7 +786,7 @@
 		}
 		
 		
-		//delete the popup
+		//delete the popup, in the database
 		add_action('wp_ajax_pop_delete_pop', 'pop_delete_pop_cb');
 		function pop_delete_pop_cb()
 		{
@@ -883,18 +835,19 @@
 			$close_script = "";
 			if ($frequency == 'once')
 			{
-				$close_script = 'jQuery("#pop_close_btn").click(function(){
+				//this comment section is the clone of the below code, for readability
+				/*$close_script = 'jQuery("#pop_close_btn").click(function(){
 					jQuery("#sq_pop_outer").fadeOut();
 					var data = {action: "pop_disable_pop", disable: "true"};
 					jQuery.post("'.admin_url("admin-ajax.php").'", data, function(){});
 			
-				});';
+				});';*/
+				
+				
+				$close_script = 'jQuery("#pop_close_btn").click(function(){jQuery("#sq_pop_outer").fadeOut();var data = {action: "pop_disable_pop", disable: "true"}; jQuery.post("'.admin_url("admin-ajax.php").'", data, function(){});});';
 			} else if ($frequency == 'all_time')
 			{
-				$close_script = 'jQuery("#pop_close_btn").click(function(){
-					jQuery("#sq_pop_outer").fadeOut();
-			
-				});';
+				$close_script = 'jQuery("#pop_close_btn").click(function(){jQuery("#sq_pop_outer").fadeOut();});';
 			}
 				
 			//declare some variables to insert to the return code
@@ -933,17 +886,17 @@
 				} else if ($appear_position == 'pop_top_right')
 				{
 					$outer_div = 'top: 0; left: 0; right: 0; bottom: 0;  position: fixed;';
-					$inner_div = "position: absolute; top:10px; right:10px;";
+					$inner_div = "position: absolute; top:20px; right: 0px;";
 						
 				} else if ($appear_position == 'pop_bottom_left')
 				{
 					$outer_div = 'top: 0; left: 0; right: 0; bottom: 0;  position: fixed;';
-					$inner_div = "position: absolute; bottom:0; left:0;";
+					$inner_div = "position: absolute; bottom:0; left:20px;";
 						
 				} else if ($appear_position == 'pop_bottom_right')
 				{
 					$outer_div = 'top: 0; left: 0; right: 0; bottom: 0;  position: fixed;';
-					$inner_div = "position: absolute; bottom:0; right:10px;";
+					$inner_div = "position: absolute; bottom:0; right:0px;";
 						
 				} else if ($appear_position == 'pop_center')
 				{
@@ -956,19 +909,7 @@
 			$display_script = "";
 			if ($appear_behavior == 'pop_on_exit')
 			{
-				$display_script = '
-									jQuery(document).ready(function(){
-										jQuery("html").mouseleave(function(e){
-											if (e.pageY < 10)
-											{
-												jQuery("#sq_pop_outer").fadeIn();
-											}
-										});
-			
-									  jQuery("#close_btn").click(function(){
-											jQuery("#sexy_container").fadeOut();
-										});
-									});';
+				$display_script = 'jQuery(document).ready(function(){jQuery("html").mouseleave(function(e){if (e.pageY < 40){jQuery("#sq_pop_outer").fadeIn();}});jQuery("#close_btn").click(function(){jQuery("#sexy_container").fadeOut();});});';
 			} else if ($appear_behavior == 'pop_timer')
 			{
 				$delay = $delay*1000;
@@ -1003,21 +944,3 @@
 			$return_code = "<div style='display: none; $outer_div z-index: 999999; $outer_background' id='sq_pop_outer'><div style='$inner_div'>".base64_decode($popup_code)."</div></div><script>$display_script $close_script jQuery('head').append('$css_url');</script>";
 			return $return_code;
 		}
-		
-		
-		
-		
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		

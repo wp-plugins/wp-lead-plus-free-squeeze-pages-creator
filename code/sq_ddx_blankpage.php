@@ -12,7 +12,8 @@
 	echo the_title();
 
 	?></title>
-	<?php if (get_option('sq_user_tracking_code') !== false) 
+	<?php
+		if (get_option('sq_user_tracking_code') !== false) 
 		{echo get_option('sq_user_tracking_code');}
 	
 	?>
@@ -20,4 +21,15 @@
 
 					<?php the_content(); ?>
 
-				<?php endwhile; // end of the loop. ?></body></html>
+				<?php endwhile; // end of the loop. ?>
+    <div style="margin: 5px auto; text-align: center;"><a href="http://wpleadplus.com/src=urspg">Powered by WP Lead Plus</a></div>
+<?php if (get_option('sq_social_bar_status') == 'enable')
+{
+    echo (get_option('sq_social_scripts'));
+    echo base64_decode(get_option('sq_social_code'));
+
+} 
+
+
+?>
+</body></html>

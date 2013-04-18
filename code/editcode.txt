@@ -28,6 +28,8 @@
 	<input type="button" value="Email" id="code_emailb" class="redb" />
 	<input type="button" value="Facebook" id="code_faceb" class="greenb" />
 	<input type="button" value="FB Connect" id="code_faceconn" class="blueb" />
+	<input type="button" value="You code" id="code_customb" class="violetb" />
+	<input type="button" value="CSS code" id="code_cssb" class="orangeb" />
 </div>
 <!-- CODE PANEL -->
 
@@ -35,6 +37,8 @@
 		<textarea id="face_code">Enter your autoresponder code with facebook connect here</textarea>
 		<textarea id="email_code">Enter your autoresponder code here</textarea>
 		<textarea id="media_code">Enter your video url/image url here</textarea>
+		<textarea id="custom_code" class="bg_yellow">Enter your custom code here</textarea>
+		<textarea id="sq_css_code" class="bg_green">Enter your css code here</textarea>
 </div>
 <!-- CODE PANEL -->
 
@@ -45,8 +49,9 @@
 	<div id="ediboxes">
 		<input type="text" id="linkurl" value="your url comes here" />
 	</div>
+	
+	<div style="font-size: 1.6em; color: blue; position: fixed; top: 30px; right: 5px;"><a href="http://wpleadplus.com/src=inedit">Upgrade to pro version</a></div>
 	<div id="buttons_right">
-		<a style="font-size: 16px; padding: 0 10px;" href="http://wpleadplus.com/comparison.php" target="_blank">Upgrade to PRO version for lots for features and special discount today. Click Here</a>
 		<input type="button" value="Edit this" id="editthispageb" class="blueb" style="display:none;" />
 		<input type="button" value="Edit this" id="editthisb" class="blueb" style="display:none;" />
 		<input type="button" value="Choose this" id="choosethisbtnb" class="blueb" style="display:none;" />
@@ -75,7 +80,9 @@
 		<div id="changeable_bg" style="display:none;"></div>
 		<div id="facebook_mail_code" style="display:none;"></div>
 		<div id="sq_temp_edit_text" style="display:none;"></div>
+		<div id="sq_current_post_id" style="display:none;"></div> <!-- replace the current session variable -->
 		<ul id="sq_remove_history" style="display:none;"></ul>
+		
 	<!-- END HIDDEN FIELD -->
 </div>
 

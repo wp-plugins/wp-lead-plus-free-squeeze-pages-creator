@@ -1,0 +1,61 @@
+<!-- popup CODE -->
+	<div id="popup_show_code" style="display: none;">
+		<textarea cols="100" rows="20"></textarea>
+		<div id="popup_show_code_close"></div>
+	</div>
+
+<!-- popup CODE -->
+
+<div id="popup_right_panel">
+	<div id="popup_edit_panel">
+		<input type="button" id="popup_edit_change_btn" value="Change Btn" class="orangeb" />
+		<input type="button" id="popup_edit_switch_color" value="Switch color" class="blueb" />
+		<input type="button" value="Undo" id="edit_undob" class="blueb" />
+		<input type="button" id="edit_addb" value="Add" class="greenb" />
+		<input type="button" id="edit_removeb" value="Remove" class="redb" />
+	</div>
+	
+	<div id="popup_code_panel">
+		<input type="button" id="popup_code_email" value="Email" class="blueb" />
+		<input type="button" id="popup_code_media" value="Media" class="greenb" />
+		<input type="button" value="You code" id="code_customb" class="violetb" />
+	</div>
+	
+
+</div>
+<!-- CODE PANEL -->
+
+<div id="code_boxes">
+		<textarea id="popup_email_code" class="bg_blue">Enter your autoresponder code here</textarea>
+		<textarea id="popup_media_code" class="bg_green">Enter your embed video code or image url here</textarea>
+		<textarea id="custom_code" class="bg_yellow">Enter your custom code here</textarea>
+</div>
+<!-- CODE PANEL -->
+
+<div id="popup_foot_panel">
+	<div id="ediboxes">
+		<input type="text" id="linkurl" value="your url comes here" />
+	</div>
+	<div id="buttons_right">
+		<input type="button" value="Edit this" id="popup_edit_this_theme" class="blueb" style="display:none;" />
+		<input type="button" value="Edit this" id="editthisb" class="blueb" style="display:none;" />
+		<input type="button" value="Choose this" id="popup_choosethisbtnb" class="blueb" style="display:none;" />
+		<input type="button" value="Choose this" id="choosethisbgb" class="blueb" style="display:none;" />		
+		<input type="button" value="Save Popup" id="popup_getcodeb" class="redb"/>
+		<input type="button" value="Code" id="popup_codeb" class="blueb" />
+		<input type="button" value="Edit" id="popup_editb" class="greenb" />
+		<input type="button" value="Select" id="popup_selectb" class="orangeb" />
+		
+		<input type="button" value="Hide" id="popup_hideb" class="navyb" />
+	</div>
+	
+	
+	<!-- HIDDEN FIELD -->
+		<div id="current_id" style="display:none;"></div>
+		<div id="popup_theme_url" style="display: none;"></div>
+		<div id="popup_temporesponder" style="display: none;"></div>
+		<div id="popup_unique_id" style="display: none;"></div>
+		<div id="sq_temp_edit_text" style="display: none;"></div>
+		<ul id="sq_remove_history" style="display:none;"></ul>
+	<!-- END HIDDEN FIELD -->
+</div>

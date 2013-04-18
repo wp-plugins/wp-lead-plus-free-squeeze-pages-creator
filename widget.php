@@ -1,9 +1,10 @@
 <?php
 	include_once 'code/html_dom.php';
+//show current themes of the widgets        
 	function show_widget_themes() 
 	{
-		$widget_url = plugins_url("/themes/widgets/", __FILE__);
-		$widget_path = plugin_dir_path(__FILE__).'/themes/widgets/';
+		$widget_url = plugins_url("themes/widgets/", __FILE__);
+		$widget_path = plugin_dir_path(__FILE__).'themes/widgets/';
 		
 		$thumbnail = scandir($widget_path.'thumbnail'); 
 		
@@ -24,12 +25,59 @@
 		
 		
 	}
+        
+ //show the widget page
+ 	//create widget page
+	function sub_squeezers_widget_cb()
+	{?>
+	<div id="squeezer_widget">
+		
+		<div id="left_squeezer_widget" style="width: 20%; float: left;">
+			<label for="sq_submit_url">Submit URL</label>
+			<input type="text" id="sq_submit_url" class="widefat" />
+			
+			<div id="widget_switch_size">
+				<div id="widget_root_url" style="display: none;"><?php echo plugins_url("", __FILE__); ?></div>
+			</div>
+			
+			<div id="widget_switch_color" style="display: none;">
+				<div id="widget_color_changer"></div>
+			</div>
+			<div id="custom_code_position" style="display: none;">
+				<input type="radio" name="custom_code" value="below" /> Below
+				<input type="radio" name="custom_code" value="above" /> Above	
+			</div>
+			<?php sq_common_editbox(); //start the editbox?>
+		
+		</div>
+
+		<div id="site_area">
+		</div>
+		<div style="clear:both;"></div>
+		
+		<!-- Display the themes -->
+		<div id="widget_themes" style="display: none;">
+			<?php show_widget_themes();?>
+			
+		</div>
+		<div id="widget_cta_btns" style="display: none;"></div>			
+	
+	
+	</div>
+	<?php include_once 'code/widgetcode.txt';}
+	
+	/*END FUNCTIONS THAT LOAD THE UI****************************************************** */       
+        
 	
 	//load the theme and return the code
 	add_action('wp_ajax_widget_theme_loader', 'widget_theme_loader_cb');
 	
 	function widget_theme_loader_cb() {
 		$content = file_get_contents(base64_decode($_POST['url']).'/code.txt');
+		//replace the relative url to absolute
+		//get the absolute URL
+		$abs_url = base64_decode($_POST['url']).'/assets/';
+		$content = str_replace("assets/", $abs_url, $content);
 		echo base64_encode($content);
 		die();
 	}
@@ -57,83 +105,8 @@
 	} */
 	
 	/* PARSE THE EMAIL AND SEND BACK TO THE CLIENT */
-	add_action('wp_ajax_widget_parse_autoresponder', 'widget_parse_autoresponder_callback');
-	
-	function widget_parse_autoresponder_callback()
-	{
-		//get the email code passed by the client
-		$mail_code = base64_decode($_POST['ar_code']);
-		try {
-			//get the action url
-			$action_url = array();
-			preg_match('/\baction.*\b/', $mail_code, $action_url);
-			preg_match('/\bhttp.*\b/', $action_url[0], $action_url);
-	
-			$action_url = $action_url[0];
-			$action_explode = explode('"', $action_url);
-			$action_url = trim($action_url[0]);
-	
-			//create a new html dom object and load the email code
-			$mail_object = str_get_html($mail_code);
-				
-			//get the input fields
-			$inputs = $mail_object->find("input");
-				
-			//declare an array to store input fields
-			$input_array = array();
-	
-			foreach ($inputs as $input)
-			{
-				if (($input->value == null) && ($input->type != 'hidden'))
-				{
-					
-					$input_array["value"][] = $input->name;//in case the value of the  element is not set, make one
-					
-					
-				} else
-				{
-					$input_array["value"][] = $input->value;
-				}
-				//if the form use input type = image, set it to submit
-				if ($input->type == "image")
-				{
-					$input_array["type"][] = "submit";
-				} else 
-				{
-					$input_array["type"][] = $input->type;
-				}
-				
-				$input_array["name"][] = $input->name;
-				$input_array["id"][] = preg_replace("/[^A-Za-z0-9 ]/", '', $input->name). rand(1,100).rand(1,100);//add ID to the input fields
-			}
-			
-			if ((in_array('submit', $input_array['type']) === FALSE) && (in_array('image', $input_array['type']) === FALSE)) //if some stupid providers don't use standard submit button
-			{
-				$input_array["type"][] = 'submit';
-				$input_array["name"][] = 'submit';
-				$input_array["value"][] = 'Submit';
-				$input_array["id"][] = 'submit' . rand(1,100).rand(1,100);//add ID to the input fields
-			}
-			 
-			//output the text to the js
-			$output = array();
-			$output[0] = $action_url;
-			for ($i=0; $i<count($input_array["name"]); $i++)
-			{
-				$output[] ='<input type="'.$input_array["type"][$i].'" name="'.$input_array["name"][$i].'" value="'.$input_array["value"][$i].'" id="'.$input_array["id"][$i].'" />';
-			}
-			//output the json
-			echo (json_encode($output));
-				
-		} catch (Exception $e)
-		{
-		echo "something wrong";
-		}
-	
-	
-		die();
-	}
-	
+	add_action('wp_ajax_widget_parse_autoresponder', 'parse_autoresponder_callback');
+
 	/* END PARSING THE EMAIL AND SEND BACK TO THE CLIENT */
 	
 	/* SHOW THE BUTTONS TO USERS */
@@ -158,4 +131,3 @@
 			die();
 		}
 	/* END SHOWING THE BUTTONS TO USERS */
-		

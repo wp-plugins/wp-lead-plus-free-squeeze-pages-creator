@@ -1,3 +1,4 @@
+
 /* EDITBOX STYLE */
 .mceText[title$="px"] {
 	font-size: 1em !important;
@@ -40,7 +41,7 @@
 	width: 17%;
 }
 
-#site_area, #widget_site_area {
+#site_area{
 	position: absolute;
 	left: 20%;
 	top: 0;
@@ -49,7 +50,7 @@
 	float: left;
 }
 
-#foot_panel, #widget_foot_panel {
+#foot_panel {
 	height: 40px;
 	position: fixed;
 	bottom: 0;
@@ -70,8 +71,7 @@
 
 
 /* BUTTONS */
-
-#widget_right_panel input[type="button"], #widget_foot_panel input[type="button"], #foot_panel input[type="button"], #site_area input[type="button"], #gallery_panel input[type="button"], #showb, #editing_panel input[type="button"], #code_panel input[type="button"] {
+#foot_panel input[type="button"], #site_area input[type="button"], #gallery_panel input[type="button"], #showb, #editing_panel input[type="button"], #code_panel input[type="button"] {
 	cursor: pointer;
 	border: medium none;
     font-family: "Segoe UI",Helvetica,Arial,sans-serif;
@@ -86,11 +86,6 @@
 	height: 30px;
 	line-heigth: 30px;
 }
-
-#squeezer_widget input[type="button"] {
-	width: 7em;
-}
-
 
 #showb {
 	display: none;
@@ -277,7 +272,6 @@
 	width: 79%;
 	background: white;
 	display: none;
-        z-index: 99999;
 }
 .cta_button{
 	width: 150px;
@@ -304,7 +298,6 @@
 	width: 79%;
 	background: white;
 	display: none;
-        z-index: 9999;
 }
 .site_bg{
 	width: 150px;
@@ -318,10 +311,6 @@
 	width: 120px;
 }
 
-#site_area iframe{
-    wmode: transparent;
-    
-}
 
 /* END BACKGROUNDS PANEL */
 
@@ -389,120 +378,3 @@
 }
 
 /* END SITE INFO, THE TOP LEFT BOXES */
-
-
-/* WIDGET CSS */
-#widget_right_panel {
-	position: fixed;
-	right: 5px;
-	text-align: right;
-	bottom: 47px;
-	z-index: 100;
-}
-
-#widget_right_panel input[type="button"] {
-	display: block;
-}
-
-#widget_edit_panel {
-	display: none;
-}
-
-#widget_code_panel {
-	display: none;
-}
-
-#widget_themes {
-	position: absolute;
-	width: 79%;
-	left: 20%;
-	background-color: white;
-	top: 0;
-	padding-top: 20px;
-	
-}
-
-/* WIDGET COLORS */
-.widget_color, .theme_color_switch {
-	float: left;
-	padding: 0 10px;
-	text-align: center;
-}
-
-
-.widget_color img, .theme_color_switch img {
-	border: 1px solid grey;
-	display: block;
-}
-
-/* END WIDGET COLORS */
-
-/* WIDGET CODE BOXES */
-#widget_code_boxes {
-	position: fixed;
-	width: 17%;
-	bottom: 45px;
-}
-
-#widget_code_boxes textarea{
-	display: none;
-	width: 100%;
-	height: 200px;
-	font-size: 14px;
-}
-
-#widget_code_boxes #widget_email_code {
-	background-color: #9bc76e;
-}
-/* END WIDGET CODE BOXES */
-
-/* WIDGET CHANGE CTA BUTTON */
-#widget_cta_btns {
-	position: absolute;
-	width: 79%;
-	left: 20%;
-	background-color: white;
-	top: 0;
-	padding-top: 20px;
-	
-}
-.widget_cta_btn img{
-	width: 80%;
-	display: block;
-	margin: auto;
-}
-
-.widget_cta_btn {
-	text-align: center;
-	width: 150px;
-	height: 60px;
-	
-}
-
-/* END WIDGET CHANGE CTA BUTTON */
-
-/* SHOW WIDGET CODE */
-#widget_show_code {
-	background: url(img/widget_code_bg.png);
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	text-align: center;
-}
-
-#widget_show_code textarea {
-	padding-top: 30px;
-}
-
-#widget_show_code_close {
-	background: url(img/close.png) no-repeat;
-	width: 32px;
-	height: 32px;
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	cursor: pointer;
-}
-
