@@ -18,7 +18,13 @@
 					<p>Gmail: t2dx.inc@gmail.com</p>
 					<p>We will get back to you a.s.a.p</p>
 				</div>
-				<div><span style="font-weight: bold; color: red; font-size: 2em;">ATTENTION: </span> Do not forget to go to <span style="font-weight: bold; color: blue;">WP Lead Plus</span> -> <span style="font-weight: bold; color: blue;">Settings</span> and click on <span style="font-weight: bold; color: blue;">Complete Setup</span> </div>
+				<div>
+					<span style="font-weight: bold; color: red; font-size: 2em;">ATTENTION: </span> Do not forget to go to <span style="font-weight: bold; color: blue;">WP Lead Plus</span> -> <span style="font-weight: bold; color: blue;">Settings</span> and click on <span style="font-weight: bold; color: blue;">Complete Setup</span> 
+				</div>
+				
+				<div>
+					<p>Please check the video tutorial <a href="http://www.youtube.com/playlist?list=PL6rw2AEN42EokAMtZtmHvoK9bVCO9MBOp">HERE</a> to know how to use the plugin.</p>
+				</div>
 			</div>';
 
 	}
