@@ -50,7 +50,7 @@
 		<input type="text" id="linkurl" value="your url comes here" />
 	</div>
 	
-	<div style="font-size: 1.6em; color: blue; position: fixed; top: 30px; right: 5px;"><a href="http://wpleadplus.com/src=inedit">Upgrade to pro version</a></div>
+	<div style="font-size: 1.6em; color: blue; position: fixed; top: 30px; right: 5px;"><a href="http://wpleadplus.com/?src=inedit">Upgrade to pro version</a></div>
 	<div id="buttons_right">
 		<input type="button" value="Edit this" id="editthispageb" class="blueb" style="display:none;" />
 		<input type="button" value="Edit this" id="editthisb" class="blueb" style="display:none;" />
