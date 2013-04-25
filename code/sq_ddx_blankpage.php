@@ -22,7 +22,7 @@
 					<?php the_content(); ?>
 
 				<?php endwhile; // end of the loop. ?>
-    <div style="margin: 5px auto; text-align: center;"><a href="http://wpleadplus.com/src=urspg">Powered by WP Lead Plus</a></div>
+    <div style="margin: 5px auto; text-align: center;"><a href="http://wpleadplus.com/?src=urspg">Powered by WP Lead Plus</a></div>
 <?php if (get_option('sq_social_bar_status') == 'enable')
 {
     echo (get_option('sq_social_scripts'));
