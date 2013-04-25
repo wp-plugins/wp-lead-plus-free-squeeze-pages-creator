@@ -3,7 +3,7 @@ Contributors: codingpuss
 Tags: squeeze page, landing page, squeeze page plugin, lead caputre page, lead capturing page, wordpress squeeze page, best squeeze page, squeeze page for wordpress, sidebar, widget
 Requires at least: 3
 Tested up to: 3.5.1
-Stable tag: 1.4.9
+Stable tag: 1.5.0
 
 Create stunning squeeze page with ease. Simply point-click-edit and your squeeze page is ready in less than 3 minutes.
 
@@ -21,8 +21,8 @@ Have you ever wanted to create stunning squeeze pages just like othe pros do? Yo
 
 
 ### WP Lead Plus PRO Cool Features:
-*	More than 15 cool squeeze page templates (compare to 3 of free version)
-*	Create cool optin widgets on your blog sidebar
+*	More than 15 stunning squeeze page templates (compare to 3 of free version)
+*	Create professional, resizable optin widgets on your blog sidebar
 *	Create cool unblockable popups
 *	Popup appears after a specific time or when visitor exit
 *	Integrate smoothly with Facebook and other social sites
