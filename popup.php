@@ -1,6 +1,5 @@
 <?php
-	include_once 'code/html_dom.php';
-        include_once 'code/common.php';
+    include_once 'code/common.php';
 //create popup page, this is the UI where user creates and manage the popup
 	function sub_squeezers_popup_create_cb()
 	{?>

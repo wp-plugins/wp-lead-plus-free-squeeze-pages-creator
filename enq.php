@@ -1,16 +1,22 @@
 <?php
     /* REGISTER THE SCRIPTS */
 //register the libraries
-	wp_register_script('editscript', plugins_url('js/edit.js', __FILE__));
-	wp_register_script('pickerscript', plugins_url('js/colorpicker.js', __FILE__));
-	wp_register_script('widgetscript', plugins_url('js/widget.js', __FILE__));
-	wp_register_script('popupscript', plugins_url('js/popup.js', __FILE__));
-    wp_register_script('sqsocialscript', plugins_url('js/social.js', __FILE__));
-	wp_register_script('sqcommon', plugins_url('js/common.js', __FILE__));
-	wp_register_script('lightcase', plugins_url('js/lc/lc.js', __FILE__));
-	wp_register_script('base64code', plugins_url('js/base64.js', __FILE__));
-	wp_register_script('backstretch', plugins_url('js/bgbs.js', __FILE__));
-	//wp_register_script('flash_player', plugins_url('js/flp.js', __FILE__));
+	function wpl_reg_scripts()
+	{
+		wp_register_script('editscript', plugins_url('js/edit.js', __FILE__));
+		wp_register_script('pickerscript', plugins_url('js/colorpicker.js', __FILE__));
+		wp_register_script('widgetscript', plugins_url('js/widget.js', __FILE__));
+		wp_register_script('popupscript', plugins_url('js/popup.js', __FILE__));
+		wp_register_script('sqsocialscript', plugins_url('js/social.js', __FILE__));
+		wp_register_script('sqcommon', plugins_url('js/common.js', __FILE__));
+		wp_register_script('lightcase', plugins_url('js/lc/lc.js', __FILE__));
+		wp_register_script('base64code', plugins_url('js/base64.js', __FILE__));
+		wp_register_script('backstretch', plugins_url('js/bgbs.js', __FILE__));
+		
+	}
+	
+	add_action('admin_init', 'wpl_reg_scripts');
+		//wp_register_script('flash_player', plugins_url('js/flp.js', __FILE__));
 
 //load scripts for default page, create and edit and others	
 	function load_scripts_default()

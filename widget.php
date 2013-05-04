@@ -1,5 +1,4 @@
 <?php
-	include_once 'code/html_dom.php';
 //show current themes of the widgets        
 	function show_widget_themes() 
 	{

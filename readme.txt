@@ -3,7 +3,7 @@ Contributors: codingpuss
 Tags: squeeze page, landing page, squeeze page plugin, lead caputre page, lead capturing page, wordpress squeeze page, best squeeze page, squeeze page for wordpress, sidebar, widget
 Requires at least: 3
 Tested up to: 3.5.1
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 
 Create stunning squeeze page with ease. Simply point-click-edit and your squeeze page is ready in less than 3 minutes.
 

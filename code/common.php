@@ -1,5 +1,4 @@
 <?php
-include_once 'html_dom.php';
 //Common php functions for all the files
     //add custom font-size to the editor
 	function sq_my_new_text_sizes($initArray){
@@ -91,7 +90,10 @@ include_once 'html_dom.php';
 		{
 		//get the email code passed by the client
 		$mail_code = urldecode(base64_decode($_POST['ar_code']));
-
+		if (!function_exists("str_get_html"))
+		{
+			include_once 'html_dom.php';
+		}
 		
 		try {
 		

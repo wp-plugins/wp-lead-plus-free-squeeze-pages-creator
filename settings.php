@@ -1,5 +1,4 @@
 <?php
-	include_once 'code/html_dom.php';//this code will be used to parse auto responder
         include_once 'widget.php';
         include_once 'popup.php';
 		include_once 'db.php';

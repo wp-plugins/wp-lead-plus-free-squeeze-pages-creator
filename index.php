@@ -1,11 +1,10 @@
 <?php
-	error_reporting('E_ALL');
 	/* Plugin Name: WP Lead Plus Free Squeeze Page Creator
 	 * Plugin URI: http://wpleadplus.com/
 	 * Author: Bueno Gato
 	 * Author URI: http://wpleadplus.com/
 	 * Description: New way of creating squeeze pages/squeeze popup/squeeze sidebar optin with simple, revolutionary edit system.
-	 * Version: 1.5.0
+	 * Version: 1.5.1
 	 */
 	if (!($_SESSION))
 	{
