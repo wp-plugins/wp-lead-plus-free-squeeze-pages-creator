@@ -1,9 +1,6 @@
 <?php
-        include_once 'widget.php';
         include_once 'popup.php';
-		include_once 'db.php';
 		include_once 'enq.php';
-		include_once 'social.php';
 		include_once 'mainui.php';
         include_once 'code/common.php';
 	//add background and buttons to db
