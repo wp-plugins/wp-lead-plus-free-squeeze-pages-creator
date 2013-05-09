@@ -13,8 +13,7 @@
 			<div id="main_page">
 				<div id="thankyou">
 					<h2>Thanks for using WP Lead Plus</h2>
-					<p>We hope you enjoy the plugin. If you have any suggestion, request, bug report, please find us at:</p>
-					<p>Skype: cbnoob</p>
+					<p>I hope you enjoy the plugin. If you have any suggestion, request, bug report, please find me at:</p>
 					<p>Gmail: t2dx.inc@gmail.com</p>
 					<p>We will get back to you a.s.a.p</p>
 				</div>
