@@ -1,4 +1,4 @@
-=== WP Lead Plus ===
+=== WP Lead Plus Free Squeeze Page Creator ===
 Contributors: codingpuss
 Tags: squeeze page, landing page, squeeze page plugin, lead caputre page, lead capturing page, wordpress squeeze page, best squeeze page, squeeze page for wordpress, sidebar, widget
 Requires at least: 3
