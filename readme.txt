@@ -35,4 +35,4 @@ Have you ever wanted to create stunning squeeze pages just like othe pros do? Yo
 *	Upload the extracted folder of the plugin to `/wp-content/plugins/` directory
 *	Activate the plugin in your wordpress dashboard
 *	Watch the tutorial on how to use the plugin [Video tutorial](http://www.youtube.com/playlist?list=PL6rw2AEN42EokAMtZtmHvoK9bVCO9MBOp)
-                    
+                     
