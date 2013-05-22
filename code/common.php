@@ -136,15 +136,6 @@
 				}
 				
 				$input_array["name"][] = $input->name;
-				//in case the code is from wysija, some extra fields that I don't understand
-				if (stripos($input->name, "[abs]"))
-				{
-					//make this field hidde
-					$input_array['style'][] = "display: none;";
-				} else
-				{
-					$input_array['style'][] = "";
-				}
 				
 				$input_array["id"][] = preg_replace("/[^A-Za-z0-9 ]/", '', $input->name). rand(1,100).rand(1,100);//add ID to the input fields
 			}
@@ -187,7 +178,11 @@
 			
 			for ($i=0; $i<count($input_array["name"]); $i++)
 			{
-				$output['input'][] ='<input style="'.$input_array["style"][$i].'" type="'.$input_array["type"][$i].'" name="'.$input_array["name"][$i].'" value="'.$input_array["value"][$i].'" id="'.$input_array["id"][$i].'" />';
+				//discard the input with abs from wisyaja lol
+				if (stripos($input_array["name"][$i], "[abs]") === false)
+				{
+					$output['input'][] ='<input type="'.$input_array["type"][$i].'" name="'.$input_array["name"][$i].'" value="'.$input_array["value"][$i].'" id="'.$input_array["id"][$i].'" />';	
+				}
 			}
 			
 			for ($i=0; $i<count($select_array["name"]); $i++)
