@@ -4,7 +4,7 @@
 	 * Author: Bueno Gato
 	 * Author URI: http://wpleadplus.com/
 	 * Description: New way of creating squeeze pages/squeeze popup/squeeze sidebar optin with simple, revolutionary edit system.
-	 * Version: 1.5.3
+	 * Version: 1.5.4
 	 */
 	if (!($_SESSION))
 	{

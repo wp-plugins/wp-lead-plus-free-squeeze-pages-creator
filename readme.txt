@@ -1,11 +1,11 @@
 === WP Lead Plus Free Squeeze Page Creator ===
 Contributors: codingpuss
-Tags: squeeze page, landing page, squeeze page plugin, lead caputre page, lead capturing page, wordpress squeeze page, best squeeze page, squeeze page for wordpress, sidebar, widget
+Tags: squeeze page, landing page, squeeze page plugin, lead caputre page, lead capturing page, wordpress squeeze page, best squeeze page, squeeze page for wordpress, sidebar, widget, newsletter
 Requires at least: 3
 Tested up to: 3.5.1
-Stable tag: 1.5.2
+Stable tag: 1.5.4
 
-Create stunning squeeze page with ease. Simply point-click-edit and your squeeze page is ready in less than 3 minutes.
+Create stunning squeeze page/newsletter pages with ease. Simply point-click-edit and your squeeze page is ready in less than 3 minutes.
 
 == Description ==
 Have you ever wanted to create stunning squeeze pages just like othe pros do? You can do that now with WP Lead Plus. With less than 3 minutes, you can create a nice, attracting squeeze page, ready to collect leads.
@@ -21,12 +21,16 @@ Have you ever wanted to create stunning squeeze pages just like othe pros do? Yo
 
 
 ### WP Lead Plus PRO Cool Features:
-*	More than 15 stunning squeeze page templates (compare to 3 of free version)
+*	More than 15 stunning squeeze page templates (compare to 3 of free version) with responsive design (i.e. fit in any device desktop/laptop/table/phone)
 *	Create professional, resizable optin widgets on your blog sidebar
 *	Create cool unblockable popups
-*	Popup appears after a specific time or when visitor exit
+*	Create attractive newsletters optin page/popup
+*	Fully control popups' behavior. Popup on exit intention or popup appears after a specific time
+*	Multiple popups on a website. You can set a particular popup for the whole site or you can set different popups for different page/post 
 *	Integrate smoothly with Facebook and other social sites
 *	Insert your own code into the page
+*	Easy facebook comment box integration. You can place the facebook comment box easily on the squeeze page.
+
 
 
 *   [Upgrade to the Pro Version Now!&raquo;](http://wpleadplus.com/?src=wp.org)
