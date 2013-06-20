@@ -1,5 +1,4 @@
 <?php
-        include_once 'popup.php';
 		include_once 'enq.php';
 		include_once 'mainui.php';
         include_once 'code/common.php';

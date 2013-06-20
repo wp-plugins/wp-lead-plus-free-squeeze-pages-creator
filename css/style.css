@@ -211,7 +211,7 @@
 
 /*	THE EDITOR */
 .editable:hover {
-	background-color: #dbdbdb;
+	background-color: #dbdbdb !important;
 }
 
 #linkurl {

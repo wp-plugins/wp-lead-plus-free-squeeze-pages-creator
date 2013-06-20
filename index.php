@@ -4,7 +4,7 @@
 	 * Author: Bueno Gato
 	 * Author URI: http://wpleadplus.com/
 	 * Description: New way of creating squeeze pages/squeeze popup/squeeze sidebar optin with simple, revolutionary edit system.
-	 * Version: 1.5.4
+	 * Version: 1.5.5
 	 */
 	if (!($_SESSION))
 	{
@@ -14,6 +14,7 @@
 	
 	//include the settings
 	include_once 'settings.php';
+	include_once 'activate.php';
 	
 	register_activation_hook(__FILE__, 'copy_to_current_theme');
 	
@@ -21,6 +22,9 @@
 	{
 		//copy the template to the current activate theme
 		copy(plugin_dir_path(__FILE__).'code/sq_ddx_blankpage.php', get_template_directory().'/sq_ddx_blankpage.php' );
+		
+		//activate, create db
+		sq_bgt_on_act();
 	}
 	
 	
