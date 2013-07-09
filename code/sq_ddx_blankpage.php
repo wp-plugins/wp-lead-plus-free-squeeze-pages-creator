@@ -22,7 +22,7 @@
 					<?php the_content(); ?>
 
 				<?php endwhile; // end of the loop. ?>
-    <div style="margin: 0 auto 30px; text-align: center;"><a href="http://wordpress.org/plugins/wp-lead-plus-free-squeeze-pages-creator/" target="_blank">Created With WP Lead Plus Lead Capture Plugin</a></div>
+    <div style="margin: 0 auto 30px; text-align: center;"><a href="http://wpleadplus.com/" target="_blank">Created With WP Lead Plus - The Best Squeeze Page Plugin For Wordpress</a></div>
 <?php if (get_option('sq_social_bar_status') == 'enable')
 {
     echo (get_option('sq_social_scripts'));
