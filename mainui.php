@@ -1,5 +1,5 @@
 <?php
-	include_once 'activate.php';
+	//include_once 'activate.php';
 	/*FUNCTIONS THAT LOAD THE UI****************************************************** */
 	//load the main page, activ4tion stuffs
 	function main_squeezers_cb()
@@ -12,23 +12,26 @@
 		echo '
 			<div id="main_page">
 				<div id="thankyou">
+				<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/?src=inedit" target="_blank">More Templates, More Features. Get WP Lead Plus PRO</a></div>
 					<h2>Thanks for using WP Lead Plus</h2>
-					<p>I hope you enjoy the plugin. If you have any suggestion, request, bug report, please find me at:</p>
+					<p>This is the free version, the pro version with more exciting features (many more cool templates, create smart popups and widgets...) is available at: <a href="http://wpleadplus.com/?src=wporgthank" target="_blank">http://wpleadplus.com/</a></p>
+					
+					<p>If you have suggestion, support request, bug report, please find us at:</p>
 					<p>Gmail: t2dx.inc@gmail.com</p>
-					<p>We will get back to you a.s.a.p</p>
-				</div>
-				<div>
-					<span style="font-weight: bold; color: red; font-size: 2em;">ATTENTION: </span> Do not forget to go to <span style="font-weight: bold; color: blue;">WP Lead Plus</span> -> <span style="font-weight: bold; color: blue;">Settings</span> and click on <span style="font-weight: bold; color: blue;">Complete Setup</span> 
-				</div>
-				
-				<div>
-					<p>Please check the video tutorial <a href="http://www.youtube.com/playlist?list=PL6rw2AEN42EokAMtZtmHvoK9bVCO9MBOp">HERE</a> to know how to use the plugin.</p>
+					<p>We will get back to you soon!</p>
+					
+					<h2>How to use the plugin?</h2>
+					<p>You can find detailed instructions for using WP Lead Plus following the link below:</p>
+					<p><a href="http://www.youtube.com/playlist?list=PL6rw2AEN42EokAMtZtmHvoK9bVCO9MBOp" target="_blank">Click here to view video tutorials</a></p>
+					<p>In the videos, you will see some difference in the interface. It was because I use the PRO version for demonstration. In addition, you don\'t need to activate this plugin as I showed in the first video of the playlist. Activation is for PRO version only. </p>
+					<p>You can discover the benefits of the PRO version here: <a href="http://wpleadplus.com/?src=wporgthank" target="_blank">http://wpleadplus.com/</a></p>
 				</div>
 			</div>';
 
 	}
-
-	
+    
+    
+    	
 	//build the setting pages
 	function sub_squeezers_settings_cb()
 	{
@@ -47,15 +50,16 @@
 		
 		if (isset($_POST['basic_setup']))
 		{
-			sq_bgt_on_act();
+			//sq_bgt_on_act();
+			echo '<div style="color: #00dd00; font-weight: bold; margin: 10px; padding: 5px 10px; background-color: #f5f5f5; max-width: 9em; text-align: center;">Setup complete</div>';
 		}
 		echo '
 		<div>
 			<h2>Settings</h2>
+			<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/?src=inedit" target="_blank">More Templates, More Features. Get WP Lead Plus PRO</a></div>
 			<p>You can set some settings for your squeeze pages here</p>
 			<h3>Tracking code</h3>
-			<p>Please copy and paste your tracking code you want to install in your squeeze page below. eg. Google
-			Analytic... then hit the Save button</p>
+			<p>If you want to install tracking code to your squeeze page, please paste the code in the box below.</p>
 			<textarea cols="50" rows="10" id="tracking_code">'.$tracking_code.'</textarea> <br />
 			<input type="submit" value="Save" class="button-primary" id="save_tracking_codeb"/>
 		</div>';
@@ -64,7 +68,12 @@
     
 	//build the main page
 	function sub_squeezers_new_cb()
-		{?>
+		{
+		//get necessary code
+		
+		
+		?>
+			
 			<div id="main_container">
 				<div id="left_panel">
 				<div id="site_info">
@@ -74,22 +83,30 @@
 					
 					<label for="page_url">Custom Background<span style="font-size: 0.8em"> .jpg/.png file</span></label>
 					<input type="text" name="custom_bg" id="custom_bg" class="widefat" />
-					
+					<!-- 
 					<label for="page_url">Custom CTA<span style="font-size: 0.8em"> .jpg/.png file</span></label>
-					<input type="text" name="custom_cta" id="custom_cta" class="widefat" />
+					<input type="text" name="custom_cta" id="custom_cta" class="widefat" /> -->
 
 					<label for="sq_submit_url">Submit URL</label>
-					<input type="text" id="sq_submit_url" class="widefat" />
-					
+					<input type="text" id="sq_submit_url" class="widefat" />  <input type="checkbox" id="sq_open_new_window" /> New window?
+					<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/?src=inedit" target="_blank">More Templates, More Features. Get WP Lead Plus PRO</a></div>
 					<div id="custom_code_position" style="display: none;">
-						<input type="radio" name="custom_code" value="below" /> Below
-						<input type="radio" name="custom_code" value="above" /> Above	
+						<input type="radio" name="custom_code" value="below"  checked="checked" /> Below
+						<input type="radio" name="custom_code" value="above" /> Above	<br />
+						<input type="radio" name="code_type" value="html"  checked="checked" /> HTML
+						<input type="radio" name="code_type" value="javascript" /> Javascript <br />
+						<input type="checkbox" name="pure" id="pure_code" /> Pure?
 					</div>
 					
 					
 					<div id="switch_color" style="display: none;">
 						<h4>Switch color</h4>
 						<div id="colors_gallery"></div>
+					</div>
+					
+					<div id="likenbox" style="display: none;">
+						<label for="likenbox_chk">Enable FB Script?</label>
+						<input type="checkbox" id="likenbox_chk" />
 					</div>
 					
 					
@@ -110,32 +127,36 @@
 				<div id="site_area">
 				</div>
 				<div style="clear:both;"></div>
+				<div id="editparent">
+					<textarea id="editbox"></textarea>
+				</div>
 				
 				
 			</div>
 			<div id="gallery">
 				<?php 
 					$thumbnail_dir = plugin_dir_path(__FILE__);
-					$thumbnail = scandir($thumbnail_dir.'themes/thumbnail');
+					$video_thumb = scandir($thumbnail_dir.'themes/video/thumbnail');
+					$novid_thumb = scandir($thumbnail_dir.'themes/traditional/thumbnail');
 					echo '<div id="video_themes">';
-					for ($i=0; $i<count($thumbnail); $i++)
+					for ($i=0; $i<count($video_thumb); $i++)
 					{
-						if ((stripos($thumbnail[$i], 'jpg') !== false) && (stripos($thumbnail[$i], 'v_') === 0))
+						if ((stripos($video_thumb[$i], 'jpg') !== false))
 						echo '<div class="thumb">
-								<a href="'.plugins_url('themes/thumbnail/', __FILE__).$thumbnail[$i].'" rel="lightcase"><img src="'.plugins_url('themes/thumbnail/', __FILE__).$thumbnail[$i].'" /></a>
-								<input type="radio" name="theme" id="'.$thumbnail[$i].'" />	
+								<a href="'.plugins_url('themes/video/thumbnail/', __FILE__).$video_thumb[$i].'" rel="lightcase"><img src="'.plugins_url('themes/video/thumbnail/', __FILE__).$video_thumb[$i].'" /></a>
+								<input theme_type="video" type="radio" name="theme" theme_id="'.$video_thumb[$i].'" />	
 								</div>';
 					}
 					
 					echo '</div>';
 					
 					echo '<div id="nonvid_themes">';
-					for ($i=0; $i<count($thumbnail); $i++)
+					for ($i=0; $i<count($novid_thumb); $i++)
 					{
-					if ((stripos($thumbnail[$i], 'jpg') !== false) && (stripos($thumbnail[$i], 't_') === 0))
+					if ((stripos($novid_thumb[$i], 'jpg') !== false))
 							echo '<div class="thumb">
-							<a href="'.plugins_url('themes/thumbnail/', __FILE__).$thumbnail[$i].'" rel="lightcase"><img src="'.plugins_url('themes/thumbnail/', __FILE__).$thumbnail[$i].'" /></a>
-							<input type="radio" name="theme" id="'.$thumbnail[$i].'" />
+							<a href="'.plugins_url('themes/traditional/thumbnail/', __FILE__).$novid_thumb[$i].'" rel="lightcase"><img src="'.plugins_url('themes/traditional/thumbnail/', __FILE__).$novid_thumb[$i].'" /></a>
+							<input theme_type="traditional" type="radio" name="theme" theme_id="'.$novid_thumb[$i].'" />
 							</div>';
 					}
 					
@@ -168,9 +189,9 @@
 		
 		//get the theme passed by the client, actually it's the name of thumbnail file
 		$theme_thumbnail = trim($_POST['theme_name']);
-		
+		$theme_type = trim($_POST['theme_type']);
 		//get information about the theme in the db
-		$query = "SELECT * FROM $theme_table  WHERE thumbnail='$theme_thumbnail'";
+		$query = "SELECT * FROM $theme_table  WHERE thumbnail='$theme_thumbnail' AND type='$theme_type'";
 		$selected_theme = $wpdb->get_results($query, 'ARRAY_A');
 		
 		//SET SOME SESSION VARIABLE SO OTHER FUNCTION CAN USE THEM LATER
@@ -188,8 +209,24 @@
 		$theme_parent = plugins_url("themes/".$selected_theme[0]['type'], __FILE__);//get this to join to the css later
 		
 		//get the content from the index.html file of the theme, need to strip the head and the close body part
-		$index_file = file_get_contents($theme_path.'/index.html');
-		
+		if (function_exists("curl_init")) //if curl available, use it to avoid complication
+		{
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $theme_url.'/index.html');  
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			
+			$index_file = curl_exec($ch);
+			curl_close($ch);
+			
+			if ($index_file == FALSE)
+			{
+				$index_file = file_get_contents($theme_path.'/index.html');
+			}
+		} else
+		{
+			$index_file = file_get_contents($theme_path.'/index.html');
+		}
 		//need to improve with regex, quite luxurious right now
 		$theme_body = explode("<body>", $index_file);
 		$theme_body = $theme_body[1];
@@ -220,9 +257,8 @@
 		//get the general theme url, this is the url of the theme, not specific parent of themes and colors
 		$return_content['general_theme_url']  = $general_theme_url;
 		
-		//pass to the site in json format
-		echo (json_encode($return_content));
-		
+		//pass to the site in json format, need to add extra characters because maybe users' page generate extra character too
+		echo ("123dddsacxz".json_encode($return_content)."123dddsacxz");
 		die();
 	}
 	/* END LOADING THE THEME AND SHOW TO USER */
@@ -247,7 +283,7 @@
 			$valid_color[] = $key;
 			}
 			}
-			echo json_encode($valid_color);
+			echo "123dddsacxz".json_encode($valid_color)."123dddsacxz";
 		} else 
 		{
 			echo 'no color';
@@ -293,7 +329,7 @@
 				$button_name[] = plugins_url("themes/buttons",__FILE__).'/'.$button_db[$i]["name"];
 			}
 		}
-	echo json_encode($button_name);
+	echo "123dddsacxz".json_encode($button_name)."123dddsacxz";
 	die();
 	}
 	
@@ -325,7 +361,7 @@
 				$bg_name[] = plugins_url("themes/bgs/small",__FILE__).'/'.$bg_db[$i]["name"];
 			}
 				
-			echo json_encode($bg_name);
+			echo "123dddsacxz".json_encode($bg_name)."123dddsacxz";
 			die();
 		}
 	
@@ -341,11 +377,7 @@
 
 	function publish_post_callback()
 	{
-
-
 		global $wpdb;
-
-		
 		//get the posts and postmeta table
 		$post_table = $wpdb->get_blog_prefix().'posts';
 		$post_meta_table = $wpdb->get_blog_prefix().'postmeta';
@@ -400,14 +432,22 @@
 			$head .= '<script src="'.$custom_jq.'"></script>';
 			$post_content .= trim($js_input);
 		}
+		//insert the custom css style
+		if ($_POST['custom_css_style'] != 'none')
+		{
+			$head .= '<style class="custom_css_style">'.base64_decode($_POST['custom_css_style']).'</style>';
+		}
+		//if there is a tracking code
+		/*if (get_option('sq_user_tracking_code') !== false) 
+		{
+			
+			$head .= get_option('sq_user_tracking_code');
+		}*/
 		
-		//add custom css to head if any
-		
-		
-		//close the head
+		//close the head, also add facebook script
 		$head .= "</head>";
 		
-		$post_content = "<body>".$post_content;
+		$post_content = "<body>".'<div id="fb-root"></div><script>(function(d, s, id) {  var js, fjs = d.getElementsByTagName(s)[0];  if (d.getElementById(id)) return;  js = d.createElement(s); js.id = id;  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";  fjs.parentNode.insertBefore(js, fjs);}(document, \'script\', \'facebook-jssdk\'));</script>'.$post_content;
 		//prepare the data before inserting
 		$data_post = array(
 				'post_author' => wp_get_current_user()->ID,
@@ -453,8 +493,8 @@
 			add_post_meta($current_post_id, 'pros_current_sub_theme', $_POST['current_sub_theme']);
 			add_post_meta($current_post_id, 'pros_current_theme_name', $_POST['current_theme_name']);
 			add_post_meta($current_post_id, 'pros_current_theme_type', $_POST['current_theme_type']);
-			add_post_meta($current_post_id, 'pros_custom_css_code', $_POST['custom_css_code']);
-			
+			//custom_css_style
+			add_post_meta($current_post_id, 'pros_custom_css_style', $_POST['custom_css_style']);
 		} else if (is_numeric($current_post_id)) //update the current post
 		{
 			$data_post['ID'] = $current_post_id;//need to set this variable to make sure the post will be updated, not create a new post
@@ -475,10 +515,11 @@
 			update_post_meta($current_post_id, 'pros_current_theme_url', $_POST['current_theme_url']);
 			update_post_meta($current_post_id, 'pros_current_sub_theme', $_POST['current_sub_theme']);
 			update_post_meta($current_post_id, 'pros_current_theme_name', $_POST['current_theme_name']);
-			update_post_meta($current_post_id, 'pros_custom_css_code', $_POST['custom_css_code']);
+			update_post_meta($current_post_id, 'pros_current_theme_type', $_POST['current_theme_type']);
+			update_post_meta($current_post_id, 'pros_custom_css_style', $_POST['custom_css_style']);
 		}
 		$return_message = array('message' => 'Done', 'current_post_id' => $current_post_id);
-		echo json_encode($return_message);
+		echo "123dddsacxz".json_encode($return_message)."123dddsacxz";
 		die();
 	}
 
@@ -507,7 +548,7 @@
 		}
 		
 		//return the data
-		echo json_encode($posts_data);
+		echo "123dddsacxz".json_encode($posts_data)."123dddsacxz";
 		die();
 		
 	}
@@ -540,7 +581,8 @@
 		$query_current_sub_theme = "SELECT meta_value FROM $post_meta WHERE post_id = $post_id AND meta_key = 'pros_current_sub_theme'";
 		$query_current_theme_name = "SELECT meta_value FROM $post_meta WHERE post_id = $post_id AND meta_key = 'pros_current_theme_name'";
 		$query_current_theme_type = "SELECT meta_value FROM $post_meta WHERE post_id = $post_id AND meta_key = 'pros_current_theme_type'";
-
+		$query_custom_css_style = "SELECT meta_value FROM $post_meta WHERE post_id = $post_id AND meta_key = 'pros_custom_css_style'";
+		//pros_custom_css_style
 		//declare the variables
 		$body_content ="";
 		$page_css ="";
@@ -550,7 +592,7 @@
 		$current_theme_name ="";
 		$current_theme_type ="";
 		$face_mail ="";
-
+		$custom_css_style = "";
 		
 		//get the body
 		try 
@@ -559,7 +601,7 @@
 			$body_content = $body_content[0]['meta_value'];
 		} catch (Exception $e)
 		{
-			echo "shit";
+			echo "problem occured";
 		}
  		//get the css
 		try 
@@ -568,7 +610,7 @@
 			$page_css = $page_css[0]['meta_value'];
 		} catch (Exception $e)
 		{
-			echo "shit";
+			echo "problem occured";
 		}
 		
 		//get the has bg value, whether the post has a background image or not
@@ -578,7 +620,7 @@
 			$page_has_bg = $page_has_bg[0]['meta_value'];
 		} catch (Exception $e)
 		{
-			echo "shit";
+			echo "problem occured";
 		}
 
 		//get current theme url
@@ -588,7 +630,7 @@
 			$current_theme_url = $current_theme_url[0]['meta_value'];
 		} catch (Exception $e)
 		{
-			echo "shit";
+			echo "problem occured";
 		}
 	
 		//get sub theme name
@@ -598,7 +640,7 @@
 			$current_sub_theme = $current_sub_theme[0]['meta_value'];
 		} catch (Exception $e)
 		{
-			echo "shit";
+			echo "problem occured";
 		}		
 		//get current theme name
 		try
@@ -607,7 +649,7 @@
 			$current_theme_name = $current_theme_name[0]['meta_value'];
 		} catch (Exception $e)
 		{
-			echo "shit";
+			echo "problem occured";
 		}		
 		//get current theme type
  		try
@@ -616,7 +658,7 @@
 			$current_theme_type = $current_theme_type[0]['meta_value'];
 		} catch (Exception $e)
 		{
-			echo "shit";
+			echo "problem occured";
 		}	
 
 		//get the face mail value
@@ -626,9 +668,19 @@
 			$face_mail = $face_mail[0]['meta_value'];
 		} catch (Exception $e)
 		{
-			echo "shit";
+			echo "problem occured";
 		} 
 		
+		
+		//get the custom css style value
+		try 
+		{
+			$custom_css_style = $wpdb->get_results($query_custom_css_style, "ARRAY_A");
+			$custom_css_style = $custom_css_style[0]['meta_value'];
+		} catch (Exception $e)
+		{
+			echo "problem occured";
+		} 
 	
 		$return_data['page_css'] = $page_css;
 		$return_data['body_content'] = $body_content;
@@ -638,9 +690,10 @@
 		$return_data['current_theme_url'] = $current_theme_url;
 		$return_data['current_sub_theme'] = $current_sub_theme;
 		$return_data['current_theme_name'] = $current_theme_name;
-		$return_data['current_theme_type'] = $current_theme_type;  
+		$return_data['current_theme_type'] = $current_theme_type;
+		$return_data['custom_css_style'] = $custom_css_style;
 		
-		echo json_encode($return_data);
+		echo "123dddsacxz".json_encode($return_data)."123dddsacxz";
 		die();
 	}
 	//END EDITING CREATED POST
@@ -668,7 +721,7 @@
 	
 	function sq_server_check_email_cb()
 	{
-		$email = $_POST['us_email'];
+		$email = trim($_POST['us_email']);
 		
 		$ch = curl_init('http://wpleadplus.com/archive/spring.php?us_email='.urlencode($email));
 		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
@@ -715,4 +768,3 @@
 		
 		die();
 	}
-	//End setting page save_tracking    

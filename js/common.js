@@ -2,34 +2,114 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+//PANEL LIST TO HIDE WHEN A PANEL SHOW
+var panel_list = '#code_panel, #gallery_panel, #buttons_panel, #bgs_panel, #posts_panel, #gallery, #editthispageb, #editthisb, #choosethisbgb, #choosethisbtnb, #face_panel, #widget_themes, #popup_themes, #editor_control_panel, #editing_panel';
 
-    	//EDIT THE TEXT OF THE THEME
-        jQuery("document").ready(function(){
+//DECLARE SOME COMMON FUNCTIONS
+function sq_smart_toggle(id) {
+	if (jQuery('#'+id).is(":visible")) {
+		jQuery('#'+id).fadeOut();
+	} else
+	{
+		jQuery('#'+id).fadeIn();
+	}
+}
+
+//EDIT THE TEXT OF THE THEME
+jQuery("document").ready(function(){
 			
 			//use submit button as a link
 		jQuery("#sq_submit_url").blur(function(){
+			//store the details in sq_custom_javascript, apply when submit
+			
+			//remove the current settings of current button
+			jQuery('#sq_custom_javascript li.'+jQuery("#current_id").text()).remove(); //remove the li 
+
 			//get the current select element, check if it is a submit button
 			var current_elem = "#" + jQuery("#current_id").text();
 			
 			//if the user entered a valid url, wrap the link around the submit button
 			if (jQuery(this).val().indexOf("http") != -1)
 			{
+				//create an li element called settings with class = current_elem, the content of this li will be used
+				//to create the submit button's behavior
+			
+				var li_settings = "<li class='"+jQuery("#current_id").text()+"'>";
 				
-				//check if the current selected element is a submit button
-				if ((jQuery(current_elem).is("input[type=submit]")) || (jQuery(current_elem).is("input[type=image]")))
+				//check if open new window is checked
+				if (jQuery('#sq_open_new_window').is(":checked"))
 				{
-					//add the onlick property to the element
-					jQuery(current_elem).attr("onclick", 'window.open(\''+jQuery(this).val()+ '\');')
+					//check if the current selected element is a submit button
+					if ((jQuery(current_elem).is("input[type=submit]")) || (jQuery(current_elem).is("input[type=image]")) || (jQuery(current_elem).is("input[type=button]")))
+					{
+						//add the onlick property to the element
+						li_settings += jQuery(this).val() + ", _blank</li>";
+						
+						//insert to the sq_custom_javascript
+						jQuery('#sq_custom_javascript').append(li_settings);
+						
+					}	
 					
-				}	
+				} else
+				{
+					//check if the current selected element is a submit button
+					if ((jQuery(current_elem).is("input[type=submit]")) || (jQuery(current_elem).is("input[type=image]")) || (jQuery(current_elem).is("input[type=button]")))
+					{
+						//add the onlick property to the element
+						li_settings += jQuery(this).val() + ", _self</li>";
+						
+						//insert to the sq_custom_javascript
+						jQuery('#sq_custom_javascript').append(li_settings);
+						
+					}
+				}
+				
 			} else if (jQuery.trim(jQuery(this).val()) == "")
 			{
-				jQuery(current_elem).removeAttr("onclick");
+				jQuery('#sq_custom_javascript li.'+jQuery("#current_id").text()).remove(); //remove the li 
 			}
 			
 		});
+		
+		//react to open in new window button
+		jQuery('#sq_open_new_window').click(function(){
+			/* this set the behavior of the open in new window checkbox. When the checkbox is toggled, it will change
+			 * the settings of the button from _self to _blank or vice versa. So basicially, it will get the new settings
+			 * remove the old settings and save the new settings.
+			 */
 			
-		jQuery("#site_area img, #site_area a, #site_area .editable, #site_area input, #site_area select").live("click", function(){
+			//if the URL box is emtpy, return
+			if (jQuery.trim(jQuery('#sq_submit_url').val()).indexOf("http") == -1) {
+				return;
+			}
+			var current_id = jQuery('#current_id').text(); //get the current selected element						
+			//if the current selected element is not a button, return
+			if (jQuery('#'+ current_id).is("input[type='submit']") || jQuery('#'+ current_id).is("input[type='button']") || jQuery('#'+ current_id).is("input[type='image']") || jQuery('#'+ current_id).is("button"))
+			{
+				console.log("here");
+				
+				var self = "_self";
+				var url = jQuery.trim(jQuery('#sq_submit_url').val());
+				
+				
+				if (jQuery(this).is(":checked"))
+				{
+					self = "_blank";
+				}
+				
+				//remove the current settings under sq_custom_javascript if exists
+				jQuery('#sq_custom_javascript li.'+current_id).remove();
+				
+				//add the settings to the list
+				jQuery('#sq_custom_javascript').append('<li class="'+current_id+'">'+url+', '+self+'</li>');
+				
+			} else
+			{
+				return;
+			}
+		});
+			
+		jQuery(document).on("click","#site_area img, #site_area a, #site_area .editable, #site_area input, #site_area select, #site_area textarea" ,function(){
 			//register the id
 			jQuery("#current_id").text("");
                         
@@ -42,7 +122,7 @@
                         
 			jQuery("#current_id").text(jQuery(this).attr("id"));
 			//update the content to the edit box
-			if (jQuery(this).is("input")) //in case the clicked element is an input, put the text into the editbox
+			if (jQuery(this).is("input") || jQuery(this).is("textarea")) //in case the clicked element is an input, put the text into the editbox
 			{
 				if (jQuery(this).attr("placeholder") != undefined)//html5, if placeholder is used
 				{
@@ -144,7 +224,7 @@
 				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
 			}
 			
-		} else if (current_element.hasClass("editable"))
+		} else if (current_element.hasClass("editable") || current_element.children("iframe").length > 0)
 		{
 			if (current_element.is("div"))
 			{
@@ -259,16 +339,39 @@
 	
 	//show and hide the custom code box	
 	jQuery("#code_customb").click(function(){
+		jQuery('#face_panel').fadeOut();
 		jQuery("#code_boxes textarea").not("#custom_code").fadeOut();
 		jQuery("#custom_code").fadeToggle();
+	
 		jQuery("#custom_code_position").fadeToggle();
+		
+	
 	});
-
-	//show and hide the css code box	
-	jQuery("#code_cssb").click(function(){
-		jQuery("#code_boxes textarea").not("#sq_css_code").fadeOut();
-		jQuery("#sq_css_code").fadeToggle();
-	});	
+	
+	//show and hide panels
+	jQuery("#codeb").click(function(){
+		jQuery(panel_list).fadeOut();
+		sq_smart_toggle('code_panel')
+	});
+	
+	//edit button
+	jQuery("#editb").click(function(){
+		jQuery(panel_list).fadeOut();
+		sq_smart_toggle("editing_panel");
+	});
+	
+	jQuery('#editorb').click(function(){
+		jQuery(panel_list).fadeOut();
+		sq_smart_toggle('editor_control_panel');		
+		
+	});
+	
+		//open the gallery to select a template
+	jQuery("#selectb").click(function(){
+			jQuery(panel_list).fadeOut();
+			sq_smart_toggle("gallery_panel");
+	});
+	//hide the editor
 	
 	//insert custom elements into the page
 	jQuery("#custom_code").blur(function(){
@@ -279,16 +382,67 @@
 		{
 			return;
 		}
-		
-		var id = "custom" + Math.round(Math.random()*10000) + Math.round(Math.random()*10000)
-		var text = "<div class='editable' id='"+id+"'>" + jQuery(this).val() + "</div>";
-		if (jQuery('#custom_code_position input[type=radio]:checked').val() == "above")
+		//if the code entered is HTML
+		if (jQuery('#custom_code_position input[name=code_type]:checked').val() == 'html')
 		{
-			jQuery(text).insertBefore('#'+jQuery('#current_id').text());
-		} else
+			var id = "custom" + Math.round(Math.random()*10000) + Math.round(Math.random()*10000)
+			//need to search through the entered code to inser the id to element
+			var clone_elem = jQuery(jQuery(this).val());
+			clone_elem.addClass("editable");
+			var chil = clone_elem.find("*");//get all the children of current tr
+			var randnum = Math.floor((Math.random()*1000)+1); //generate a random number
+			for (var i = 0; i<chil.length; i++)
+			{
+				chil.eq(i).addClass("editable");
+				if (chil.eq(i).attr("id") != undefined)
+				{
+					chil.eq(i).removeAttr("id");//remove the current id
+					chil.eq(i).attr("id", "adder"+randnum+i);//assign new id
+				} else
+				{
+					chil.eq(i).attr("id", "adder"+randnum+i);//assign new id
+				}
+			}
+			//get a new id for the inserted element
+			clone_elem.attr("id", "cloner"+randnum);
+			
+			
+			var text = "<div id='"+id+"'></div>";
+			if (jQuery('#custom_code_position input[name=custom_code]:checked').val() == "above")
+			{
+				//if the user select pure
+				if (jQuery('#pure_code').is(":checked") )
+				{
+					jQuery(clone_elem).insertBefore('#'+jQuery('#current_id').text());
+				} else
+				{
+					jQuery(text).insertBefore('#'+jQuery('#current_id').text());
+					//insert the code into the newly created element
+					jQuery('#'+ id).append(clone_elem);
+				}
+				
+			} else
+			{
+				//if the user select pure
+				if (jQuery('#pure_code').is(":checked") )
+				{
+					jQuery(clone_elem).insertAfter('#'+jQuery('#current_id').text());
+				} else
+				{
+					jQuery(text).insertAfter('#'+jQuery('#current_id').text());
+					jQuery('#'+ id).append(clone_elem);
+				}
+				
+			}	
+		} else //in case the user wants to include javascript
 		{
-			jQuery(text).insertAfter('#'+jQuery('#current_id').text());			
+			var script   = document.createElement("script");
+			script.type  = "text/javascript";
+			
+			script.text  = jQuery(this).val();
+			jQuery('#'+jQuery('#current_id').text()).append(script);
 		}
+		
 	});
 	
 	
@@ -319,6 +473,9 @@
 			};
 			//send the code to server to process
 			jQuery.post(ajaxurl, data, function(response){
+				var response_array = response.split("123dddsacxz");
+				response = response_array[1];
+				
 				if (response == 'something wrong')
 				{
 					alert("something wrong with your code, please check it again");
@@ -328,9 +485,12 @@
 					
 					action_url = form_elements['action_url'];
 					var inputs = (form_elements['input']);
-					var selects = (form_elements['select']);
+					
+					var textarea = (form_elements['textarea']);
+					//var styles = form_elements['style'];
 					
 					jQuery("#site_area form").attr("action", action_url);//add the action path to the form
+					jQuery('#site_area form').attr("method", "post");
 					if (form_elements['form_id'] != "")
 					{
 						jQuery("#site_area form").attr("id", form_elements['form_id']);
@@ -350,16 +510,36 @@
 					}
 					
 					//add the select to the form
-					try
-					{
-						for (var i=0; i<selects.length; i++)
+					if (form_elements['select'] != undefined) {
+						var selects = (form_elements['select']);
+						try
 						{
-							field_code += selects[i];
-						}	
+							for (var i=0; i<selects.length; i++)
+							{
+								field_code += selects[i];
+							}	
+						}
+						catch(e)
+						{
+							console.log(e);
+						}							
 					}
-					catch(e)
-					{
-						console.log(e);
+
+					
+					//add the textarea to the form
+					if (form_elements['textarea'] != undefined) {
+						var textarea = form_elements['textarea'];
+						try
+						{
+							for (var i=0; i<textarea.length; i++)
+							{
+								field_code += textarea[i];
+							}	
+						}
+						catch(e)
+						{
+							console.log(e);
+						}											
 					}
 					
 					
@@ -374,24 +554,36 @@
 		jQuery(this).fadeOut();
 	});
 	
+	//the expand button
+	jQuery('#xpand').click(function(){
+		if (jQuery(this).val() == "Xpand") {
+			jQuery('#editparent').css("width", "500px");
+			jQuery('#editparent > *').css("width", "500px");
+			jQuery('#editparent iframe').css("width", "500px");
+			jQuery(this).val("Shrink");
+		} else
+		{
+			jQuery('#editparent').css("width", "220px");
+			jQuery('#editparent > *').css("width", "220px");
+			jQuery('#editparent iframe').css("width", "220px");
+			jQuery(this).val("Xpand");	
+		}
+		
+	});
 	
-	//insert custom css to the page
-	jQuery('#sq_css_code').blur(function(){
-		jQuery(this).fadeOut();
-		if ((jQuery(this).val() == "Enter your css code here") || (jQuery.trim(jQuery(this).val()) == "")) {
-			return;
+	//hide editor button
+	jQuery('#hide_editorb').click(function(){
+		if (jQuery(this).val() == "Hide")
+		{
+			jQuery('#editparent').fadeOut();
+			jQuery(this).val("Show");
+		} else
+		{
+			jQuery('#editparent').fadeIn();
+			jQuery(this).val("Hide");
 		}
-		
-		//in case the user wants to clear the css code
-		if (jQuery.trim(jQuery(this).val()) == "clear") {
-			jQuery("head style.custom_css_code").remove();
-		}
-		
-		//insert current style to head
-		jQuery("<style class='custom_css_code' type='text/css'>"+jQuery(this).val()+"</style>").appendTo("head");
-		
 		
 	});
 	
 	
-		});
+});

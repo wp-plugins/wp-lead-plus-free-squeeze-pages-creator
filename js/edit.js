@@ -7,12 +7,7 @@ jQuery(document).ready(function(){
 	 * show in the right area.
 	 */
 
-	//open the gallery to select a template
-	jQuery("#selectb").click(function(){
-			jQuery("#code_panel, #editing_panel, #buttons_panel, #bgs_panel, #posts_panel, #gallery, #editthispageb, #editthisb, #choosethisbgb, #choosethisbtnb").fadeOut();
-			jQuery("#gallery_panel").fadeToggle();
-	});
-	
+
 	jQuery("#hideb").click(function(){
 		jQuery("#foot_panel, #buttons_panel, #bgs_panel, #posts_panel, #gallery, #editthispageb, #editthisb, #choosethisbgb, #choosethisbtnb").fadeOut();
 		jQuery("#showb").fadeIn();
@@ -49,11 +44,13 @@ jQuery(document).ready(function(){
 	jQuery("#editthisb").click(function(){
 		jQuery("#video_themes, #nonvid_themes, #gallery, #gallery_panel").fadeOut();
 		//get the selected theme
-		var selected_theme = jQuery("#selected_theme").text();
+		var selected_theme = jQuery('#gallery input[type="radio"]:checked').attr("theme_id");
+		var theme_type = jQuery('#gallery input[type="radio"]:checked').attr("theme_type");
 		//prepare the needed data
 		data = {
 			action: 'theme_loader',
-			theme_name: selected_theme
+			theme_name: selected_theme,
+			theme_type: theme_type
 		};
 		
 		//reset the post id
@@ -61,6 +58,8 @@ jQuery(document).ready(function(){
 		//send the request
 		jQuery.post(
 		ajaxurl, data, function(response){
+			var respon_array = response.split("123dddsacxz");
+			response = respon_array[1];
 			var return_array = jQuery.parseJSON(response);
 			//decode the return values
 			var css_url = BASE64.decode(return_array['theme_css']);
@@ -180,6 +179,9 @@ jQuery(document).ready(function(){
 		if (jQuery('#current_theme_name').text() != "")
 		{
 			jQuery.post(ajaxurl, data, function(response){
+				var response_array = response.split("123dddsacxz");
+				response = response_array[1];
+				
 				var colors = jQuery.parseJSON(response);
 				var colors_string = "";
 				for (var i=0; i<colors.length; i++)
@@ -188,6 +190,7 @@ jQuery(document).ready(function(){
 				}
 				
 				jQuery('#colors_gallery').html(colors_string);
+				
 				jQuery('#switch_color').fadeToggle();
 				
 			});
@@ -206,7 +209,12 @@ jQuery(document).ready(function(){
 		jQuery('#current_sub_theme').text(jQuery(this).attr("theme"));
 				
 	});
-	//END SWITCHING COLOR OF THE THEME	
+	//END SWITCHING COLOR OF THE THEME
+	
+	//SHOW FACEBOOK SCRIPT
+	jQuery('#code_face_like').click(function(){
+		jQuery('#likenbox').fadeToggle();	
+	});
 	
 //EDITING THE CONTENT ON PAGE************************************************
 
@@ -229,10 +237,6 @@ jQuery(document).ready(function(){
 	
 	
 //EDITING PANEL AND ITS BUTTONS BEHAVIOR************************************************	
-	jQuery("#editb").click(function(){
-		jQuery("#code_panel, #gallery_panel, #buttons_panel, #bgs_panel, #posts_panel, #gallery, #editthispageb, #editthisb, #choosethisbgb, #choosethisbtnb").fadeOut();
-		jQuery("#editing_panel").fadeToggle();
-	});
 	
 	//CHANGE CTA BUTTON BEHAVIOR
 	jQuery("#edit_changebtnb").click(function(){
@@ -246,6 +250,9 @@ jQuery(document).ready(function(){
 		};
 		
 		jQuery.post(ajaxurl, data, function(response){
+			var response_array = response.split("123dddsacxz");
+			response = response_array[1];
+			
 			var buttons = jQuery.parseJSON(response);
 			var buttons_gallery = "";
 			for (var i=0; i < buttons.length; i++)
@@ -285,6 +292,9 @@ jQuery(document).ready(function(){
 		};
 		
 		jQuery.post(ajaxurl, data, function(response){
+			var response_array = response.split("123dddsacxz");
+			response = response_array[1];
+			
 			var buttons = jQuery.parseJSON(response);
 			var buttons_gallery = "";
 			for (var i=0; i < buttons.length; i++)
@@ -318,13 +328,11 @@ jQuery(document).ready(function(){
 	
 	
 //CODING PANEL AND ITS BUTTONS BEHAVIOR************************************************	
-	jQuery("#codeb").click(function(){
-		jQuery("#editing_panel, #gallery_panel,#buttons_panel, #bgs_panel, #posts_panel, #gallery, #editthispageb, #editthisb, #choosethisbgb, #choosethisbtnb").fadeOut();
-		jQuery("#code_panel").fadeToggle();
-	});
+
 	//show and hide the video button
 	jQuery("#code_mediab").click(function(){
 		jQuery("#code_boxes textarea").not("#media_code").fadeOut();
+		jQuery('#face_panel').fadeOut();
 		jQuery("#media_code").fadeToggle();
 		
 	});
@@ -332,6 +340,7 @@ jQuery(document).ready(function(){
 	//show and hide the email box	
 	jQuery("#code_emailb").click(function(){
 		jQuery("#code_boxes textarea").not("#email_code").fadeOut();
+		jQuery('#face_panel').fadeOut();
 		jQuery("#email_code").fadeToggle();
 		
 	});	
@@ -343,16 +352,26 @@ jQuery(document).ready(function(){
 		jQuery("#tracking_code").fadeToggle();
 	});	
 	
-	//show and hide the facebook button
-	jQuery("#code_faceb").click(function(){
+	//show and hide the facebook button //code_custom_css
+	jQuery('#code_faceb').click(function(){
+		jQuery('#face_panel').fadeToggle();	
+	});
+	
+	jQuery("#code_face_mail").click(function(){
 		jQuery("#code_boxes textarea").not("#face_code").fadeOut();
 		jQuery("#face_code").fadeToggle();
 		
 	});	
 	
-	
+	//show and hide the custom css code //
+	jQuery("#code_custom_css").click(function(){
+		jQuery("#code_boxes textarea").not("#custom_css").fadeOut();
+		jQuery('#face_panel').fadeOut();
+		jQuery("#custom_css").fadeToggle();
+		
+	});	
 	//show facebook connect button
-	jQuery('#code_faceconn').click(function(){
+	jQuery('#code_face_conn').click(function(){
 		jQuery('.sq_facebook_div').fadeToggle();
 	});
 	
@@ -365,8 +384,41 @@ jQuery(document).ready(function(){
 			jQuery('#sq_media').html('<img width="95%" height="95%" src="'+jQuery(this).val()+'" />');
 		} else if((jQuery(this).val().indexOf("youtube.com") != -1) || (jQuery(this).val().indexOf("vimeo.com") != -1) || (jQuery(this).val().indexOf("blip.tv") != -1) || (jQuery(this).val().indexOf("dailymotion.com") != -1) || (jQuery(this).val().indexOf("metacafe.com") != -1) || (jQuery(this).val().indexOf("wistia.com") != -1) || (jQuery(this).val().indexOf("screencast.com") != -1))//in case the user has pased the video url in
 		{
+			/* get the video embed code from user, if it's a full code, parse and get the URL, if it's the url embed,
+			 * use that url				
+			*/
+			
+			var user_code = jQuery.trim(jQuery(this).val());
+			
+			if (user_code.indexOf("http") == 0 || user_code.indexOf("//www") == 0 ) { //the second condition to match the new youtube embed code, without the http:
+				var pure_url = user_code;
+			} else
+			{
+				var pattern = /src=".*?[" ]/i;
+			    var x = user_code.match(pattern);
+				
+				var pure_url = jQuery.trim(x[0].replace(/"/g, ''));
+				console.log(pure_url);
+				var pure_url = jQuery.trim(pure_url.replace('src=', ''));
+				
+		     }
+			//insert http: before the pure url if it doesn't have http
+			if (pure_url.indexOf("http:") != 0) {
+				pure_url = "http:" + pure_url;
+			}
+			
+			console.log(pure_url);
+			 
 			var code = '';
-			code = '<iframe width="95%" height="95%" src="'+jQuery(this).val()+'?wmode=transparent" frameborder="0" allowfullscreen></iframe>';
+			//check if the user has passed an additional query after the embed url
+			if (jQuery(this).val().indexOf("?") != -1)
+			{
+				code = '<iframe width="95%" height="95%" src="'+pure_url+'&wmode=transparent" frameborder="0" allowfullscreen></iframe>';
+			} else
+			{
+				code = '<iframe width="95%" height="95%" src="'+pure_url+'?wmode=transparent" frameborder="0" allowfullscreen></iframe>';	
+			}
+			
 			
 			jQuery('#sq_media').html(code);
 		} else if ((jQuery(this).val().indexOf(".mp4") != -1) || (jQuery(this).val().indexOf(".webm") != -1) || (jQuery(this).val().indexOf(".ogv") != -1) || (jQuery(this).val().indexOf(".3gp") != -1))
@@ -439,6 +491,41 @@ jQuery(document).ready(function(){
 	});
 	
 	
+	//insert custom css to the header of the page
+	jQuery('#custom_css').blur(function(){
+		jQuery(this).fadeOut();
+		
+		//return false if the user enters nothing
+		if ((jQuery(this).val() == "Enter your custom css here") || (jQuery.trim(jQuery(this).val()) == "")) {
+			return false;
+		}
+		
+		//clear the style if the user enters clear
+		if (jQuery.trim(jQuery(this).val()) == "clear code")
+		{
+			if (jQuery("head style.custom_css_style") == undefined) {
+				
+			} else
+			{
+				//clear the stye
+				jQuery("head style.custom_css_style").html("");
+
+			}
+			return false;
+		}
+		
+		
+		if (jQuery("head style.custom_css_style").length == 0)
+		{
+			jQuery("<style class='custom_css_style'>"+jQuery(this).val()+"</style>").appendTo("head");
+		} else
+		{
+			jQuery('head style.custom_css_style').html(jQuery('head style.custom_css_style').html() + jQuery(this).val());
+			//jQuery(jQuery(this).val()).appendTo("head style.custom_css_style");
+		}
+	});
+	
+	
 
 	
 	//END THE CODING BOXES AND THEIR ON BLUR BEHAVIOR	
@@ -455,6 +542,25 @@ jQuery(document).ready(function(){
 			jQuery("#page_title").css("border", "1px solid red");
 			return false;
 		}
+		
+		//check if the user has set any special setting to the submit button
+			if (jQuery('#sq_custom_javascript li').length == 0)
+			{
+				
+			} else
+			{
+
+				jQuery('#sq_custom_javascript li').each(function(){
+					var this_id = jQuery(this).attr("class");
+					var settings = jQuery(this).text().split(",");
+					var this_url = settings[0];
+					var self = jQuery.trim(settings[1]);
+					
+					//add the attribute to the matched id
+					jQuery('#'+this_id).attr("onclick", "sq_bgt_open_me('"+this_url+"', '"+self+"', false, event)");
+				});
+			}
+			
 		//check if the user has change the background yet, if yes, get the image, if not, get the origial image
 		var bg_url = 'none';
 		if(jQuery("#changeable_bg").text() == 'yes')//if the theme has image img
@@ -472,25 +578,23 @@ jQuery(document).ready(function(){
 			}
 		}
 		
-		//get the custom css sq_css_code
-		if ((jQuery('#sq_css_code').val() == "Enter your css code here") || (jQuery.trim(jQuery('#sq_css_code').val()) == "") || (jQuery.trim(jQuery('#sq_css_code').val()) == "clear"))
-		{
-			var custom_css_code = "none";	
-		} else
-		{
-			var custom_css_code = BASE64.encode(jQuery('#sq_css_code').val());
-		}
-		
-		
 		//get the text from input boxes
 		var input_array = new Array(); //this will store the id and the value of the input fields
 		var i=0;
-		jQuery("#site_area input[type='text'], #site_area input[type='email']").each(function(){
+		jQuery("#site_area input[type='text'], #site_area input[type='email'], #site_area textarea").each(function(){
 			input_array[i] = jQuery(this).attr("id")+":"+jQuery(this).val();
 			i++;
 		});
 		var input_string = input_array.join("*");
-
+		
+		//check if the user used custom styles or not
+		
+		if (jQuery("head style.custom_css_style").length > 0) {
+			var custom_css_style = BASE64.encode(jQuery("head style.custom_css_style").html());
+		} else
+		{
+			var custom_css_style = 'none';
+		}
 		//prepare the needed data
 		data = {
 			action: 'publish_post',
@@ -504,12 +608,15 @@ jQuery(document).ready(function(){
 			current_sub_theme: jQuery('#current_sub_theme').text(),
 			current_theme_name: jQuery('#current_theme_name').text(),
 			current_theme_type: jQuery('#current_theme_type').text(),
-			current_post_id: jQuery('#sq_current_post_id').text(),
-			custom_css_code: custom_css_code
+			current_post_id: jQuery.trim(jQuery('#sq_current_post_id').text()),
+			custom_css_style: custom_css_style
 			
 		};
 		
 		jQuery.post(ajaxurl, data, function(response){
+			var response_array = response.split("123dddsacxz");
+			response = response_array[1];
+			
 			var server_response = jQuery.parseJSON(response);
 			alert(server_response['message']);
 			jQuery('#sq_current_post_id').text(jQuery.trim(server_response['current_post_id']));
@@ -530,6 +637,9 @@ jQuery(document).ready(function(){
 		};
 		
 		jQuery.post(ajaxurl, data, function(response){
+			var response_array = response.split("123dddsacxz");
+			response = response_array[1];
+			
 			var posts = jQuery.parseJSON(response);
 			var post_panel = '';
 			for (var i=0; i<posts.length; i++)
@@ -564,6 +674,8 @@ jQuery(document).ready(function(){
 		
 		jQuery.post(ajaxurl, data, function(response){
 			
+			var response_array = response.split("123dddsacxz");
+			response = response_array[1];
 			var return_data = jQuery.parseJSON(response);
 			//record the changeable bg value
 			jQuery("#changeable_bg").text(return_data['page_has_bg']);
@@ -599,6 +711,15 @@ jQuery(document).ready(function(){
 			jQuery('#current_theme_name').text(return_data['current_theme_name']);
 			jQuery('#current_theme_type').text(return_data['current_theme_type']);
 			
+			//update the custom css code
+			if (jQuery("head style.custom_css_style").length == 0)
+			{
+				jQuery("<style class='custom_css_style'>"+BASE64.decode(return_data['custom_css_style'])+"</style>").appendTo("head");
+			} else
+			{
+				jQuery('head style.custom_css_style').html(BASE64.decode(return_data['custom_css_style']));
+				//jQuery(jQuery(this).val()).appendTo("head style.custom_css_style");
+			}	
 			//make the box draggable
 			//jQuery("#sq_box_container").draggable();
 			
@@ -636,7 +757,6 @@ jQuery(document).ready(function(){
 
 //INSERTING THE CUSTOM IMAGES TO THE TEMPLATES*****************************************
 	jQuery("#edit_insert_img").live('click', function(){
-		
 		jQuery("#frontier_images").fadeToggle();
 	});
 	
