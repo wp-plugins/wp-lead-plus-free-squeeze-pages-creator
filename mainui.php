@@ -142,10 +142,21 @@
 					for ($i=0; $i<count($video_thumb); $i++)
 					{
 						if ((stripos($video_thumb[$i], 'jpg') !== false))
-						echo '<div class="thumb">
+						{
+							if ($novid_thumb[$i] == "1.jpg" || $novid_thumb[$i] == "9.jpg")
+							{
+								$disabled = "";
+							} else
+							{
+								$disabled = "disabled";
+							}
+							
+							echo '<div class="thumb">
 								<a href="'.plugins_url('themes/video/thumbnail/', __FILE__).$video_thumb[$i].'" rel="lightcase"><img src="'.plugins_url('themes/video/thumbnail/', __FILE__).$video_thumb[$i].'" /></a>
-								<input theme_type="video" type="radio" name="theme" theme_id="'.$video_thumb[$i].'" />	
+								<input theme_type="video" type="radio" name="theme" theme_id="'.$video_thumb[$i].'" '.$disabled.' />	
 								</div>';
+						}
+						
 					}
 					
 					echo '</div>';
@@ -153,11 +164,21 @@
 					echo '<div id="nonvid_themes">';
 					for ($i=0; $i<count($novid_thumb); $i++)
 					{
-					if ((stripos($novid_thumb[$i], 'jpg') !== false))
+						if ((stripos($novid_thumb[$i], 'jpg') !== false))
+						{
+							if ($novid_thumb[$i] == "1.jpg" || $novid_thumb[$i] == "9.jpg")
+							{
+								$disabled = "";
+							} else
+							{
+								$disabled = "disabled";
+							}
+							
 							echo '<div class="thumb">
 							<a href="'.plugins_url('themes/traditional/thumbnail/', __FILE__).$novid_thumb[$i].'" rel="lightcase"><img src="'.plugins_url('themes/traditional/thumbnail/', __FILE__).$novid_thumb[$i].'" /></a>
-							<input theme_type="traditional" type="radio" name="theme" theme_id="'.$novid_thumb[$i].'" />
+							<input theme_type="traditional" type="radio" name="theme" theme_id="'.$novid_thumb[$i].'" '.$disabled.' />
 							</div>';
+						}
 					}
 					
 					echo '</div>';
