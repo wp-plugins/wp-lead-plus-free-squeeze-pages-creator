@@ -143,7 +143,7 @@
 					{
 						if ((stripos($video_thumb[$i], 'jpg') !== false))
 						{
-							if ($novid_thumb[$i] == "1.jpg" || $novid_thumb[$i] == "9.jpg")
+							if ($novid_thumb[$i] == "1.jpg")
 							{
 								$disabled = "";
 							} else
@@ -166,7 +166,7 @@
 					{
 						if ((stripos($novid_thumb[$i], 'jpg') !== false))
 						{
-							if ($novid_thumb[$i] == "1.jpg" || $novid_thumb[$i] == "9.jpg")
+							if ($video_thumb[$i] == "1.jpg" || $video_thumb[$i] == "9.jpg")
 							{
 								$disabled = "";
 							} else
