@@ -1,5 +1,6 @@
 <?php
 	//include_once 'activate.php';
+	include_once 'code/common.php';
 	/*FUNCTIONS THAT LOAD THE UI****************************************************** */
 	//load the main page, activ4tion stuffs
 	function main_squeezers_cb()
@@ -12,9 +13,9 @@
 		echo '
 			<div id="main_page">
 				<div id="thankyou">
-				<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/?src=inedit" target="_blank">More Templates, More Features. Get WP Lead Plus PRO</a></div>
+				'.show_upgrade_text().'
 					<h2>Thanks for using WP Lead Plus</h2>
-					<p>This is the free version, the pro version with more exciting features (many more cool templates, create smart popups and widgets...) is available at: <a href="http://wpleadplus.com/?src=wporgthank" target="_blank">http://wpleadplus.com/</a></p>
+					<p>This is the free version, the pro version with more exciting features (many more cool templates, create smart popups and widgets, conversion tracking...) is available at: <a href="http://wpleadplus.com/?src=wporgthank" target="_blank">http://wpleadplus.com/</a></p>
 					
 					<p>If you have suggestion, support request, bug report, please find us at:</p>
 					<p>Gmail: t2dx.inc@gmail.com</p>
@@ -22,7 +23,7 @@
 					
 					<h2>How to use the plugin?</h2>
 					<p>You can find detailed instructions for using WP Lead Plus following the link below:</p>
-					<p><a href="http://www.youtube.com/playlist?list=PL6rw2AEN42EokAMtZtmHvoK9bVCO9MBOp" target="_blank">Click here to view video tutorials</a></p>
+					<p><a href="http://www.youtube.com/playlist?list=PL6rw2AEN42ErNRkcle6ptqyaL-EFs8RQc" target="_blank">Click here to view video tutorials</a></p>
 					<p>In the videos, you will see some difference in the interface. It was because I use the PRO version for demonstration. In addition, you don\'t need to activate this plugin as I showed in the first video of the playlist. Activation is for PRO version only. </p>
 					<p>You can discover the benefits of the PRO version here: <a href="http://wpleadplus.com/?src=wporgthank" target="_blank">http://wpleadplus.com/</a></p>
 				</div>
@@ -53,10 +54,12 @@
 			//sq_bgt_on_act();
 			echo '<div style="color: #00dd00; font-weight: bold; margin: 10px; padding: 5px 10px; background-color: #f5f5f5; max-width: 9em; text-align: center;">Setup complete</div>';
 		}
+		
+		$link = show_upgrade_text();
 		echo '
 		<div>
 			<h2>Settings</h2>
-			<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/?src=inedit" target="_blank">More Templates, More Features. Get WP Lead Plus PRO</a></div>
+			'.show_upgrade_text().'
 			<p>You can set some settings for your squeeze pages here</p>
 			<h3>Tracking code</h3>
 			<p>If you want to install tracking code to your squeeze page, please paste the code in the box below.</p>
@@ -89,7 +92,7 @@
 
 					<label for="sq_submit_url">Submit URL</label>
 					<input type="text" id="sq_submit_url" class="widefat" />  <input type="checkbox" id="sq_open_new_window" /> New window?
-					<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/?src=inedit" target="_blank">More Templates, More Features. Get WP Lead Plus PRO</a></div>
+					<?php echo show_upgrade_text(); ?>
 					<div id="custom_code_position" style="display: none;">
 						<input type="radio" name="custom_code" value="below"  checked="checked" /> Below
 						<input type="radio" name="custom_code" value="above" /> Above	<br />
@@ -789,3 +792,46 @@
 		
 		die();
 	}
+	
+	function sub_squeezers_go_pro_cb()
+	{ ?>
+		<div id="go_pro_page">
+			<h2>Why go PRO?</h2>
+			<ul>
+				<li>16 Great Squeeze Page Templates and Increasing</li>
+				<p>So you have more options to get the best suitable squeeze page designs for your list building campaigns</p>
+				<li>Capture leads every where with Widgets and Popups</li>
+				<p>We have seen many people doubled their conversion rates with the use of unblockable popups created by WP Lead Plus. Start showing your great offers to every visitors to your site now!</p>
+				<li>Built-in conversion rate tracking helps you select the best performers</li>
+				<p>Tracking conversion rate of squeeze pages, popups and widgets cannot be easier! Simple yet clear reports will help you find the best performers so you can get the best results from your traffic!</p>
+				<li>Download the latest templates with themes gallery</li>
+				<p>New templates are added to the plugin frequently. You can get the new ones by visiting to the theme gallery.</p>
+				<li>Better SEO Optimization!</li>
+				<p>The PRO version lets you add, customize meta tags, which makes your squeeze page more SEO friendly.</p>
+				<li>Get access to updates frequently.</li>
+				<!-- <p>The PRO version get updated very frequently. You will get access to the newest features from the plugin.</p>
+				<li>Make requests on adding templates, features! (and get them actually added to the plugin)</li>  -->
+				<p>Have a template (or templates) you want to use but not currently available in WP Lead Plus? Send us a request and we will add them to the plugin.</p>
+				<li>No credit links at the bottom of your squeeze page!</li>
+				<p>The squeeze pages created by free version come with a credit link to wpleadplus.com. Want to remove it to make your squeeze page looks professional? Upgrade to PRO now!</p>
+				
+				<li>Customize everything with custom CSS and Javascript code</li>
+				<p>So you are an advanced user and want to fully customize the squeeze page? WP Lead Plus enables you to insert your own Javascript and CSS code to your squeeze page, popups and widgets.</p>
+				
+			</ul>
+			
+			<a id="in_get_pro" target="_blank" href="http://wpleadplus.com/?src=ingopro">Check WP Lead Plus PRO Out!</a>
+			
+			<h2>Want to test the PRO version? Sure!</h2>
+			<p>You can test the PRO version following the URL below</p>
+			<p><a href="http://wpleadplus.com/demopro/wp-admin" target="_blank">http://wpleadplus.com/demopro/wp-admin</a></p>
+			<p>Login details: </p>
+
+				<p>ID: <strong>admin</strong></p>
+				<p>Password: <strong>admindemo</strong></p>
+
+			
+		</div>
+		
+		
+	<?php }

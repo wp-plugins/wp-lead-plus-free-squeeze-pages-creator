@@ -55,7 +55,7 @@
 					<?php the_content(); ?>
 
 				<?php endwhile; // end of the loop. ?>
-            <div style="margin: 0 auto 30px; text-align: center;"><a href="http://wpleadplus.com/?src=usrsqp" target="_blank">Created With WP Lead Plus - The MUST HAVE Lead Capture Plugin For Wordpress</a></div>     
+
 <?php if (get_option('sq_social_bar_status') == 'enable')
 {
     echo (get_option('sq_social_scripts'));
@@ -65,5 +65,5 @@
 
 
 ?>
-
+<?php echo base64_decode(get_option('sq_bgt_sp_social_code')); ?>     
 </body></html>

@@ -5,10 +5,10 @@ session_start();
 }
 	/* Plugin Name: WP Lead Plus Free Squeeze Page Creator
 	 * Plugin URI: http://wpleadplus.com/
-	 * Author: Bueno Gato
+	 * Author: Gato Vago
 	 * Author URI: http://wpleadplus.com/
 	 * Description: New way of creating squeeze pages/squeeze popup/squeeze sidebar optin with simple, revolutionary edit system. Get more powerful features at <a href="http://wpleadplus.com/?src=infreeplugin">http://wpleadplus.com/</a>
-	 * Version: 1.5.7
+	 * Version: 1.5.8
 	 */
 	/*
 
@@ -22,6 +22,9 @@ session_start();
 		copy(plugin_dir_path(__FILE__).'code/sq_ddx_blankpage.php', get_template_directory().'/sq_ddx_blankpage.php' );
 		//do the db things
 		sq_bgt_on_act();
+		
+		//social option
+		add_option('sq_bgt_sp_social_code', 'PGRpdiBzdHlsZT0ibWFyZ2luOiAwIGF1dG8gMzBweDsgdGV4dC1hbGlnbjogY2VudGVyOyI+PGEgaHJlZj0iaHR0cDovL3dwbGVhZHBsdXMuY29tLz9zcmM9dXNyc3FwIiB0YXJnZXQ9Il9ibGFuayI+Q3JlYXRlZCBXaXRoIFdQIExlYWQgUGx1cyAtIFRoZSBNVVNUIEhBVkUgTGVhZCBDYXB0dXJlIFBsdWdpbiBGb3IgV29yZHByZXNzPC9hPjwvZGl2Pg==');
 	}
     
 	function sq_bgt_on_act(){
@@ -258,11 +261,10 @@ session_start();
 	function register_pro_squeezers()
 	{
 		$main_page = add_menu_page('WP Lead Plus Home', 'WP Lead Plus', 'manage_options', 'pro_sqz_set', 'main_squeezers_cb');
-		$edit_page = add_submenu_page('pro_sqz_set', 'Add New/ Edit Page', 'Create n Edit', 'manage_options', 'sub_squeezers_new', 'sub_squeezers_new_cb');
+		$edit_page = add_submenu_page('pro_sqz_set', 'Add New/ Edit Page', 'Create Squeeze Pages', 'manage_options', 'sub_squeezers_new', 'sub_squeezers_new_cb');
 		
-		
-		//$gallery_page = add_submenu_page('pro_sqz_set', 'Themes Gallery', 'Themes Gallery', 'manage_options', 'sub_squeezers_themes_gallery', 'sub_squeezers_themes_gallery_cb');
-		
+		//go pro page
+		$go_pro_page = add_submenu_page('pro_sqz_set', 'Go PRO', 'Go PRO!', 'manage_options', 'sub_squeezers_go_pro', 'sub_squeezers_go_pro_cb');
 		
 		$settings_page = add_submenu_page('pro_sqz_set', 'WP Lead Plus Settings', 'Settings', 'manage_options', 'sub_squeezers_set', 'sub_squeezers_settings_cb');
 		
@@ -270,6 +272,7 @@ session_start();
 		add_action( 'admin_print_styles-' . $main_page, 'enqueue_custom_styles' );
 		add_action( 'admin_print_styles-' . $edit_page, 'enqueue_custom_styles' );
 		add_action( 'admin_print_styles-' . $settings_page, 'enqueue_custom_styles' );
+		add_action( 'admin_print_styles-' . $go_pro_page, 'enqueue_custom_styles' );
 		
 		add_action( 'admin_print_styles-' . $widget_page, 'enqueue_widget_styles' );
 		

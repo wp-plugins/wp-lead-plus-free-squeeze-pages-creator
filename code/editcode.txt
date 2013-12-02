@@ -24,7 +24,7 @@
 <div id="code_panel">
 	<input type="button" value="Media" id="code_mediab" class="blueb" />
 	<input type="button" value="Email" id="code_emailb" class="redb" />
-	<input type="button" value="Facebook" id="code_faceb" class="greenb" />
+	<!--<input type="button" value="Facebook" id="code_faceb" class="greenb" />  -->
 	<input type="button" value="You code" id="code_customb" class="violetb" />
 	<input type="button" value="CSS code" id="code_custom_css" class="orangeb" />
 </div>

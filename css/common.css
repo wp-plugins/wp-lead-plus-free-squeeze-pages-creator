@@ -180,3 +180,38 @@
 #buttons_right input[type="button"] {
 	display: inline;
 }
+
+
+/* GO PRO PAGE */
+#go_pro_page {
+	
+	padding-bottom: 45px;
+}
+#go_pro_page h2 {
+	color: #004EF5;
+	font-size: 30px;
+}
+
+#go_pro_page li {
+	font-size: 1.4em;
+	background: url(img/tick.png) no-repeat;
+	padding-left: 30px;
+	line-height: 30px;
+	font-weight: bold;
+	color: #C618CC;
+}
+
+#go_pro_page p {
+	font-size: 1.2em;
+	padding-left: 40px;
+}
+
+#go_pro_page #in_get_pro {
+	font-size: 2em;
+	display: block;
+	text-align: center;
+	width: 500px;
+	margin: 30px auto;
+	
+	
+}

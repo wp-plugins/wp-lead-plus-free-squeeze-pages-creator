@@ -247,3 +247,13 @@
 	
 		die();
 		}
+	//function to display upgrade
+	function show_upgrade_text()
+	{
+		$link_text = array("Get PRO with a lot more templates, Conversion tracking and much more", "Get transparent templates, increase conversion rate now!", "Enable conversion tracking with WP Lead Plus now!", "Capture more leads with unblockable popups. Get it now!", "Get more cool templates with high conversion rate. Click here!");
+		$link_anchor = array("get_pro", "transparent", "conversion", "popup", "more_templates");
+		
+		//generate a random number
+		$x = rand(0, count($link_anchor) - 1);
+		return '<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/?src=inedit'.$link_anchor[$x].'" target="_blank">'.$link_text[$x].'</a></div>';
+	}
