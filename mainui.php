@@ -233,6 +233,7 @@
 		$theme_parent = plugins_url("themes/".$selected_theme[0]['type'], __FILE__);//get this to join to the css later
 		
 		//get the content from the index.html file of the theme, need to strip the head and the close body part
+		/*
 		if (function_exists("curl_init")) //if curl available, use it to avoid complication
 		{
 			$ch = curl_init();
@@ -248,9 +249,11 @@
 				$index_file = file_get_contents($theme_path.'/index.html');
 			}
 		} else
-		{
-			$index_file = file_get_contents($theme_path.'/index.html');
-		}
+		{ */
+			
+		$index_file = file_get_contents($theme_path.'/index.html');
+		
+		/* } */
 		//need to improve with regex, quite luxurious right now
 		$theme_body = explode("<body>", $index_file);
 		$theme_body = $theme_body[1];
