@@ -827,11 +827,11 @@
 			
 			<h2>Want to test the PRO version? Sure!</h2>
 			<p>You can test the PRO version following the URL below</p>
-			<p><a href="http://wpleadplus.com/demopro/wp-admin" target="_blank">http://wpleadplus.com/demopro/wp-admin</a></p>
+			<p><a href="http://wpleadplus.com/affdemo/wp-admin" target="_blank">http://wpleadplus.com/affdemo/wp-admin</a></p>
 			<p>Login details: </p>
 
-				<p>ID: <strong>admin</strong></p>
-				<p>Password: <strong>admindemo</strong></p>
+				<p>ID: <strong>tester</strong></p>
+				<p>Password: <strong>testerdemo</strong></p>
 
 			
 		</div>

@@ -8,7 +8,7 @@ session_start();
 	 * Author: Gato Vago
 	 * Author URI: http://wpleadplus.com/
 	 * Description: New way of creating squeeze pages/squeeze popup/squeeze sidebar optin with simple, revolutionary edit system. Get more powerful features at <a href="http://wpleadplus.com/?src=infreeplugin">http://wpleadplus.com/</a>
-	 * Version: 1.5.9
+	 * Version: 1.6.0
 	 */
 	/*
 
