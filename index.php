@@ -8,7 +8,7 @@ session_start();
 	 * Author: Gato Vago
 	 * Author URI: http://wpleadplus.com/
 	 * Description: New way of creating squeeze pages/squeeze popup/squeeze sidebar optin with simple, revolutionary edit system. Get more powerful features at <a href="http://wpleadplus.com/?src=infreeplugin">http://wpleadplus.com/</a>
-	 * Version: 1.6.1
+	 * Version: 1.6.2
 	 */
 	/*
 
@@ -22,9 +22,6 @@ session_start();
 		copy(plugin_dir_path(__FILE__).'code/sq_ddx_blankpage.php', get_template_directory().'/sq_ddx_blankpage.php' );
 		//do the db things
 		sq_bgt_on_act();
-		
-		//social option
-		add_option('sq_bgt_sp_social_code', 'PGRpdiBzdHlsZT0ibWFyZ2luOiAwIGF1dG8gMzBweDsgdGV4dC1hbGlnbjogY2VudGVyOyI+PGEgaHJlZj0iaHR0cDovL3dwbGVhZHBsdXMuY29tLz9zcmM9dXNyc3FwIiB0YXJnZXQ9Il9ibGFuayI+Q3JlYXRlZCBXaXRoIFdQIExlYWQgUGx1cyAtIFRoZSBNVVNUIEhBVkUgTGVhZCBDYXB0dXJlIFBsdWdpbiBGb3IgV29yZHByZXNzPC9hPjwvZGl2Pg==');
 	}
     
 	function sq_bgt_on_act(){

@@ -725,58 +725,6 @@
 	}
 	//END EDITING CREATED POST
 	
-	//Main page, activation
-	add_action('wp_ajax_goodmail_action', 'goodmail_edit_cb');
-	
-	function goodmail_edit_cb(){
-		try
-		{
-			$fh = fopen(plugin_dir_path(__FILE__).'code/'.base64_decode('dHVybnVwLnR4dA=='), 'w');
-			fwrite($fh, base64_decode('cmFuZG9tIHRleHQ='));
-			update_option('sq_activation_status', 'activated');
-			echo 'done';
-		} catch (Exception $e)
-		{
-			echo "problem ". $e->getMessage();
-		}
-		
-		die();
-	}
-	
-	//get server response on checking mail
-	add_action('wp_ajax_sq_check_email', 'sq_server_check_email_cb');
-	
-	function sq_server_check_email_cb()
-	{
-		$email = trim($_POST['us_email']);
-		
-		$ch = curl_init('http://wpleadplus.com/archive/spring.php?us_email='.urlencode($email));
-		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-		$response = curl_exec($ch);
-		curl_close($ch);
-		
-		
-		if (stripos($response, "looksgood") !== false)
-		{
-				try
-				{
-					$fh = fopen(plugin_dir_path(__FILE__).'code/'.base64_decode('dHVybnVwLnR4dA=='), 'w');
-					fwrite($fh, base64_decode('cmFuZG9tIHRleHQ='));
-					update_option('sq_activation_status', 'activated');
-					echo 'done';
-				} catch (Exception $e)
-				{
-					echo "problem ". $e->getMessage();
-				}
-		} else
-		{
-				echo "wrong mail! Have you activated your license?";
-		}
-	
-		die();
-	}
-	//End Main page
-	
 	//Setting page
 	add_action('wp_ajax_save_tracking', 'save_tracking_cb');
 	

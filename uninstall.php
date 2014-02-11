@@ -14,4 +14,3 @@
 	$wpdb->query("DROP TABLE IF EXISTS $buttons");
 	$wpdb->query("DROP TABLE IF EXISTS $background");
 	$wpdb->query("DROP TABLE IF EXISTS $themes");
-	delete_option( base64_decode('c3FfYWN0aXZhdGlvbl9zdGF0dXM=') );	

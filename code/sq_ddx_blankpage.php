@@ -56,14 +56,5 @@
 
 				<?php endwhile; // end of the loop. ?>
 
-<?php if (get_option('sq_social_bar_status') == 'enable')
-{
-    echo (get_option('sq_social_scripts'));
-    echo base64_decode(get_option('sq_social_code'));
-
-} 
-
-
 ?>
-<?php echo base64_decode(get_option('sq_bgt_sp_social_code')); ?>     
 </body></html>
