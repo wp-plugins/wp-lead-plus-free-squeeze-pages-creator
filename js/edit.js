@@ -467,9 +467,9 @@ jQuery(document).ready(function(){
 		} else if (jQuery.trim(jQuery(this).val()) =="")
 		{
 			
-		} else if (jQuery.trim((jQuery(this))).substring(0,3) =="http")  {//suppose the user enters a link, treat it like a video
+		} else if (jQuery.trim((jQuery(this).val())).indexOf("http") == 0 )   {//suppose the user enters a link, treat it like a video
 			var code = '';
-			code = '<iframe width="100%" height="100%" src="'+jQuery(this).val()+'?wmode=transparent" frameborder="0" allowfullscreen></iframe>';
+			code = '<iframe style="overflow: hidden;" width="100%" height="100%" src="'+jQuery(this).val()+'" scrolling="no" frameborder="0" allowfullscreen></iframe>';
 			jQuery('#sq_media').html(code);
 		}
 		
