@@ -301,7 +301,7 @@ jQuery(document).ready(function(){
 			{
 				buttons_gallery += "<div class='site_bg'><img src='"+ buttons[i] +"' /><br /><input name='site_bg' type='radio' id='cta_btn"+i+"'/></div>";
 			}
-			
+			buttons_gallery += '<div style="clear:both;"></div><div><a target="_blank" href="http://wpleadplus.com/?src=use_own_bg">Want to use your own background? Upgrade now!</a></div>';
 			jQuery("#bgs_panel").html(buttons_gallery);
 			jQuery("#bgs_panel").fadeToggle();
 
@@ -732,6 +732,7 @@ jQuery(document).ready(function(){
 //CUSTOM BACKGROUND UPLOADER AND THE BOX
 	
 	//update the background to the post
+	/*
 	jQuery("#site_info #custom_bg").live('blur', function(){
 		//check if the url pasted in is a actual image
 		if ((jQuery(this).val().substring(jQuery(this).val().length-3) == 'jpg') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'png')) 
@@ -739,7 +740,7 @@ jQuery(document).ready(function(){
 			jQuery("#sq_body_container").css("background", "url("+jQuery(this).val()+")");
 		}
 	});
-	
+	*/
 //CUSTOM BACKGROUND UPLOADER AND THE BOX
 	
 //CUSTOM CTA UPLOADER AND THE BOX

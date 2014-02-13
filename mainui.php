@@ -83,15 +83,15 @@
 				
 					<label for="page_title">Page Title <span style="font-size: 0.8em">*Required</span></label>
 					<input type="text" name="title" id="page_title" class="widefat" />
-					
+					<!-- 
 					<label for="page_url">Custom Background<span style="font-size: 0.8em"> .jpg/.png file</span></label>
-					<input type="text" name="custom_bg" id="custom_bg" class="widefat" />
+					<input type="text" name="custom_bg" value="available in PRO version only" id="custom_bg" disabled="disabled" class="widefat" />
 					<!-- 
 					<label for="page_url">Custom CTA<span style="font-size: 0.8em"> .jpg/.png file</span></label>
 					<input type="text" name="custom_cta" id="custom_cta" class="widefat" /> -->
-
-					<label for="sq_submit_url">Submit URL</label>
-					<input type="text" id="sq_submit_url" class="widefat" />  <input type="checkbox" id="sq_open_new_window" /> New window?
+						
+					<!--  <label for="sq_submit_url">Submit URL</label>
+					<input type="text" id="sq_submit_url" class="widefat" />  <input type="checkbox" id="sq_open_new_window" /> New window?   -->
 					<?php echo show_upgrade_text(); ?>
 					<div id="custom_code_position" style="display: none;">
 						<input type="radio" name="custom_code" value="below"  checked="checked" /> Below
