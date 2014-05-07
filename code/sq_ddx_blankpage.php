@@ -55,6 +55,5 @@
 					<?php the_content(); ?>
 
 				<?php endwhile; // end of the loop. ?>
-
-	<div style="text-align: center;">created by <span style="font-style: italic;">WP Lead Plus</span> - a <span style="color: red;">MUST HAVE</span> Lead Capture plugin</div>
-</body></html>
+</body>
+</html>
