@@ -3,7 +3,7 @@ Contributors: codingpuss
 Tags: squeeze page, landing page, squeeze page plugin, lead capture page, lead capturing page, WordPress squeeze page, best squeeze page, squeeze page for WordPress, sidebar, widget, newsletter
 Requires at least: 3
 Tested up to: 3.8.1
-Stable tag: 1.6.3
+Stable tag: 1.6.4
 
 Create stunning squeeze page/newsletter pages with ease. Simply point-click-edit and your squeeze page is ready in less than 3 minutes.
 
@@ -29,14 +29,13 @@ Have you ever wanted to create stunning squeeze pages just like othe pros do? Yo
 *	Popups now can have background images too. It's very easy now to create a splash page with WP Lead Plus.
 *	You can use the widgets at the bottom of the posts, on the side bar or begin at the post with Manage Widgets
 *	Multiple popups on a website. You can set a particular popup for the whole site or you can set different popups for different page/post 
-*	Integrate smoothly with Facebook and other social sites
 *	Insert your own code into the page
 *	Easy facebook comment box integration. You can place the facebook comment box easily on the squeeze page.
 *	Transparent squeeze pages templates
 *	Conversion tracking for squeeze pages, popups, widget. You will find which ones have the best conversion rate.
 *	No limit on using background. You can use your own background images
 *	Support WPMU
-
+*	NEW! You can use YouTube Videos as the backgrounds of your squeeze pages
 *   [Upgrade to the Pro Version Now!&raquo;](http://wpleadplus.com/?src=wp.org)
 
 == Installation ==
