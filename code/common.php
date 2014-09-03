@@ -1,113 +1,39 @@
 <?php
 //Common php functions for all the files
-
+	//echo getcwd();
     //function to init the edit box
-    function sq_common_editbox()
-    { ?>
-        <script>
-		jQuery(document).ready(function(){
-			//make the editbox resizable
-			/*jQuery('#editparent').resizable({
-				resize: function(){
-					jQuery('#editbox').css("width", jQuery(this).width());
-				}	
-			});			*/
-			tinymce.init({
-			menubar: false,
-			theme_advanced_resizing : true,
-			theme_advanced_resizing_use_cookie : true,
-			theme_advanced_font_sizes: "8px,9px,10px,11px,12px,13px,14px,15px,16px,17px,18px,19px,20px,21px,22px,23px,24px,25px,26px,27px,28px,29px,30px,31px,32px,33px,34px,35px,36px,37px,38px,39px,40px,41px,42px,43px,44px,45px,46px,47px,48px,49px,50px,51px,52px,53px,54px,55px,56px,57px,58px,59px,60px,61px,62px,63px,64px,65px,66px,67px,68px,69px,70px,71px,72px",
-			fontsize_formats: "8px 9px 10px 11px 12px 13px 14px 15px 16px 17px 18px 19px 20px 21px 22px 23px 24px 25px 26px 27px 28px 29px 30px 31px 32px 33px 34px 35px 36px 37px 38px 39px 40px 41px 42px 43px 44px 45px 46px 47px 48px 49px 50px 51px 52px 53px 54px 55px 56px 57px 58px 59px 60px 61px 62px 63px 64px 65px 66px 67px 68px 69px 70px 71px 72px",
-			plugins: 'textcolor link image code',
-			selector: "#editbox",
-			theme: 'modern',
-			inline: false,
-			toolbar1: 'code strikethrough forecolor backcolor removeformat',
-			toolbar2: 'bullist numlist link unlink image',
-			toolbar3: 'fontselect alignright alignleft',
-			toolbar4: 'fontsizeselect alignjustify aligncenter ',
-			resize: true,
-			statusbar: true,
-			browser_spellcheck : true,
-			setup: function(ed)
-			{
-				ed.on("keyup", function(ed){
-					//console.log(tinymce.get('editbox').getContent());
-				//get the current id if the currentid span
-				 var selected = jQuery("#"+jQuery("#current_id").text());
-		
-				  //get the current text in the edit box
-				  var editbox_text = tinyMCE.get("editbox").getContent({format: 'text'});
-				  editbox_text = editbox_text.replace(/<[^>]*>/g, "");
-				  //get the current html content of the edit box
-				  var editbox_html = tinyMCE.get("editbox").getContent();
-				  //need to replace automatically inserted <p> and </p> tags
-				  editbox_html = editbox_html.replace(/<p>/g, "");
-				  editbox_html = editbox_html.replace(/<\/p>/g, "<br />");
-				  if ((selected.is("span")) || (selected.is("li")))
-				  {
-					selected.html(editbox_html);			
-				  }	else if (selected.is("a"))
-				  {
-					selected.text(editbox_text);
-					jQuery("#sq_temp_edit_text").html(editbox_html);
-					selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
-					selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
-					selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
-					selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));	
-				  }	else if (selected.is("input") || selected.is("textarea"))
-				  {
-					if (selected.attr("placeholder") != undefined)
-					{
-						jQuery("#sq_temp_edit_text").html(editbox_html);
-						selected.attr("placeholder",jQuery.trim(editbox_text));		
-						selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
-						selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
-						selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
-						selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));
-						selected.css("font-family",jQuery("#sq_temp_edit_text span").css("font-family"));						
-					} else 
-					{
-						selected.attr("value",jQuery.trim(editbox_text));	
-						jQuery("#sq_temp_edit_text").html(editbox_html);
-						selected.css("font-size",jQuery("#sq_temp_edit_text span").css("font-size"));
-						selected.css("color",jQuery("#sq_temp_edit_text span").css("color"));
-						selected.css("font-style",jQuery("#sq_temp_edit_text span").css("font-style"));
-						selected.css("font-weight",jQuery("#sq_temp_edit_text span").css("font-weight"));	
-						selected.css("font-family",jQuery("#sq_temp_edit_text span").css("font-family"));			
-					}			
-										
-				  }	else if (selected.hasClass("editable"))
-				  {
-						selected.html(editbox_html);	
-				  } else if (selected.is("img")) //if selected is an image			
-					{
-						jQuery("#sq_temp_edit_text").html(editbox_html);
-						selected.attr("src", jQuery("#sq_temp_edit_text img").attr("src"));
-						selected.attr("width", jQuery("#sq_temp_edit_text img").attr("width"));
-						selected.attr("height", jQuery("#sq_temp_edit_text img").attr("height"));
-						selected.attr("alt", jQuery("#sq_temp_edit_text img").attr("alt"));
-		
-					}
-					
-				});
-			}
-			
-			});		
-			
-		});
-		
+    include_once 'const.php';
 
 
-		</script>
-		
-   <?php }
-    
+   //function to notify users to activate the plugin
+   function sq_bgt_activation_notice()
+   {
+   		if (get_option('sq_activation_status') != 'activated')
+   		{
+   			return '<div style="position: fixed; padding: 10px 20px; bottom: 60px; right: 20px; border-radius: 5px; background: #FFD7A8;">You haven\'t activated your license yet. Please <a href="?page=pro_sqz_set">click here</a> and do it now. </div>';
+   		}
+   		
+   		return false;
+   }
+   
+
+   /* PARSE THE EMAIL AND SEND BACK TO THE CLIENT */
+   add_action('wp_ajax_parse_autoresponder', 'parse_autoresponder_callback');
+      
     //function to parse the auto responder
     	function parse_autoresponder_callback()
 		{
 		//get the email code passed by the client
 		$mail_code = urldecode(base64_decode($_POST['ar_code']));
+		
+		//remove spam protection from mailchimp
+		if (stripos($mail_code, 'mailchimp') !== FALSE)
+		{
+			$pattern = '/<div style="position: absolute; left: -5000px;">.*.<\/div>/i';
+			$mail_code = preg_replace($pattern, '', $mail_code);
+		}
+		
+		
 		if (!function_exists("str_get_html"))
 		{
 			include_once 'html_dom.php';
@@ -140,8 +66,7 @@
 				{
 					
 					$input_array["value"][] = $input->name;//in case the value of the  element is not set, make one
-					
-					
+
 				} else
 				{
 					$input_array["value"][] = $input->value;
@@ -210,7 +135,15 @@
 				//discard the input with abs from wisyaja lol
 				if (stripos($input_array["name"][$i], "[abs]") === false)
 				{
-					$output['input'][] ='<input type="'.$input_array["type"][$i].'" name="'.$input_array["name"][$i].'" value="'.$input_array["value"][$i].'" id="'.$input_array["id"][$i].'" />';	
+					
+					if (($input_array["type"][$i] == 'checkbox') || ($input_array["type"][$i] == 'radio'))
+					{
+						$output['input'][] ='<input type="'.$input_array["type"][$i].'" name="'.$input_array["name"][$i].'" value="'.$input_array["value"][$i].'" id="'.$input_array["id"][$i].'" /> '.'<span class="editable" id="spanchra"'.rand(1,100000000).'>'.$input_array["value"][$i].'</span>';
+					} else 
+					{
+						$output['input'][] ='<input type="'.$input_array["type"][$i].'" name="'.$input_array["name"][$i].'" value="'.$input_array["value"][$i].'" id="'.$input_array["id"][$i].'" />';
+					}
+						
 				}
 				
 			}
@@ -247,13 +180,69 @@
 	
 		die();
 		}
-	//function to display upgrade
+	add_action('wp_ajax_sq_bgt_switch_color', 'sq_bgt_check_theme_switch_color_cb');
+	//function to switch the color
+	function sq_bgt_check_theme_switch_color_cb()
+	{
+		//get the type of theme (squeeze page, popup, widget)
+		$type = $_POST['theme_type'];
+		$theme_id = $_POST['theme_id'];
+		
+		//get wp lead plus location
+		$location = bgt_get_plugins_location() . '/wpleadplus/';
+		
+		$color = "hex";
+		$img_array = array();
+		if ($type == 'video')
+		{
+			if (is_dir($location . 'themes/video/' . $theme_id . '/colors'))
+			{
+				$color_choices = scandir($location . 'themes/video/' . $theme_id . '/colors');
+				
+				for ($i = 0; $i < count($color_choices); $i ++)
+				{
+					if (stripos($color_choices[$i], 'jpg') != false)
+					{
+						$img_array[] = $color_choices[$i];
+					}
+				}
+				$color = json_encode($img_array);
+			}	
+		} else if ($type == 'traditional')
+		{
+			if (is_dir($location . 'themes/traditional/' . $theme_id . '/colors'))
+			{
+				$color_choices = scandir($location . 'themes/traditional/' . $theme_id . '/colors');
+				
+				for ($i = 0; $i < count($color_choices); $i ++)
+				{
+					if (stripos($color_choices[$i], 'jpg') != false)
+					{
+						$img_array[] = $color_choices[$i];
+					}
+				}
+				$color = json_encode($img_array);
+			}
+		} else if ($type == 'popup')
+		{
+			if (is_dir($location . 'themes/popups/themes/' . $theme_id . '/2'))
+			{
+				$color = "image";
+			}
+		} else if ($type == 'widget')
+		{
+			$color = "hex";
+		}
+		var_dump($type);
+		echo '123dddsacxz'.$color.'123dddsacxz';
+		die();
+
+		//check the theme folder, find if there is more than one child folder
+		
+	}
+	
 	function show_upgrade_text()
 	{
-		$link_text = array("Get PRO with a lot more templates, Conversion tracking and much more", "Get transparent templates, increase conversion rate now!", "Enable conversion tracking with WP Lead Plus now!", "Capture more leads with unblockable popups. Get it now!", "Get more cool templates with high conversion rate. Click here!");
-		$link_anchor = array("get_pro", "transparent", "conversion", "popup", "more_templates");
-		
-		//generate a random number
-		$x = rand(0, count($link_anchor) - 1);
-		return '<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/?src=inedit'.$link_anchor[$x].'" target="_blank">'.$link_text[$x].'</a></div>';
-	}
+
+		return '<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/contact" target="_blank">Need help? Send me a message</a></div>';
+	}	

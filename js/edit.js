@@ -7,7 +7,6 @@ jQuery(document).ready(function(){
 	 * show in the right area.
 	 */
 
-
 	jQuery("#hideb").click(function(){
 		jQuery("#foot_panel, #buttons_panel, #bgs_panel, #posts_panel, #gallery, #editthispageb, #editthisb, #choosethisbgb, #choosethisbtnb").fadeOut();
 		jQuery("#showb").fadeIn();
@@ -46,6 +45,10 @@ jQuery(document).ready(function(){
 		//get the selected theme
 		var selected_theme = jQuery('#gallery input[type="radio"]:checked').attr("theme_id");
 		var theme_type = jQuery('#gallery input[type="radio"]:checked').attr("theme_type");
+		
+		//record the type of template, will be used to switch color
+		jQuery('#current_theme_type').text(theme_type);
+		jQuery('#current_theme_id').text(parseInt(selected_theme));
 		//prepare the needed data
 		data = {
 			action: 'theme_loader',
@@ -86,16 +89,8 @@ jQuery(document).ready(function(){
 			jQuery("#facebook_mail_code").text("");
 			//build the theme rotator
 			
-			//record the changable bg status of the theme, yes or no
-			if (has_bg == 'no')
-			{
-				jQuery("#edit_changebgb").hide();
-			} else 
-			{
-				jQuery("#edit_changebgb").show();
-			}
 			
-			jQuery("#changeable_bg").text(has_bg);
+			jQuery("#changeable_bg").text("yes");
 			
 			//remove the current stylesheet of the theme (if any)
 			jQuery("head").children(".theme_css").remove();
@@ -105,100 +100,36 @@ jQuery(document).ready(function(){
 				
 			jQuery("#site_area").html(theme_content);
 			jQuery("#site_area *").not("a,li,h1,h2,h3,h4,h5,h6,p").contents().filter(function(){	return (this.nodeType == 3); }).wrap("<span class='editable'></span>");
-            
+			//jQuery("#site_area *").contents().filter(function(){	return (this.nodeType == 3); }).parent().addClass("editable");
+			
 			//add editable class to elements
-			jQuery("#site_area li, #site_area h1, #site_area h2, #site_area h3, #site_area h4, #site_area h5, #site_area h6, #site_area p").addClass("editable");
+			jQuery("#site_area h1, #site_area h2, #site_area h3, #site_area h4, #site_area h5, #site_area h6, #site_area p, #site_area ul").addClass("editable");
 						
 			//remove blanks spans
 			jQuery(".editable").filter(function(){return ((jQuery.trim(jQuery(this).text())).length == false);}).remove();
 
-			//add ID to the span
-			jQuery('.editable').each(function(){
-				var spid = 'spanid' + Math.floor((Math.random()*100)+1) + Math.floor((Math.random()*100)+1) + Math.floor((Math.random()*100)+1);
-				jQuery(this).attr('id', spid);
-			}); 
-			
-			//add ID to list
-			jQuery("#site_area li").each(function(){
-				var lid = 'lid' + Math.floor((Math.random()*100)+1) + Math.floor((Math.random()*100)+1) + Math.floor((Math.random()*100)+1);
-				jQuery(this).attr('id', lid);
-			});
-			
-			//add ID to iamge
-			jQuery("#site_area img").each(function(){
-				var imgid = 'imgid' + Math.floor((Math.random()*100)+1) + Math.floor((Math.random()*100)+1) + Math.floor((Math.random()*100)+1);
-				jQuery(this).attr('id', imgid);
-			});
-			
-			
-			//add ID to link
-			jQuery("#site_area a").each(function(){
-				var aid = 'aid' + Math.floor((Math.random()*100)+1) + Math.floor((Math.random()*100)+1) + Math.floor((Math.random()*100)+1);
-				jQuery(this).attr('id', aid);
-			});
-			
-			//add ID to input
-			jQuery("#site_area input").each(function(){
-				var inpid = 'inpid' + Math.floor((Math.random()*100)+1) + Math.floor((Math.random()*100)+1) + Math.floor((Math.random()*100)+1);
-				if (jQuery(this).attr("id") == undefined)
-				{
-					jQuery(this).attr('id', inpid);
-				}
-				
-			});
-                        //add the transparent wmode to the video
-                        jQuery("#site_area iframe").attr("src", jQuery("#site_area iframe").attr("src")+"?wmode=transparent");
 			//show the publish button
 			jQuery("#publishb").fadeIn();
 			//make the big box draggable, in themes which have image bg
                         //jQuery("#sq_box_container").draggable();
-			
+			//jQuery('#sq_box_container').draggable();
+			vgt_wpl_enable_tinymce();
 		}		
 		);
 		
 		jQuery("#gallery").fadeOut();
 		jQuery(this).fadeOut();
-                
 		
+                
+
 		//make the text of the page editable
 		//jQuery("#site_area").children().contents().filter(function(){	return (this.nodeType == 3); }).wrap("<span class='editable'></span>");
 	});
 
 
 	//SWITCH COLOR OF THE THEME
-	
-	//show the color options
-	jQuery('#edit_switch_colorb').click(function(){
-		
-		var data = {
-				action: 'edit_switch_color',
-				theme: jQuery('#current_theme_name').text(),
-				type: jQuery('#current_theme_type').text()
-		};
-		
-		if (jQuery('#current_theme_name').text() != "")
-		{
-			jQuery.post(ajaxurl, data, function(response){
-				var response_array = response.split("123dddsacxz");
-				response = response_array[1];
-				
-				var colors = jQuery.parseJSON(response);
-				var colors_string = "";
-				for (var i=0; i<colors.length; i++)
-				{
-					colors_string += '<div class="theme_color_switch" style="float: left; text-align: center;"><img style="display: block;" src="'+jQuery('#current_theme_url').text()+'/colors/'+colors[i]+'.jpg" /><input type="radio" name="widget_color" id="widget_colors'+colors[i]+'" theme="'+colors[i]+'" /></div>';
-				}
-				
-				jQuery('#colors_gallery').html(colors_string);
-				
-				jQuery('#switch_color').fadeToggle();
-				
-			});
-		}
-	});
-	
 	//change the color
-	jQuery('.theme_color_switch input[type="radio"]').live('click',function(){
+	jQuery(document).on('click','.color_switch_img input[type="radio"]',function(){
 		//load the css style
 			//remove the current stylesheet of the theme (if any)
 			jQuery("head").children(".theme_css").remove();
@@ -267,12 +198,12 @@ jQuery(document).ready(function(){
 		
 	});
 	
-	jQuery("#buttons_panel input[type='radio']").live("click",function(){
+	jQuery(document).on("click", "#buttons_panel input[type='radio']", function(){
 		jQuery("#choosethisbtnb").fadeIn();
 		jQuery("#selected_button").text(jQuery(this).prev().attr("src"));;
 	});
 	
-	jQuery("#choosethisbtnb").live("click", function(){
+	jQuery(document).on("click", "#choosethisbtnb", function(){
 		jQuery(this).fadeOut();
 		jQuery("#buttons_panel").fadeOut();
 		jQuery("#site_area input[type='submit']").css("background", "url("+jQuery("#selected_button").text()+")");
@@ -301,7 +232,7 @@ jQuery(document).ready(function(){
 			{
 				buttons_gallery += "<div class='site_bg'><img src='"+ buttons[i] +"' /><br /><input name='site_bg' type='radio' id='cta_btn"+i+"'/></div>";
 			}
-			buttons_gallery += '<div style="clear:both;"></div><div><a target="_blank" href="http://wpleadplus.com/?src=use_own_bg">Want to use your own background? Upgrade now!</a></div>';
+			
 			jQuery("#bgs_panel").html(buttons_gallery);
 			jQuery("#bgs_panel").fadeToggle();
 
@@ -309,12 +240,12 @@ jQuery(document).ready(function(){
 	
 	});
 	
-	jQuery("#bgs_panel input[type='radio']").live("click",function(){
+	jQuery(document).on("click", "#bgs_panel input[type='radio']", function(){
 		jQuery("#choosethisbgb").fadeIn();
 		jQuery("#selected_bg").text(jQuery(this).siblings("img").attr("src").replace("small/", ""));
 	});
 	
-	jQuery("#choosethisbgb").live("click", function(){
+	jQuery(document).on("click", "#choosethisbgb", function(){
 		jQuery(this).fadeOut();
 		jQuery("#bgs_panel").fadeOut();
 		jQuery("#sq_body_container").css("background", "url("+jQuery("#selected_bg").text()+") center center");
@@ -333,8 +264,7 @@ jQuery(document).ready(function(){
 	jQuery("#code_mediab").click(function(){
 		jQuery("#code_boxes textarea").not("#media_code").fadeOut();
 		jQuery('#face_panel').fadeOut();
-		jQuery("#media_code").fadeToggle();
-		
+		jQuery("#media_code").fadeToggle();		
 	});
 
 	//show and hide the email box	
@@ -363,13 +293,7 @@ jQuery(document).ready(function(){
 		
 	});	
 	
-	//show and hide the custom css code //
-	jQuery("#code_custom_css").click(function(){
-		jQuery("#code_boxes textarea").not("#custom_css").fadeOut();
-		jQuery('#face_panel').fadeOut();
-		jQuery("#custom_css").fadeToggle();
-		
-	});	
+	
 	//show facebook connect button
 	jQuery('#code_face_conn').click(function(){
 		jQuery('.sq_facebook_div').fadeToggle();
@@ -378,103 +302,7 @@ jQuery(document).ready(function(){
 	//THE CODING BOXES AND THEIR ON BLUR BEHAVIOR
 	
 	//insert the video to the page
-	jQuery("#media_code").blur(function(){
-		if(((jQuery(this).val().indexOf(".jpg") != -1) || (jQuery(this).val().indexOf(".png") != -1) || (jQuery(this).val().indexOf(".gif") != -1)) && (jQuery(this).val().indexOf("*") == -1))//in case the user has pased the image code in
-		{
-			jQuery('#sq_media').html('<img width="95%" height="95%" src="'+jQuery(this).val()+'" />');
-		} else if((jQuery(this).val().indexOf("youtube.com") != -1) || (jQuery(this).val().indexOf("vimeo.com") != -1) || (jQuery(this).val().indexOf("blip.tv") != -1) || (jQuery(this).val().indexOf("dailymotion.com") != -1) || (jQuery(this).val().indexOf("metacafe.com") != -1) || (jQuery(this).val().indexOf("wistia.com") != -1) || (jQuery(this).val().indexOf("screencast.com") != -1))//in case the user has pased the video url in
-		{
-			/* get the video embed code from user, if it's a full code, parse and get the URL, if it's the url embed,
-			 * use that url				
-			*/
-			
-			var user_code = jQuery.trim(jQuery(this).val());
-			
-			if (user_code.indexOf("http") == 0 || user_code.indexOf("//www") == 0 ) { //the second condition to match the new youtube embed code, without the http:
-				var pure_url = user_code;
-			} else
-			{
-				var pattern = /src=".*?[" ]/i;
-			    var x = user_code.match(pattern);
-				
-				var pure_url = jQuery.trim(x[0].replace(/"/g, ''));
-				console.log(pure_url);
-				var pure_url = jQuery.trim(pure_url.replace('src=', ''));
-				
-		     }
-			//insert http: before the pure url if it doesn't have http
-			if (pure_url.indexOf("http:") != 0) {
-				pure_url = "http:" + pure_url;
-			}
-			
-			console.log(pure_url);
-			 
-			var code = '';
-			//check if the user has passed an additional query after the embed url
-			if (jQuery(this).val().indexOf("?") != -1)
-			{
-				code = '<iframe width="95%" height="95%" src="'+pure_url+'&wmode=transparent" frameborder="0" allowfullscreen></iframe>';
-			} else
-			{
-				code = '<iframe width="95%" height="95%" src="'+pure_url+'?wmode=transparent" frameborder="0" allowfullscreen></iframe>';	
-			}
-			
-			
-			jQuery('#sq_media').html(code);
-		} else if ((jQuery(this).val().indexOf(".mp4") != -1) || (jQuery(this).val().indexOf(".webm") != -1) || (jQuery(this).val().indexOf(".ogv") != -1) || (jQuery(this).val().indexOf(".3gp") != -1))
-		{
-			function get_vid_type(url_string)
-			{
-				var type = '';
-			
-				if (url_string.indexOf(".mp4") != -1)
-				{
-					type = 'mp4';
-				} else if (url_string.indexOf(".webm") != -1)
-				{
-					type = 'webm';
-				} else if (url_string.indexOf(".ogv") != -1)
-				{
-					type = 'ogg';
-				}
-				
-				return type;
-			}
-			
-			//get the video link and type
-			var video_array = jQuery(this).val().split("*");
-
-			var code = '';
-
-			var vide_encode = encodeURIComponent(jQuery(this).val());
-			code = '<video controls="controls" width="100%" height="100%">';
-			
-			for (var i = 0; i < video_array.length; i++)
-			{
-				code += '<source src="'+video_array[i]+'" type="video/'+get_vid_type(video_array[i])+'" />';	
-			}
-			
-			code += '<object type="application/x-shockwave-flash" data="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" width="95%" height="95%">';
-			code += '<param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />';
-			code += '<param name="allowFullScreen" value="true" />';
-			code += '<param name="wmode" value="transparent" />';
-			code += '<param name="flashVars" value="controlbar=over&amp;file='+vide_encode+'" />';
-			code += '<span title="No video playback capabilities, please download the video below"></span>';
-			code += '</object></video>';	
-
-			
-			jQuery('#sq_media').html(code);
-		} else if (jQuery.trim(jQuery(this).val()) =="")
-		{
-			
-		} else if (jQuery.trim((jQuery(this).val())).indexOf("http") == 0 )   {//suppose the user enters a link, treat it like a video
-			var code = '';
-			code = '<iframe style="overflow: hidden;" width="100%" height="100%" src="'+jQuery(this).val()+'" scrolling="no" frameborder="0" allowfullscreen></iframe>';
-			jQuery('#sq_media').html(code);
-		}
-		
-		jQuery(this).fadeOut();	
-	});
+	sq_bgt_media_parser("media_code", "sq_media");
 	
 
 
@@ -490,44 +318,6 @@ jQuery(document).ready(function(){
 		}
 	});
 	
-	
-	//insert custom css to the header of the page
-	jQuery('#custom_css').blur(function(){
-		jQuery(this).fadeOut();
-		
-		//return false if the user enters nothing
-		if ((jQuery(this).val() == "Enter your custom css here") || (jQuery.trim(jQuery(this).val()) == "")) {
-			return false;
-		}
-		
-		//clear the style if the user enters clear
-		if (jQuery.trim(jQuery(this).val()) == "clear code")
-		{
-			if (jQuery("head style.custom_css_style") == undefined) {
-				
-			} else
-			{
-				//clear the stye
-				jQuery("head style.custom_css_style").html("");
-
-			}
-			return false;
-		}
-		
-		
-		if (jQuery("head style.custom_css_style").length == 0)
-		{
-			jQuery("<style class='custom_css_style'>"+jQuery(this).val()+"</style>").appendTo("head");
-		} else
-		{
-			jQuery('head style.custom_css_style').html(jQuery('head style.custom_css_style').html() + jQuery(this).val());
-			//jQuery(jQuery(this).val()).appendTo("head style.custom_css_style");
-		}
-	});
-	
-	
-
-	
 	//END THE CODING BOXES AND THEIR ON BLUR BEHAVIOR	
 	
 //END CODING PANEL AND ITS BUTTONS BEHAVIOR************************************************		
@@ -538,87 +328,124 @@ jQuery(document).ready(function(){
 		//check if the title was set 
 		if (jQuery("#page_title").val() == "")
 		{
-			alert("please set a title");
+			//require a title before continuing
+			blink_general_notification('sq_bgt_general_notification', '#972121', '#fff', 'Please set a title!', 4)
 			jQuery("#page_title").css("border", "1px solid red");
 			return false;
 		}
 		
-		//check if the user has set any special setting to the submit button
-			if (jQuery('#sq_custom_javascript li').length == 0)
-			{
-				
-			} else
-			{
-
-				jQuery('#sq_custom_javascript li').each(function(){
-					var this_id = jQuery(this).attr("class");
-					var settings = jQuery(this).text().split(",");
-					var this_url = settings[0];
-					var self = jQuery.trim(settings[1]);
-					
-					//add the attribute to the matched id
-					jQuery('#'+this_id).attr("onclick", "sq_bgt_open_me('"+this_url+"', '"+self+"', false, event)");
-				});
-			}
+		//remove the red border of the title box
+		jQuery("#page_title").css("border", "none");
+		
+		var custom_js_code_button = get_custom_js_code_button();
+		
+		//BACKGROUND FUNCTIONS
+			/* 1. Get the background (image's URL/YouTube video) if any
+			 * 2. If there is no video sent, send none
+			 * 3. If the background is set, get the type and also the URL
+			 * */
 			
 		//check if the user has change the background yet, if yes, get the image, if not, get the origial image
-		var bg_url = 'none';
-		if(jQuery("#changeable_bg").text() == 'yes')//if the theme has image img
+		
+		//get the current background, if the user has changed it, then in will be in sq_body_container style tag
+		
+		var bg_url = "none";
+		var bg_type = "none";
+		
+		//prepare the content, need to remove the background image and video before sending to the server
+		var content = jQuery('#site_area').clone();
+		
+		if ((jQuery('#custom_bg_youtube').is(":checked")) && (jQuery("#custom_bg").val().indexOf("youtube") !== -1) && (jQuery("#custom_bg").val().indexOf("embed") !== -1)) // in case the background 
 		{
-			//get the current background, if the user has changed it, then in will be in sq_body_container style tag
-			if (jQuery("#sq_body_container").attr("style") !== undefined)
-			{
-				var raw_url = jQuery("#sq_body_container").attr("style");
-				//get the url
-				bg_url = "http"+ raw_url.match(/http(.*?(.jpg|.png))/i)[1];
-				 
-			} else
-			{
-				bg_url = 'default'; 
-			}
+			bg_url = jQuery('#custom_bg').val();
+			bg_type = "video";
+			content.children("#sq_body_container").css("background", "");
+			content.children("#sq_body_container").removeAttr("style");
+
+			
+
+		} else if (jQuery("#sq_body_container").attr("style") !== undefined) // in case the use set the background image, 
+		//it will be added to the stle
+		//tag of the sq_body_container
+		{
+			console.log("nice");
+			var raw_url = jQuery("#sq_body_container").attr("style");
+			//get the url
+			bg_url = "http"+ raw_url.match(/http(.*?(.jpg|.png))/i)[1];
+			bg_type = "image";
+
+			//remove the background of the clone of the whole content (before sending to the server)
+			content.children("#sq_body_container").removeAttr("style");
+
 		}
 		
 		//get the text from input boxes
 		var input_array = new Array(); //this will store the id and the value of the input fields
 		var i=0;
 		jQuery("#site_area input[type='text'], #site_area input[type='email'], #site_area textarea").each(function(){
-			input_array[i] = jQuery(this).attr("id")+":"+jQuery(this).val();
+			input_array[i] = jQuery(this).attr("id")+"***"+jQuery(this).val();
 			i++;
 		});
-		var input_string = input_array.join("*");
+		var input_string = input_array.join("&&&");
 		
-		//check if the user used custom styles or not
+
 		
-		if (jQuery("head style.custom_css_style").length > 0) {
-			var custom_css_style = BASE64.encode(jQuery("head style.custom_css_style").html());
-		} else
-		{
-			var custom_css_style = 'none';
-		}
+		 
 		//prepare the needed data
-		data = {
+		var data = {
 			action: 'publish_post',
 			title: BASE64.encode(jQuery("#page_title").val()),
-			content: BASE64.encode(jQuery("#site_area").html()),
+			content: BASE64.encode(jQuery.trim(content.html())),
 			cssfile: BASE64.encode(jQuery("head").children(".theme_css").attr("href")),
 			bg_url: BASE64.encode(bg_url),
+			bg_type: BASE64.encode(bg_type),
 			input_string: BASE64.encode(input_string),
-			face_mail: (jQuery("#facebook_mail_code").html()),
 			current_theme_url: jQuery('#current_theme_url').text(),
 			current_sub_theme: jQuery('#current_sub_theme').text(),
 			current_theme_name: jQuery('#current_theme_name').text(),
 			current_theme_type: jQuery('#current_theme_type').text(),
 			current_post_id: jQuery.trim(jQuery('#sq_current_post_id').text()),
-			custom_css_style: custom_css_style
-			
+			custom_js_code_button : BASE64.encode(custom_js_code_button)
 		};
+		
+		//add optional variables to the data array
+		
+		//if custom css available, add it
+		if (jQuery("head style.custom_css_style").length > 0) {
+			data.custom_css_style = BASE64.encode(jQuery("head style.custom_css_style").html());
+		} else {
+			data.custom_css_style = "";
+		}
+		
+		//add custom javascript code if available
+		if (jQuery.trim(jQuery('#sq_user_js_code').text()) != "")
+		{
+			//add the code, don't pass base64 here because it was base64 encoded in common.js (when blurring)
+			data.custom_js_code = (jQuery.trim(jQuery('#sq_user_js_code').text()));
+			//add the position
+			data.custom_js_code_position = jQuery("#custom_code_js_option").val();
+		} else
+		{
+			data.custom_js_code = "";
+			data.custom_js_code_position = "";
+		}
+		
+		//add facebook subscription if available
+		if (jQuery.trim(jQuery("#facebook_mail_code").text()) != "")
+		{
+			data.face_mail = BASE64.encode(jQuery("#facebook_mail_code").text());
+		}
+		
 		
 		jQuery.post(ajaxurl, data, function(response){
 			var response_array = response.split("123dddsacxz");
 			response = response_array[1];
 			
 			var server_response = jQuery.parseJSON(response);
-			alert(server_response['message']);
+
+			//send the message from server
+			blink_general_notification('sq_bgt_general_notification', '#3b5998', '#fff', server_response['message'], 4);
+			
 			jQuery('#sq_current_post_id').text(jQuery.trim(server_response['current_post_id']));
 		});
 
@@ -654,7 +481,7 @@ jQuery(document).ready(function(){
 	});
 	
 	//show the edit this button when the radio button is clicked
-	jQuery("#posts_panel input[type='radio']").live("click",function(){
+	jQuery(document).on("click", "#posts_panel input[type='radio']", function(){
 		//set an attribute for the button
 		jQuery("#editthispageb").attr("selected_post", jQuery(this).attr("id"));
 		jQuery("#editthispageb").fadeIn();
@@ -678,19 +505,24 @@ jQuery(document).ready(function(){
 			response = response_array[1];
 			var return_data = jQuery.parseJSON(response);
 			//record the changeable bg value
-			jQuery("#changeable_bg").text(return_data['page_has_bg']);
-			jQuery("#facebook_mail_code").text(return_data['face_mail']);
+			jQuery("#changeable_bg").text("yes");
 			
+			if (return_data['custom_js_code'] != false && return_data['custom_js_code'] != null)
+			{
+				jQuery("#sq_user_js_code").text(return_data['custom_js_code']);
+				jQuery("#custom_javascript_code").text(BASE64.decode(return_data['custom_js_code']));
+			}
+			
+			//clear current rules
+			jQuery("#custom_button_js_code").text("");
+			//custom javascript button
+			if (return_data['custom_button_js_code'] != "")
+			{
+				return_button_js_code_when_loading_for_edit(return_data['custom_button_js_code']);				
+			}
+				
 			var parent_folder = return_data[5];
 			
-			//hide the change bg if the page doesn't use a theme with image bg
-			if (return_data['page_has_bg'] == 'no')
-			{
-				jQuery("#edit_changebgb").hide();
-			} else 
-			{
-				jQuery("#edit_changebgb").show();
-			}
 			//remove the current stylesheet of the theme (if any)
 			jQuery("head").children(".theme_css").remove();
 			
@@ -698,9 +530,20 @@ jQuery(document).ready(function(){
 			jQuery("<link class='theme_css' rel='stylesheet' href='"+return_data['page_css']+"' />").insertBefore(jQuery("head").children("link[href*='style.css']"));
 			
 			//decode the body content and insert into site_area
-			jQuery("#site_area").html(BASE64.decode(return_data['body_content']));
+			try 
+			{
+				jQuery("#site_area").html(BASE64.decode(return_data['body_content']));
+				
+				
+			} catch (err)
+			{
+				console.log(err);
+			}
+			
 			jQuery("#page_title").val(return_data['title']);
-			jQuery("#publishb").fadeIn();			
+			jQuery("#publishb").fadeIn();		
+			
+			vgt_wpl_enable_tinymce();
 			//make the big box draggable, in themes which have image bg
 			//jQuery(".sq_movable").draggable();
 			
@@ -710,18 +553,45 @@ jQuery(document).ready(function(){
 			jQuery('#current_sub_theme').text(return_data['current_sub_theme']);
 			jQuery('#current_theme_name').text(return_data['current_theme_name']);
 			jQuery('#current_theme_type').text(return_data['current_theme_type']);
+			jQuery('#current_theme_id').text(return_data['theme_id']);
 			
-			//update the custom css code
-			if (jQuery("head style.custom_css_style").length == 0)
+			//custom background
+			if (return_data['bg_type'] == 'video')
 			{
-				jQuery("<style class='custom_css_style'>"+BASE64.decode(return_data['custom_css_style'])+"</style>").appendTo("head");
-			} else
+				jQuery('#custom_bg').val(return_data['bg_url']);
+				jQuery('#custom_bg_youtube').attr('checked', 'checked');
+			} else if (return_data['bg_type'] == 'image') 
 			{
-				jQuery('head style.custom_css_style').html(BASE64.decode(return_data['custom_css_style']));
-				//jQuery(jQuery(this).val()).appendTo("head style.custom_css_style");
-			}	
+				jQuery('#custom_bg').val(return_data['bg_url']);
+				jQuery('#custom_bg_image').attr('checked', 'checked');
+				
+				//apply the background to the body
+				console.log(return_data['bg_url']);
+				jQuery(document).ready(function(){
+					jQuery('#sq_body_container').css("background", 'url('+return_data['bg_url']+')');
+				});;
+				
+			}
+			
+			//record the theme type, will be used to switch color
+			//check if custom css code is blank or not
+			if (return_data['custom_css_style']  != null && return_data['custom_css_style']  != false)
+			{
+				//update the custom css code
+				if (jQuery("head style.custom_css_style").length == 0)
+				{
+					jQuery("<style class='custom_css_style'>"+BASE64.decode(return_data['custom_css_style'])+"</style>").appendTo("head");
+				} else
+				{
+					jQuery('head style.custom_css_style').html(BASE64.decode(return_data['custom_css_style']));
+					//jQuery(jQuery(this).val()).appendTo("head style.custom_css_style");
+				}
+				
+				//insert the code to the css code box
+				jQuery("#custom_css").val(BASE64.decode(return_data['custom_css_style']));
+			}
 			//make the box draggable
-			//jQuery("#sq_box_container").draggable();
+			//jQuery('#sq_box_container').draggable();
 			
 		});
 	});
@@ -732,20 +602,50 @@ jQuery(document).ready(function(){
 //CUSTOM BACKGROUND UPLOADER AND THE BOX
 	
 	//update the background to the post
-	/*
-	jQuery("#site_info #custom_bg").live('blur', function(){
-		//check if the url pasted in is a actual image
-		if ((jQuery(this).val().substring(jQuery(this).val().length-3) == 'jpg') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'png')) 
+	jQuery(document).on('blur', "#site_info #custom_bg", function(){
+		
+		//check which type of background is inserted
+		if (jQuery('#custom_bg_image').is(":checked"))
 		{
-			jQuery("#sq_body_container").css("background", "url("+jQuery(this).val()+")");
+			//check if the url pasted in is a actual image
+			if ((jQuery(this).val().substring(jQuery(this).val().length-3) == 'jpg') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'png')) 
+			{
+				jQuery("#sq_body_container").css("background", "url("+jQuery(this).val()+")");
+			} //do nothing if it's not an image of remove the style attribute of the input text is "clear"
+			else if (jQuery.trim(jQuery(this).val()) == "clear")
+			{
+				jQuery("#sq_body_container").css("background", "");
+			}
+		} else if (jQuery('#custom_bg_youtube').is(":checked"))
+		{
+			console.log(jQuery(this).val());
+			//check if it's a video from YouTube with embed text
+			if ( (jQuery(this).val().indexOf("youtube") == -1) && (jQuery(this).val().indexOf("embed") == -1) )
+			{
+				//show alert
+				blink_general_notification('sq_bgt_general_notification', '#b83030', '#fff', "Warning! Please make sure you get the URL inside the embed code of YouTube", 4);
+				
+			} else
+			{
+
+				jQuery("#sq_body_container").css("background", "");
+				/*
+				jQuery("#sq_body_container").css("background", "");  //remove background image, if any
+				//prepare the code
+				var url = jQuery(this).val() + "?autoplay=1&controls=0&showinfo=0&autohide=1";
+				var code = '<div id="sq_bgt_video_background" style="position: fixed; z-index: -99; width: 100%; height: 100%"> <iframe width="100%" height="100%" src="'+url+'" frameborder="0" allowfullscreen></iframe>'
+				jQuery("#site_area").append(code);
+				*/
+			}
 		}
+		
 	});
-	*/
+	
 //CUSTOM BACKGROUND UPLOADER AND THE BOX
 	
 //CUSTOM CTA UPLOADER AND THE BOX
 	//update the background to the post
-	jQuery("#site_info #custom_cta").live('blur', function(){
+	jQuery(document).on('blur', "#site_info #custom_cta", function(){
 		//check if the url pasted in is a actual image
 		if ((jQuery(this).val().substring(jQuery(this).val().length-3) == 'jpg') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'png')) 
 		{
@@ -757,13 +657,13 @@ jQuery(document).ready(function(){
 	
 
 //INSERTING THE CUSTOM IMAGES TO THE TEMPLATES*****************************************
-	jQuery("#edit_insert_img").live('click', function(){
+	jQuery(document).on('click', "#edit_insert_img", function(){
 		jQuery("#frontier_images").fadeToggle();
 	});
 	
 	//insert the images into the theme
 	//left image
-	jQuery("#site_info #custom_img_left").live('blur', function(){
+	jQuery(document).on('blur', "#site_info #custom_img_left", function(){
 		//check if the url pasted in is a actual image
 		if ((jQuery(this).val().substring(jQuery(this).val().length-3) == 'jpg') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'png') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'gif') ) 
 		{
@@ -775,7 +675,7 @@ jQuery(document).ready(function(){
 	});
 	
 	//bottom image
-	jQuery("#site_info #custom_img_bottom").live('blur', function(){
+	jQuery(document).on('blur', "#site_info #custom_img_bottom", function(){
 		//check if the url pasted in is a actual image
 		if ((jQuery(this).val().substring(jQuery(this).val().length-3) == 'jpg') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'png') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'gif') ) 
 		{
@@ -787,7 +687,7 @@ jQuery(document).ready(function(){
 	});
 	
 	//right image
-	jQuery("#site_info #custom_img_right").live('blur', function(){
+	jQuery(document).on('blur', "#site_info #custom_img_right", function(){
 		//check if the url pasted in is a actual image
 		if ((jQuery(this).val().substring(jQuery(this).val().length-3) == 'jpg') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'png') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'gif') ) 
 		{
@@ -799,7 +699,7 @@ jQuery(document).ready(function(){
 	});
 	
 	//top image
-	jQuery("#site_info #custom_img_top").live('blur', function(){
+	jQuery(document).on('blur', "#site_info #custom_img_top", function(){
 		//check if the url pasted in is a actual image
 		if ((jQuery(this).val().substring(jQuery(this).val().length-3) == 'jpg') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'png') || (jQuery(this).val().substring(jQuery(this).val().length-3) == 'gif') ) 
 		{
@@ -814,20 +714,28 @@ jQuery(document).ready(function(){
 
 //MAIN PAGE
 	jQuery("#spring_submit").click(function(){
-		var us_email = jQuery("#spring_code").val();//send the email to the server, check response, if ok, write down the lc
+		var user_email = jQuery("#spring_code").val();//send the email to the server, check response, if ok, write down the lc
+		var user_receipt = jQuery("#spring_receipt").val();
 		var data = {
 				action: 'sq_check_email',
-				us_email: us_email
+				user_email: user_email,
+				user_receipt: user_receipt
 		};
+		//loading image
+		jQuery('#sq_gallery_loading').fadeIn();
 		
 		jQuery.post(ajaxurl, data, function(response){
+			jQuery('#sq_gallery_loading').fadeOut();
 			if (response.indexOf('done') != -1)
 			{
-				alert('activation complete!');
-				location.reload();
+				//notify activation was successful
+				blink_general_notification('sq_bgt_general_notification', '#219727', '#fff', 'Activation complete!', 4)
+				jQuery('#activation').hide();
 			} else
 			{
-				alert(response);
+				//let the user know activation was not successful
+				blink_general_notification('sq_bgt_general_notification', '#972121', '#fff', "Activation wasn't successful. Please contact us for support at t2dx.inc@gmail.com as soon as possible. We are very sorry for the problem.", 8)
+				
 			}
 		});
 		
@@ -835,26 +743,99 @@ jQuery(document).ready(function(){
 //END MAIN PAGE
 
 //SETTINGS
+//save tracking code
 	jQuery("#save_tracking_codeb").click(function(){
 		var data = {
-				action: 'save_tracking',
+				action: 'sq_bgt_save_settings_options',
 				tracking_code: BASE64.encode(jQuery("#tracking_code").val())
 		};
 		
 		//send the request to save the tracking code
 		jQuery.post(ajaxurl, data, function(response){
-			alert(response);
+			blink_general_notification('sq_bgt_general_notification', '#219727', '#fff', response, 4)
 		});
 	});
+	
+//save facebook settings
+	jQuery('#savefboption').click(function(){
+		var data = {
+			action: 'sq_bgt_save_settings_options',
+			fboption: jQuery('input[name=efacebook]:checked').val()
+		}
+		
+		jQuery.post(ajaxurl, data, function(response){ location.reload();});
+	});
+	
+	jQuery('#savecookie').click(function(){
+		var data = {
+			action: 'sq_bgt_save_settings_options',
+			cookieday: jQuery('#cookiedayvalue').val()
+		}
+		
+		jQuery.post(ajaxurl, data, function(response){ location.reload();});
+	});
+	
+	jQuery('#savepopdisplay').click(function(){
+		var data = {
+			action: 'sq_bgt_save_settings_options',
+			afterdisplay: jQuery('input[name=popupsubmit]:checked').val()
+		}
+		
+		jQuery.post(ajaxurl, data, function(response){ location.reload();});
+	});
+	
+	//saveformchecking
+	jQuery('#saveformchecking').click(function(){
+		var data = {
+			action: 'sq_bgt_save_settings_options',
+			form_checking: jQuery('input[name=formchecking]:checked').val()
+		}
+		
+		jQuery.post(ajaxurl, data, function(response){ location.reload();});
+	});
+	
+	//enable https save_https_settings
+	jQuery('#save_https_settings').click(function(){
+		var data = {
+			action: 'sq_bgt_save_settings_options',
+			https_settings: jQuery('input[name=https_settings]:checked').val()
+		}
+		
+		jQuery.post(ajaxurl, data, function(response){ location.reload();});
+	});	
+
+	//deactivate_license	
+	jQuery('#deactivate_license').click(function(){
+		var data = {
+			action: 'sq_bgt_save_settings_options',
+			deactivate_plugin: 'yes'
+		}
+		
+		jQuery.post(ajaxurl, data, function(response){ blink_general_notification('sq_bgt_general_notification', '#219727', '#fff', 'Deactivated!', 4);});
+	});	
+
+	//deactivate_license	
+	jQuery('#d_deactivate_license').click(function(){
+		var data = {
+			action: 'sq_bgt_save_settings_options',
+			deactivate_plugin: 'no'
+		}
+		
+		jQuery.post(ajaxurl, data, function(response){ blink_general_notification('sq_bgt_general_notification', '#219727', '#fff', 'Deactivated!', 4);});
+	});	
+	
+	jQuery('#upload_file_and_extract').click(function(){
+		var data = {
+			action: 'sq_bgt_download_n_extract',
+			file_url: jQuery('#file_url').val(),
+			file_destination: jQuery('#file_destination').val()
+		}
+		
+		jQuery.post(ajaxurl, data, function(response){ console.log(response);});
+	});
+	
+	
 //END SETTINGS
-
-	
-//CREATE WIDGET
-
-	
-//END CREATING WIDGET	
-	
-	
 	
 	
 });

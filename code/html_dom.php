@@ -83,7 +83,11 @@ class html_dom
 		$this->dom = new DOMDocument('1.0', $encoding);
 		$this->dom->formatOutput = false;
 		
-		$str = mb_convert_encoding($str, "HTML-ENTITIES", $encoding);// need this to fix encoding problem
+		if (function_exists("mb_convert_encoding"))
+		{
+			$str = mb_convert_encoding($str, "HTML-ENTITIES", $encoding);// need this to fix encoding problem
+		}
+		
 		$this->dom->loadHTML('<?xml encoding="'.$encoding.'">' .$str);
 		foreach ($this->dom->childNodes as $item)
 	    	if ($item->nodeType == XML_PI_NODE)

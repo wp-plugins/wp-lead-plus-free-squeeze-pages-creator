@@ -14,25 +14,23 @@
 	<input type="button" value="Switch color" id="edit_switch_colorb" class="navyb" />
 	<input type="button" value="Add" id="edit_addb" class="blueb" />
 	<input type="button" value="Remove" id="edit_removeb" class="redb" />
-	<input type="button" value="Undo" id="edit_undob" class="blueb" />
+	<!--  <input type="button" value="Undo" id="edit_undob" class="blueb" />   -->
 	<input type="button" value="Change BG" id="edit_changebgb" class="greenb" />
 	<input type="button" value="Change Btn" id="edit_changebtnb" class="orangeb" />
 	<input type="button" value="Edit Page" id="edit_editpageb" class="violetb" />
 	<input type="button" value="Insert Img" id="edit_insert_img" class="greenb" />
+	<input type="button" value="Reset" id="edit_resetb" class="navyb" />
 </div>
 
 <div id="code_panel">
+	<input type="button" value="Other" id="code_otherb" class="navyb" />
 	<input type="button" value="Media" id="code_mediab" class="blueb" />
 	<input type="button" value="Email" id="code_emailb" class="redb" />
-	<!--<input type="button" value="Facebook" id="code_faceb" class="greenb" />  -->
-	<!-- <input type="button" value="You code" id="code_customb" class="violetb" /> -->
-	<!-- <input type="button" value="CSS code" id="code_custom_css" class="orangeb" />  -->
+	<input type="button" value="Facebook" id="code_faceb" class="greenb" style="display: none;" /> <!-- Temporary disable -->
+	<input type="button" value="Your code" id="code_customb" class="violetb" />
+	<input type="button" value="CSS code" id="code_custom_css" class="orangeb" />
 </div>
 
-<div id="editor_control_panel">
-	<input type="button" value="Xpand" id="xpand" class="navyb" />
-	<input type="button" value="Hide" id="hide_editorb" class="redb" />
-</div>
 
 <div id="face_panel">
 	<input type="button" value="Subscribe" id="code_face_mail" class="greenb" />
@@ -42,11 +40,12 @@
 <!-- CODE PANEL -->
 
 <div id="code_boxes">
-		<textarea id="face_code">Enter your autoresponder code with facebook connect here</textarea>
-		<textarea id="email_code">Enter your autoresponder code here</textarea>
-		<textarea id="media_code">Enter your video url/image url here</textarea>
-		<textarea id="custom_code" class="bg_yellow">Enter your custom code here</textarea>
-		<textarea id="custom_css" class="bg_blue">Enter your custom css here</textarea>
+		<textarea id="face_code" placeholder="Enter your autoresponder code with facebook connect here"></textarea>
+		<textarea id="email_code" placeholder="Enter your autoresponder code here"></textarea>
+		<textarea id="media_code" placeholder="Enter your video embed code/image url here"></textarea>
+		<textarea id="custom_html_code" class="bg_yellow" placeholder="Enter your custom HTML code here"></textarea>
+		<textarea id="custom_javascript_code" class="bg_yellow" placeholder="Enter your custom Javascript code here"></textarea>
+		<textarea id="custom_css" class="bg_blue" placeholder="Enter your custom css here"></textarea>
 </div>
 <!-- CODE PANEL -->
 
@@ -66,12 +65,12 @@
 		<input type="button" value="Code" id="codeb" class="blueb" />
 		<input type="button" value="Edit" id="editb" class="greenb" />
 		<input type="button" value="Select" id="selectb" class="orangeb" />
-		<input type="button" value="Editor" id="editorb" class="violetb" />
 		<!-- <input type="button" value="Hide" id="hideb" class="navyb" />  -->
 	</div>
 	
 	
 	<!-- HIDDEN FIELD -->
+
 		<div id="current_id" style="display:none;"></div>
 		<div id="container_id" style="display:none;"></div>
 		
@@ -88,7 +87,7 @@
 		<div id="sq_temp_edit_text" style="display:none;"></div>
 		<div id="sq_current_post_id" style="display:none;"></div> <!-- replace the current session variable -->
 		<ul id="sq_remove_history" style="display:none;"></ul>
-		
+		<div id="sq_user_js_code" style="display: none;"></div>
 		<ul style="display: none;" id="sq_custom_javascript"></ul>
 		
 	<!-- END HIDDEN FIELD -->

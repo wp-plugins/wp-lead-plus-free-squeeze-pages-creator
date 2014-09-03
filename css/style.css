@@ -10,6 +10,7 @@
 	bottom: 0;
 	right: 0;
 	left: 0;
+	overflow: visible !important;
 	
 }
 
@@ -21,11 +22,10 @@
 	left: 0;
 }
 #left_panel {
-	position: aboslute;
+	position: absolute;
 	width: 18%;
 	left: 0;
 	top: 10px;
-
 }
 
 #left_panel .widefat, #left_panel label {
@@ -50,6 +50,9 @@
 	float: left;
 }
 
+#site_area #sq_body_container {
+	max-width: 100%;
+}
 #foot_panel {
 	height: 40px;
 	position: fixed;
@@ -95,20 +98,6 @@
 	display: none;
 }
 
-.thumb {
-	width: 149px;
-	padding: 5px;
-	float: right;
-	text-align: center;
-}
-
-.thumb img {
-	width: 140px;
-	height: 86px;
-	margin: auto;
-	
-}
-
 /* END THEME GALLERY */
 
 /* THEME GALLERY PANEL */
@@ -123,9 +112,6 @@
 /* END THEME GALLERY PANEL */
 
 /*	THE EDITOR */
-.editable:hover {
-	background-color: #dbdbdb;
-}
 
 #linkurl {
 	position: absolute !important;
@@ -233,10 +219,12 @@
 	left: 20%;
 	right: 0;
 	bottom: 0;
+	height: 100%;
 	width: 80%;
 	background: white;
 	display: none;
 	overflow: scroll;
+	min-height: 300px;
 }
 
 #posts_panel .created_page {
@@ -258,3 +246,14 @@
 }
 
 /* END SITE INFO, THE TOP LEFT BOXES */
+
+#main_page #activation label {
+	display: block;
+}
+
+/* OTHER boxes (left) */
+.other_label {
+	font-weight: bold;
+	font-style: italic;
+	margin: 15px 0 5px;
+}
