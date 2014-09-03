@@ -1,0 +1,11 @@
+<div id="current_theme_type" style="display:none;"></div> <!-- current theme type, will be used along with the color switcher, hex style -->
+<div id="current_theme_id" style="display:none;"></div> <!--  -->
+<div id="bgt_bg_change_id" style="display:none;"></div>
+
+<!-- notication for all pages -->
+<div id="sq_bgt_general_notification"></div>
+<div id="crazy_vgt"></div>
+
+<ul id="custom_button_js_code" style="display: none;"></ul>
+
+		
