@@ -2,8 +2,8 @@
 Contributors: codingpuss
 Tags: squeeze page, landing page, squeeze page plugin, lead capture page, lead capturing page, WordPress squeeze page, best squeeze page, squeeze page for WordPress, sidebar, widget, newsletter
 Requires at least: 3
-Tested up to: 3.9.2
-Stable tag: 1.6.4
+Tested up to: 4.0
+Stable tag: 1.6.5
 
 Create stunning squeeze page/newsletter pages with ease. Simply point-click-edit and your squeeze page is ready in less than 3 minutes.
 

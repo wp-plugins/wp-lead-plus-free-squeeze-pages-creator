@@ -243,6 +243,15 @@
 	
 	function show_upgrade_text()
 	{
-
-		return '<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/contact" target="_blank">Need help? Send me a message</a></div>';
+		$promo_text = array(
+			"Upgrade to PRO version for more awesome features",
+				"Find out why PRO version can help you triple your list",
+				"Unblockable popups help you capture more leads, create them now",
+				"You can create little widgets on your sidebar now! Click here",
+				"Add popups, widgets to your site to capture more leads. Click here",
+				"If you are not using popups to build list, you are doing it wrong. Create popups now!"							
+		);
+		
+		$key = array_rand($promo_text);
+		return '<div id="sq_bg_upgrade" style="font-size: 1.2em; position: fixed; top: 40px; right: 5px; font-weight: bold; z-index: 1000;"><a href="http://wpleadplus.com/?s='.$promo_text[$key].'" target="_blank">'.$promo_text[$key].'</a></div>';
 	}	

@@ -29,7 +29,7 @@
 		$edit_page = add_submenu_page('pro_sqz_set', 'Add New/ Edit Page', 'Create Squeeze Pages', 'manage_options', 'sub_squeezers_new', 'sub_squeezers_new_cb');
 		
 		//go pro page
-		$go_pro_page = add_submenu_page('pro_sqz_set', 'Get More Leads', 'Get More Leads', 'manage_options', 'sub_squeezers_go_pro', 'sub_squeezers_go_pro_cb');
+		$go_pro_page = add_submenu_page('pro_sqz_set', 'Upgrade to PRO', 'Upgrade to PRO', 'manage_options', 'sub_squeezers_go_pro', 'sub_squeezers_go_pro_cb');
 		
 		$settings_page = add_submenu_page('pro_sqz_set', 'WP Lead Plus Settings', 'Settings', 'manage_options', 'sub_squeezers_set', 'sub_squeezers_settings_cb');
 	

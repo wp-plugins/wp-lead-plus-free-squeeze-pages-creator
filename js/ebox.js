@@ -67,6 +67,7 @@ function vgt_wpl_enable_tinymce_button()
         			target.css("text-decoration", content.children("span").css("text-decoration"));
         			
         			target.val(content_text);
+        			target.attr("value", content_text);
         				
     			} else if (target.is("a"))
     			{
