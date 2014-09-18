@@ -19,12 +19,10 @@
 	
 	function bgt_get_plugins_location()
 	{
-		$full_path = plugin_dir_path(__FILE__);
-		//$ar = explode("wpleadplus", $full_path);
-		$pattern = '|[/\\\]wpleadplus[/\\\]|';
-		$ar = preg_split($pattern, $full_path);
-		//return plugin_dir_path(__FILE__);
-		return $ar[0];
+		
+		$this_folder_path = plugin_dir_path(__FILE__);
+		$plugin_folder_path = substr($this_folder_path, 0, strlen($this_folder_path) - 5); //with slash -3 because this folder name is fn
+		return $plugin_folder_path;
 	}
 	
 	

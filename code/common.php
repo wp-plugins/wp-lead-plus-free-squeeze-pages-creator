@@ -189,9 +189,13 @@
 		$theme_id = $_POST['theme_id'];
 		
 		//get wp lead plus location
-		$location = bgt_get_plugins_location() . '/wpleadplus/';
+		$location = bgt_get_plugins_location();
+		
+		var_dump(is_dir($location . 'themes/video/' . $theme_id . '/colors'));
+		echo $location . 'themes/video/' . $theme_id . '/colors';
 		
 		$color = "hex";
+
 		$img_array = array();
 		if ($type == 'video')
 		{
