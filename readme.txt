@@ -3,7 +3,7 @@ Contributors: codingpuss
 Tags: squeeze page, landing page, squeeze page plugin, lead capture page, lead capturing page, WordPress squeeze page, best squeeze page, squeeze page for WordPress, sidebar, widget, newsletter
 Requires at least: 3
 Tested up to: 4.0
-Stable tag: 1.6.6
+Stable tag: 1.6.7
 
 Create stunning squeeze page/newsletter pages with ease. Simply point-click-edit and your squeeze page is ready in less than 3 minutes.
 
@@ -21,9 +21,10 @@ Have you ever wanted to create stunning squeeze pages just like othe pros do? Yo
 
 
 ### WP Lead Plus PRO Cool Features:
-*	More than 15 stunning squeeze page templates (compare to 3 of free version) with responsive design (i.e. fit in any device desktop/laptop/table/phone)
+*	More than 20 stunning squeeze page templates (compare to 3 of free version) with responsive design (i.e. fit in any device desktop/laptop/table/phone)
 *	Create professional, resizable optin widgets on your blog sidebar
 *	Create cool unblockable popups
+*	Increase your conversion rate with two steps optin
 *	Create attractive newsletters optin page/popup
 *	Fully control popups' behavior. Popup on exit intention or popup appears after a specific time.
 *	Popups now can have background images too. It's very easy now to create a splash page with WP Lead Plus.
@@ -41,5 +42,5 @@ Have you ever wanted to create stunning squeeze pages just like othe pros do? Yo
 == Installation ==
 *	Upload the extracted folder of the plugin to `/wp-content/plugins/` directory
 *	Activate the plugin in your WordPress dashboard
-*	Watch the tutorial on how to use the plugin [Video tutorial](https://www.youtube.com/playlist?list=PL6rw2AEN42ErNRkcle6ptqyaL-EFs8RQc)
+*	Watch the tutorial on how to use the plugin [Video tutorial](http://www.youtube.com/playlist?list=PL6rw2AEN42Eoyq6_ht0TA-SM55jUWU8m5)
                         

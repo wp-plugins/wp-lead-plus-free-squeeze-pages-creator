@@ -41,18 +41,7 @@
 	width: 17%;
 }
 
-#site_area{
-	position: absolute;
-	left: 20%;
-	top: 0;
-	right: 0;
-	width: 79%;
-	float: left;
-}
 
-#site_area #sq_body_container {
-	max-width: 100%;
-}
 #foot_panel {
 	height: 40px;
 	position: fixed;
@@ -78,38 +67,6 @@
 
 /* END BUTTONS */
 
-
-/* THEME GALLERY */
-#gallery {
-	position: absolute;
-	width: 80%;
-	bottom: 0;
-	right: 0;
-	top: 20px;
-	background-color: white;
-	display: none;
-}
-
-#video_themes {
-	display: none;
-}
-
-#nonvid_themes {
-	display: none;
-}
-
-/* END THEME GALLERY */
-
-/* THEME GALLERY PANEL */
-#gallery_panel {
-	position: fixed;
-	right: 5px;
-	bottom: 45px;
-	display: none;
-	z-index: 100;
-}
-	
-/* END THEME GALLERY PANEL */
 
 /*	THE EDITOR */
 
@@ -180,37 +137,7 @@
 
 /* END BACKGROUNDS PANEL */
 
-/* CODE BOXES */
- #code_boxes {
-	position: fixed;
-	width: 17%;
-	bottom: 45px;
-}
 
-#code_boxes textarea{
-	display: none;
-	width: 100%;
-	height: 200px;
-	font-size: 14px;
-}
-
-#code_boxes textarea#tracking_code {
-	background-color: #97FF91;
-}
-
-#code_boxes textarea#video_code {
-	background-color: #FFA04D;
-}
-
-#code_boxes textarea#email_code {
-	background-color: #5EC7FF;
-}
-
-#code_boxes textarea#face_code {
-	background-color: #86D986;
-}
-
-/* END CODE BOXES */
 
 /* POST PANEL */
 #posts_panel {
@@ -246,7 +173,6 @@
 }
 
 /* END SITE INFO, THE TOP LEFT BOXES */
-
 #main_page #activation label {
 	display: block;
 }
@@ -256,4 +182,65 @@
 	font-weight: bold;
 	font-style: italic;
 	margin: 15px 0 5px;
+}
+
+
+#save_buttons {
+    position: fixed;
+    bottom: 45px;
+}
+#save_buttons input {
+    display: block;
+}
+
+#vgt_main_page {
+    width: 50%;
+    margin-bottom: 100px;
+}
+
+#vgt_main_page input {
+    width: 60%;
+}
+
+#vgt_main_page label {
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+
+/* MAKE MONEY */
+#make_money p, #make_money ul {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.3em;
+}
+
+#make_money ul li {
+    background: url(img/tick.png) no-repeat;
+    padding-left: 25px;
+}
+
+#make_money .vgt_free_guide {
+    font-size: 2em;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+
+#vgt_go_pro ul, #vgt_go_pro p{
+    font-size: 16px;
+    color: #555;
+    line-height: 1.4em;
+}
+
+#vgt_go_pro a {
+    font-size: 18px;
+
+}
+
+#vgt_go_pro ul li {
+    margin-top: 10px;
+    background: url(img/tick.png) no-repeat;
+    padding-left: 25px;
+
 }

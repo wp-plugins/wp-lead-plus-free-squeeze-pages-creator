@@ -7,61 +7,46 @@
 <!-- popup CODE -->
 
 <div id="right_panel">
-	<div id="editing_panel">
-		<input type="button" id="popup_edit_change_btn" value="Change Btn" class="orangeb" />
-		<input type="button" id="edit_switch_colorb" value="Switch color" class="blueb" />
-		<input type="button" id="popup_edit_popup" value="Edit popup" class="violetb" />
-		<!--  <input type="button" value="Undo" id="edit_undob" class="blueb" />   -->
-		<input type="button" id="edit_addb" value="Add" class="greenb" />
-		<input type="button" id="edit_removeb" value="Remove" class="redb" />
+
+	<div id="gallery_panel" class="vgt_vertical_menu">
+		<input type="button" value="With Opt-in" id="withOptin" class="blueb" />
+		<input type="button" value="No Opt-in" id="noOptin" class="greenb" />
+	</div>
+
+	<div id="editing_panel" class="vgt_vertical_menu">
+
+		<input type="button" value="Add" id="vgt_addb" class="blueb" />
+		<input type="button" value="Remove" id="vgt_removeb" class="redb" />
+        <input type="button" value="Box BG" id="vgt_inner_background" class="orangeb" />
+        <input type="button" value="Enable Resize" id="vgt_enable_resize" class="orangeb" />
+		<input type="button" value="Edit Popup" id="vgt_pwedit" class="violetb" />
+
 	</div>
 	
-	<div id="code_panel">
-		<input type="button" value="Other" id="code_otherb" class="navyb" />	
-		<input type="button" id="popup_code_email" value="Email" class="blueb" />
-		<input type="button" id="popup_code_media" value="Media" class="greenb" />
-		<input type="button" value="Your code" id="code_customb" class="violetb" /> <!-- -->
-		<input type="button" value="CSS code" id="code_custom_css" class="orangeb" />
+	<div id="code_panel" class="vgt_vertical_menu">
+        <input type="button" value="Media" id="code_mediab" class="blueb" />
+        <input type="button" value="Email" id="code_emailb" class="redb" />
+        <input type="button" value="CSS Code" id="code_custom_css_btn" class="orangeb"/>
+        <input type="button" value="JS Code" id="code_custom_js_btn" class="greenb" />
 	</div>
 
 </div>
-<!-- CODE PANEL -->
 
-<div id="code_boxes">
-		<textarea id="popup_email_code" class="bg_blue" placeholder="Enter your autoresponder code here"></textarea>
-		<textarea id="popup_media_code" class="bg_green" placeholder="Enter your embed video code or image url here"></textarea>
-		<textarea id="custom_html_code" class="bg_yellow" placeholder="Enter your custom HTML code here"></textarea>
-		<textarea id="custom_javascript_code" class="bg_yellow" placeholder="Enter your custom Javascript code here"></textarea>
-		<textarea id="custom_css" class="bg_blue" placeholder="Enter your custom css here"></textarea>
-</div>
 <!-- CODE PANEL -->
 
 <div id="popup_foot_panel">
-	<div id="ediboxes">
-		<input type="text" id="linkurl" value="your url comes here" />
-	</div>
+
 	<div id="buttons_right">
-		<input type="button" value="Edit this" id="popup_edit_this_theme" class="blueb" style="display:none;" />
-		<input type="button" value="Edit this" id="popup_edit_created_btn" class="blueb" style="display:none;" />
-		<input type="button" value="Edit this" id="editthisb" class="blueb" style="display:none;" />
-		<input type="button" value="Choose this" id="popup_choosethisbtnb" class="blueb" style="display:none;" />
-		<input type="button" value="Choose this" id="choosethisbgb" class="blueb" style="display:none;" />		
-		<input type="button" value="Save Popup" id="popup_getcodeb" class="redb"/>
+		<input type="button" value="Edit this" id="pwedit_created_item_b" class="blueb vgt_edit_btn" style="display:none;" />
+		<input type="button" value="Edit this" id="editthisb" class="blueb vgt_edit_btn" style="display:none;" />
+		<input type="button" value="Save Popup" id="pwpublishb" class="redb" style="display: none;"/>
 		<input type="button" value="Code" id="codeb" class="blueb" />
 		<input type="button" value="Edit" id="editb" class="greenb" />
-		<input type="button" value="Select" id="popup_selectb" class="orangeb" />
-
+		<input type="button" value="Select" id="selectb" class="orangeb" />
 	</div>
 	
-	
-	<!-- HIDDEN FIELD -->
-		<div id="current_id" style="display:none;"></div>
-		<div id="popup_theme_url" style="display: none;"></div>
-		<div id="popup_temporesponder" style="display: none;"></div>
-		<div id="popup_unique_id" style="display: none;"></div>
-		<div id="sq_temp_edit_text" style="display: none;"></div>
-		<ul id="sq_remove_history" style="display:none;"></ul>
-		<div id="sq_user_js_code" style="display:none;"></div>
-		<ul style="display: none;" id="sq_custom_javascript"></ul>
-	<!-- END HIDDEN FIELD -->
 </div>
+
+<!--  HIDDEN INFO  -->
+<div id="vgt_page_type" style="display:none;">popup</div>
+

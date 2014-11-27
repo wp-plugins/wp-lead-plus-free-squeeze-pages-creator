@@ -1,72 +1,154 @@
 <?php							 
 	//error_reporting(E_ALL ^ E_NOTICE);
 	include_once 'code/const.php';
-	function sq_bgt_on_act(){
+	function vgt_activation_tasks(){
 		update_option("sq_bgt_plugin_path", plugins_url(__FILE__));
-		sq_bgt_add_buttons_to_db();
+		sq_activate_add_sq_widget_popup_table();
+
+        sq_activate_create_ab_test_table();
+        sq_activate_create_ab_test_details_table();
+
+        sq_activate_create_tracking_details_table();
+        sq_activate_create_tracking_table();
+
+        //record ajaxurl and url to the plugin
+        update_option("vgt_wpl_plugin_url",plugins_url("",__FILE__));
+        update_option("vgt_wpl_plugin_path", plugin_dir_path(__FILE__));
+        update_option("vgt_custom_ajax_url", admin_url("admin-ajax.php"));
 	};
 
 
 /**********************************DB FUNCTIONS*****************************************/
+	//CREATE POPUP AND WIDGETS TABLES
+	function vgt_activate_create_popup_widget_table()
+	{
+		$myquery = 'CREATE TABLE IF NOT EXISTS '.VGT_POPUP_WIDGET_TABLE.'(
+		`id` int(11) NOT NULL AUTO_INCREMENT,
+		`name` VARCHAR(255),
+		`type` VARCHAR(50),
+		PRIMARY KEY(`id`)
+		);';
+		global $wpdb;
+		$wpdb->query($myquery);
+	}
+
+	function vgt_activate_create_popup_widget_properties_table()
+	{
+		$myquery = 'CREATE TABLE IF NOT EXISTS '.VGT_POPUP_WIDGET_PROPERTIES_TABLE.'(
+		`id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+		`popup_widget_id` int(11),
+		`property_name` VARCHAR(100),
+		`property_value` text,
+		UNIQUE(`property_name`, `popup_widget_id`)
+		);';
+		global $wpdb;
+		$wpdb->query($myquery);
+	}
+
+
+    function vgt_activate_create_popup_widget_options_table()
+    {
+        $myquery = 'CREATE TABLE IF NOT EXISTS '.VGT_POPUP_WIDGET_OPTIONS_TABLE.'(
+		`id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+		`option_title` VARCHAR(255),
+		`option_for`   VARCHAR(50)
+		);';
+        global $wpdb;
+        $wpdb->query($myquery);
+    }
 
 	
-	//INSERTING BUTTONS TO DB**************************************
-	function sq_bgt_add_buttons_to_db()
+	function vgt_activate_create_popup_widget_options_values_table()
 	{
-		global $wpdb;		
-		try 
+		$myquery = 'CREATE TABLE IF NOT EXISTS '.VGT_POPUP_WIDGET_OPTIONS_VALUES_TABLE.'(
+		`id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+		`option_id` INTEGER,
+		`option_name` VARCHAR(100),
+		`option_value` text,
+		UNIQUE(`option_id`,`option_name`)
+		);';
+		global $wpdb;
+		$wpdb->query($myquery);
+	}
+
+	//ACTUALLY CREATE THE TABLE OF WIDGET AND POPUP
+	function sq_activate_add_sq_widget_popup_table()
+	{
+		try
 		{
-			sq_bgt_create_button_table();
-			sq_bgt_insert_button_to_table(BGT_CTA_BUTTONS_TABLE);
+
+			vgt_activate_create_popup_widget_table();
+			vgt_activate_create_popup_widget_properties_table();
+            vgt_activate_create_popup_widget_options_table();
+			vgt_activate_create_popup_widget_options_values_table();
+				
 		} catch (Exception $e)
 		{
 			//var_dump($e);
 		}
 	}
-	
-	//create a table to store the buttons
-	function sq_bgt_create_button_table()
-	{
-		$myquery = 'CREATE TABLE IF NOT EXISTS '.BGT_CTA_BUTTONS_TABLE.'(
-		`id` int(11) NOT NULL AUTO_INCREMENT,
-		`name` VARCHAR(50),
-		`height` int(11),
-		`width` int(11),
-		PRIMARY KEY(`id`),
-		UNIQUE (`name`)
+
+    //CREATE TRACKING TABLE
+    function sq_activate_create_tracking_table()
+    {
+        $myquery = 'CREATE TABLE IF NOT EXISTS '.VGT_TRACKING_TABLE.'(
+		`id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+		`item_id` INTEGER,
+		`option_id` INTEGER,
+        `ab_test_id` INTEGER,
+		`item_type` VARCHAR(255),
+		UNIQUE(`item_id`,`option_id`, `ab_test_id`)
 		);';
-	
-		global $wpdb;
-		$wpdb->query($myquery); 
-	}
-	
-	//get the buttons and insert to the db
-	function sq_bgt_insert_button_to_table($table)
-	{
-		$buttons_folder = plugin_dir_path(__FILE__).'themes/buttons';
-		$buttons = scandir($buttons_folder);
-		global $wpdb;
-	
-		for ($i=0; $i<count($buttons); $i++)
-		{
-			if (stripos($buttons[$i], ".png") !== false)
-			{
-			//get the info of the image
-				$image_info = getimagesize($buttons_folder.'/'.$buttons[$i]);
-				//insert the button info into db
-			$myquery = 'INSERT IGNORE INTO '.$table."(name, width, height) VALUES ('$buttons[$i]', '$image_info[0]', '$image_info[1]')";
-			$wpdb->query($myquery);
-			}
-		}
-	
-	}
-	//END INSERTING BUTTONS TO DB**************************************	
 
-	
+        global $wpdb;
+        $wpdb->query($myquery);
+    }
 
-	
+    function sq_activate_create_tracking_details_table()
+    {
+        $myquery = 'CREATE TABLE IF NOT EXISTS '.VGT_TRACKING_DETAILS_TABLE.'(
+		`id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+		`tracking_id` INTEGER,
+		`tracking_key` VARCHAR(255),
+		`tracking_value` VARCHAR(255),
+		`tracking_identifier` VARCHAR(255)
+		);';
+
+        global $wpdb;
+        $wpdb->query($myquery);
+    }
+
+    //CREATE AB TESTING TABLE
+    function sq_activate_create_ab_test_table()
+    {
+        $myquery = 'CREATE TABLE IF NOT EXISTS '.VGT_AB_TEST_TABLE.'(
+		`id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+		`test_name` VARCHAR(255),
+		`page_type` VARCHAR(25),
+		`status`    VARCHAR(25)
+		);';
+
+        global $wpdb;
+        $wpdb->query($myquery);
+
+    }
+
+    function sq_activate_create_ab_test_details_table()
+    {
+        $myquery = 'CREATE TABLE IF NOT EXISTS '.VGT_AB_TEST_DETAILS_TABLE.'(
+		`id` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+		`test_id` INTEGER,
+		`test_key` VARCHAR(255),
+		`test_value` VARCHAR(255),
+		UNIQUE (`test_id`, `test_key`)
+		);';
+
+        global $wpdb;
+        $wpdb->query($myquery);
+    }
+
 	//function to add a column to a table
-	function sq_bgt_add_column_if_not_exists($table, $column, $type, $wpdb)
+	function sq_activate_add_column_if_not_exists($table, $column, $type, $wpdb)
 	{
 		try 
 		{

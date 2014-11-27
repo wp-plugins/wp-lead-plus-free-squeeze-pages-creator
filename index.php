@@ -1,28 +1,23 @@
 <?php
-	if (!(isset($_SESSION)))
-	{
-		session_start();
-	}
-	
-	/* Plugin Name: WP Lead Plus Free Squeeze Page Creator
+	/* Plugin Name: WP Lead Plus Responsive
 	 * Plugin URI: http://wpleadplus.com/
 	 * Author: Gato Vago
-	 * Author URI: http://wpleadplus.com/
-	 * Description: New way of creating squeeze pages/squeeze popup/squeeze sidebar optin with simple, revolutionary edit system. Get more powerful features at <a href="http://wpleadplus.com/?src=infreeplugin">http://wpleadplus.com/</a>
-	 * Version: 1.6.6
+	 * Author URI: http://gatovago.com/
+	 * Description: Create your reponsive landing pages, squeeze pages, popup widgets within minutes. Working well on mobile, desktop, tablets
+	 * Version: 1.6.7
 	 */
 
 	include_once ('settings.php');
 	include_once ('activate.php');
+	include_once 'code/const.php';
 
 
-	register_activation_hook(__FILE__, 'sq_bgt_on_activate');
+	register_activation_hook(__FILE__, 'vgt_on_plugin_activation');
 
-	function sq_bgt_on_activate()
+	function vgt_on_plugin_activation()
 	{
 		//copy the template to the current activate theme
-		copy(plugin_dir_path(__FILE__).'code/sq_ddx_blankpage.php', get_template_directory().'/sq_ddx_blankpage.php' );
-		copy(plugin_dir_path(__FILE__).'code/sq_ddx_blankpage_ab.php', get_template_directory().'/sq_ddx_blankpage_ab.php' );
+		copy(plugin_dir_path(__FILE__).'code/vgt_page_template.php', get_template_directory().'/vgt_page_template.php' );
 		//do the db things
-		sq_bgt_on_act();
+		vgt_activation_tasks();
 	} 

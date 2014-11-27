@@ -1,259 +1,400 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+
+/*  ALL LOCALSTORAGE VARIABLES
+ * localStorage.setItem("current_button_link_id", btn_id); //record current clicked button
+ * localStorage.setItem("vgt_page_id", "0"); //use when load template, post ID, popup/widget ID, used to decide whether to update or create new post/widget/popup
+ * localStorage.setItem("vgt_page_outer_id", ""); //the unique outer ID of the page/pop/wid, used mainly to show popup
+ *
+ * this variable will be reset when: load a new template, edit a created popup/widget
+ * localStorage.setItem("vgt_custom_js_code");
+ * localStorage.setItem("vgt_custom_js_code_position");
+ * localStorage.setItem("vgt_custom_css_code");
+ * localStorage.setItem("vgt_autoresponder_code");
+ * vgt_page_type //type of page (squeeze, popup, widget)
+ *  */
+
+
+/*
+ localStorage variables for squeeze pages only
+ "vgt_outer_background"
+ "vgt_inner_background"
+ "vgt_outer_background_type" (solid/pattern/img)
+ "vgt_inner_background_type" (solid/pattern)
+
+ These value will be reset to "" on template load/edit
+ /*
+ var VGT_PAGE_OUTER_ID =  "vgt_page_outer_id";
+ var VGT_POPUP_WIDGET_CODE = "popup_widget_code";
+ var VGT_CSS_CONTENT = "vgt_css_content";
+ var VGT_CUSTOM_CSS_CODE = "vgt_custom_css_code";
+ var VGT_CUSTOM_JS_CODE = "vgt_custom_js_code";
+ var VGT_CUSTOM_JS_CODE_POSITION = "vgt_custom_js_code_position";
+
+ var VGT_AR_CODE = "vgt_ar_code";
+
+ var VGT_PAGE_CONTENT = "page_content";
+ var VGT_ITEM_TITLE = "page_title";
+ var VGT_ITEM_TYPE = "item_type";
+ var VGT_PAGE_CONTENT = "page_content";
+ var VGT_INNER_BACKGROUND = "inner_background";
+ var VGT_INNER_BACKGROUND_TYPE = "inner_background_type";
+ var VGT_OUTER_BACKGROUND = "outer_background";
+ var VGT_OUTER_BACKGROUND_TYPE = "outer_background_type";
+ var VGT_PAGE_ID = "page_id";
  */
+    var VGT_PAGE_OUTER_ID =  "vgt_page_outer_id";
+    var VGT_POPUP_WIDGET_CODE = "popup_widget_code";
+    var VGT_CSS_CONTENT = "vgt_css_content";
+    var VGT_CUSTOM_CSS_CODE = "vgt_custom_css_code";
+    var VGT_CUSTOM_JS_CODE = "vgt_custom_js_code";
+    var VGT_CUSTOM_JS_CODE_POSITION = "vgt_custom_js_code_position";
 
-//PANEL LIST TO HIDE WHEN A PANEL SHOW
-var panel_list = '#code_panel, #gallery_panel, #buttons_panel, #bgs_panel, #posts_panel, #gallery, #editthispageb, #editthisb, #choosethisbgb, #choosethisbtnb, #face_panel, #widget_themes, #popup_themes, #editor_control_panel, #editing_panel';
+    var VGT_AR_CODE = "vgt_ar_code";
 
-//DECLARE SOME COMMON FUNCTIONS
-function sq_smart_toggle(id) {
-	if (jQuery('#'+id).is(":visible")) {
-		jQuery('#'+id).fadeOut();
-	} else
-	{
-		jQuery('#'+id).fadeIn();
-	}
-}
+    var VGT_PAGE_CONTENT = "vgt_page_content";
+    var VGT_ITEM_TITLE = "vgt_page_title";
+    var VGT_ITEM_TYPE = "vgt_item_type";
+    var VGT_PAGE_CONTENT = "vgt_page_content";
+    var VGT_INNER_BACKGROUND = "vgt_inner_background";
+    var VGT_INNER_BACKGROUND_TYPE = "vgt_inner_background_type";
+    var VGT_OUTER_BACKGROUND = "vgt_outer_background";
+    var VGT_OUTER_BACKGROUND_TYPE = "vgt_outer_background_type";
+    var VGT_PAGE_ID = "vgt_page_id";
+    var VGT_CURRENT_BUTTON_LINK_ID = "vgt_current_button_link_id";
+    var VGT_CURRENT_SELECTED_ITEM = "vgt_current_selected_item";
+    var AB_SQUEEZE_ID = "ab_squeeze_id";
+/* ============================================================================================================
 
-//function to show then hide a div after a certain amount of second (4), mostly sq_bgt_general_notification
-function blink_general_notification(notification_id, bg_color, text_color, message, appear_seconds)
-{
-	jQuery('#'+ notification_id).css('background-color', bg_color);
-	jQuery('#'+ notification_id).css('color', text_color);
-	jQuery('#'+ notification_id).html(message);
-	jQuery('#' + notification_id).slideDown();
-	setTimeout(function(){ jQuery('#' + notification_id).fadeOut(); }, appear_seconds * 1000);
-}
+ --------------------------------------------.:^:.--------------------------------------------------
 
-function get_custom_js_code_button()
-{
-	//check if the user has set any special setting to the submit button
-	if (jQuery('#custom_button_js_code li').length != 0)
-	{
-		var custom_button_js_code = {};
-		jQuery('#custom_button_js_code li').each(function(){
-			custom_button_js_code[BASE64.encode(jQuery(this).attr("for_button"))] = BASE64.encode(jQuery(this).text());
-		});		
-		
-		console.log(custom_button_js_code);
-		return JSON.stringify(custom_button_js_code);
-	} else
-	{
-		return "";
-	}
-}
+                        COMMON FUNCTIONS FOR ALL TYPES OF PAGE
 
-function return_button_js_code_when_loading_for_edit(return_data)
-{
-	button_obj = (jQuery.parseJSON(BASE64.decode(return_data)));
-	
-	for (var key in button_obj)
-	{
-		var single_li = "<li for_button='"+ BASE64.decode(key) +"'>"+ BASE64.decode(button_obj[key]) +"</li>";
-		jQuery(single_li).appendTo("#custom_button_js_code");
-	}
-}
+ --------------------------------------------.:^:.--------------------------------------------------
 
-//function to change hex color
-//the type is defined in a hidden div inside each page popup/squeeze/widget
-function sq_bgt_apply_hex_color(type)
-{
-	jQuery('#sq_bgt_hex_color_changer').ColorPicker({onChange: function(hsb, hex, rgb){ 
-		
-		//if the current selected element is a background changeable element
-		//if (jQuery('#'+jQuery('#bgt_bg_change_id').text()))
-		if (jQuery('#bgt_bg_change_id').text() !== "")
-		{
-			jQuery('#'+jQuery('#bgt_bg_change_id').text()).css("background-color", "#"+hex , " !important");
-			return;
-		}
-		
-		if (type == "widget")
-		{
-			if ( jQuery('#'+jQuery('#current_id').text()).is("input[type='submit']") && jQuery('#'+jQuery('#current_id').text()).css("background-image") == "none")
-			{
-				var attr = "#"+hex + " !important";
-				jQuery('#'+jQuery('#current_id').text()).css("background-color", attr);
-				console.log(attr);
-			} else
-			{
-				jQuery('#site_area > div').css("background-color", "#"+hex);
-			}
-							
-		} else if (type == "squeeze")
-		{
-			if ( jQuery('#'+jQuery('#current_id').text()).is("input[type='submit']") && jQuery('#'+jQuery('#current_id').text()).css("background-image") == "none")
-			{
-				jQuery('#'+jQuery('#current_id').text()).css("background-color", "#"+hex + " !important");
-			} else
-			{
-				jQuery('#sq_box_container').css("background-color", "#"+hex);
-			}			
-			
-			
-		} else if (type == "popup")
-		{
-			if ( (jQuery('#'+jQuery('#current_id').text()).is("input[type='submit']")) && (jQuery('#'+jQuery('#current_id').text()).css("background-image") == "none") )
-			{
-				jQuery('#'+jQuery('#current_id').text()).css("background-color", "#"+hex + " !important");
-			} else
-			{
-				if (jQuery('#sq_popup_optin_body').length != 0)
-				{
-					jQuery('#sq_popup_optin_body').css("background-color", "#"+hex);
-				} else
-				{
-					jQuery('#sq_box_container').css("background-color", "#"+hex);
-				}	
+ ============================================================================================================ */
+    //SERIALIZE DATA
+    function vgt_serialize_data(str) {
+        return encodeURIComponent(BASE64.encode(str));
+    }
 
-			}	
-			
-		}
+    //DE-SERIALIZE DATA
+    function vgt_de_serialize_data(str)
+    {
+        return BASE64.decode(decodeURIComponent(str));
+    }
+    //DELETE ITEMS
+    jQuery(document).on("click", ".vgt_delete_item", function(){
 
-		
-	}, flat:true});	
+        jQuery(this).parent(".vgt_single_list_item").fadeOut();
+        var data = {
+            action: "vgt_delete_item",
+            item_id: jQuery(this).siblings("input").attr("item_id"),
+            item_type: jQuery("#vgt_page_type").text()
+        }
 
-}
+        jQuery.post(ajaxurl, data, function(response){
 
-//function to parse the media code
-function sq_bgt_media_parser(media_id, id) {
-	jQuery("#"+media_id).blur(function(){
-		if(((jQuery(this).val().indexOf(".jpg") != -1) || (jQuery(this).val().indexOf(".png") != -1) || (jQuery(this).val().indexOf(".gif") != -1)) && (jQuery(this).val().indexOf("*") == -1))//in case the user has pased the image code in
-		{
-			jQuery('#'+id).html('<img width="95%" height="95%" src="'+jQuery(this).val()+'" />');
-		} else if((jQuery(this).val().indexOf("youku.com") != -1) ||  (jQuery(this).val().indexOf("youtube.com") != -1) || (jQuery(this).val().indexOf("vimeo.com") != -1) || (jQuery(this).val().indexOf("blip.tv") != -1) || (jQuery(this).val().indexOf("dailymotion.com") != -1) || (jQuery(this).val().indexOf("metacafe.com") != -1) || (jQuery(this).val().indexOf("wistia.com") != -1) || (jQuery(this).val().indexOf("screencast.com") != -1))//in case the user has pased the video url in
-		{
-			/* get the video embed code from user, if it's a full code, parse and get the URL, if it's the url embed,
-			 * use that url				
-			*/
-			
-			var user_code = jQuery.trim(jQuery(this).val());
-			
-			if (user_code.indexOf("http") == 0 || user_code.indexOf("//www") == 0 ) { //the second condition to match the new youtube embed code, without the http:
-				var pure_url = user_code;
-			} else
-			{
-				var pattern = /src=".*?[" ]/i;
-			    var x = user_code.match(pattern);
-				
-				var pure_url = jQuery.trim(x[0].replace(/"/g, ''));
 
-				pure_url = jQuery.trim(pure_url.replace('src=', ''));
-				
-		     }
-			//insert http: before the pure url if it doesn't have http
-			if (pure_url.indexOf("http") != 0) {
-				pure_url = "http:" + pure_url;
-			}
-			if (jQuery('#sq_bgt_https_enabled').text() == "yes")
-			{
-				pure_url = pure_url.replace('http:', 'https:');
-			}
-			console.log(pure_url);
-			//console.log(pure_url);
-			var code = '';
+        });
+    });
 
-			code = '<iframe width="95%" height="95%" src="'+pure_url+'" frameborder="0" allowfullscreen></iframe>';
-			
-			jQuery('#'+id).html(code);
-		} else if ((jQuery(this).val().indexOf(".mp4") != -1) || (jQuery(this).val().indexOf(".webm") != -1) || (jQuery(this).val().indexOf(".ogv") != -1) || (jQuery(this).val().indexOf(".3gp") != -1))
-		{
-			function get_vid_type(url_string)
-			{
-				var type = '';
-			
-				if (url_string.indexOf(".mp4") != -1)
-				{
-					type = 'mp4';
-				} else if (url_string.indexOf(".webm") != -1)
-				{
-					type = 'webm';
-				} else if (url_string.indexOf(".ogv") != -1)
-				{
-					type = 'ogg';
-				}
-				
-				return type;
-			}
-			
-			//get the video link and type
-			var video_array = jQuery(this).val().split("*");
 
-			var code = '';
+    function vgt_reset_all_localStorage()
+    {
+        localStorage.setItem(VGT_PAGE_ID, "0");
+        localStorage.setItem(VGT_CSS_CONTENT, "");
+        localStorage.setItem(VGT_CURRENT_BUTTON_LINK_ID, "");
+        localStorage.setItem(VGT_CUSTOM_JS_CODE, "");
+        localStorage.setItem(VGT_CUSTOM_JS_CODE_POSITION, "");
+        localStorage.setItem(VGT_CUSTOM_CSS_CODE, "");
+        localStorage.setItem(VGT_AR_CODE, "");
+        localStorage.setItem(VGT_OUTER_BACKGROUND, "");
+        localStorage.setItem(VGT_OUTER_BACKGROUND_TYPE, "");
+        localStorage.setItem(VGT_INNER_BACKGROUND, "");
+        localStorage.setItem(VGT_INNER_BACKGROUND_TYPE, "");
+        localStorage.setItem(VGT_PAGE_OUTER_ID, "");
+    }
+//FUNCTION IN MANAGE POPUP WIDGET AND IN AB TESTING
+    function vgt_get_all_categories(where_to_append)
+    {
 
-			var vide_encode = encodeURIComponent(jQuery(this).val());
-			code = '<video controls="controls" width="100%" height="100%">';
-			
-			for (var i = 0; i < video_array.length; i++)
-			{
-				code += '<source src="'+video_array[i]+'" type="video/'+get_vid_type(video_array[i])+'" />';	
-			}
-			
-			code += '<object type="application/x-shockwave-flash" data="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" width="95%" height="95%">';
-			code += '<param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" />';
-			code += '<param name="allowFullScreen" value="true" />';
-			code += '<param name="wmode" value="transparent" />';
-			code += '<param name="flashVars" value="controlbar=over&amp;file='+vide_encode+'" />';
-			code += '<span title="No video playback capabilities, please download the video below"></span>';
-			code += '</object></video>';	
+        //Load the list of all categories, append to the list of categories
+        var data = {
+            action: "vgt_get_all_categories"
+        };
 
-			
-			jQuery('#'+id).html(code);
-		} else if (jQuery.trim(jQuery(this).val()) =="")
-		{
-			
-		} else if (jQuery.trim((jQuery(this).val())).indexOf("http") == 0 )  {//suppose the user enters a link, treat it like a video
-			var code = '';
-			code = '<iframe style="overflow: hidden;" width="100%" height="100%" src="'+jQuery(this).val()+'" scrolling="no" frameborder="0" allowfullscreen></iframe>';
-			jQuery('#'+id).html(code);
-		}
-		
-		jQuery(this).fadeOut();	
-	});
-}
+        jQuery.post(ajaxurl, data, function(response){
+            var data = vgt_parse_json_output(response);
+            var checkbox_list = "";
+
+            for (var i = 0; i < data.length; i++)
+            {
+                checkbox_list += '<span class="list_of_categories"> <input name="categories" class="form-control" type="checkbox" alt_id="'+data[i].id+'" value='+ data[i].id +' />'+data[i].name+'</span>';
+            }
+
+            jQuery(where_to_append).append(checkbox_list);
+
+        });
+    }
+
+    //get checked categories
+    function vgt_get_checked_categories(list_categories_id)
+    {
+        var checked_array = [];
+        jQuery(list_categories_id + " input[type=checkbox]").each(function(){
+            if (jQuery(this).is(":checked"))
+            {
+                checked_array.push(jQuery(this).attr("alt_id"));
+            }
+        });
+
+        return checked_array;
+    }
+
+    //check checked categories
+    /*
+    This function will loop through the list of categories, based on the list of categories checked (previously saved), it will check
+    the categories again. Used on editing options
+     */
+    function vgt_check_checked_categories(categories_array, categories_div)
+    {
+
+        jQuery(categories_div + " input[type=checkbox]").each(function(){
+            for (var i = 0; i < categories_div.length; i++)
+            {
+
+                if (jQuery(this).attr("value") == categories_array[i])
+                {
+                    jQuery(this).attr("checked", "checked");
+                }
+
+            }
+
+        });
+    }
+
+
+    //define a constant to match the VGT_UNIQUE_WRAPER
+    var VGT_UNIQUE_WRAPER = "vgt_unique_338742";
+
+
+    //function to process return JSON DATA
+    function vgt_parse_json_output(response)
+    {
+
+        var return_data = response.split(VGT_UNIQUE_WRAPER);
+
+        var code = (decodeURIComponent(return_data[1]));
+        return JSON.parse(code);
+    }
+
+    //function to check input on manage popup and widget
+    function vgt_check_input_in_manage(selector)
+    {
+        //localStorage.setItem("vgt_input_manage_check_string", ""); will be set so the
+        localStorage.setItem("vgt_input_manage_check_string", "");
+
+        jQuery(selector).each(function(){
+            if (jQuery.trim(jQuery(this).val()) == "" && jQuery(this).attr("id") != undefined && jQuery(this).attr("id").indexOf("_value") == -1)
+            {
+                jQuery(this).css("border", "1px dashed #ff0000");
+                localStorage.setItem("vgt_input_manage_check_string", "stop");
+                vgt_remove_attr(jQuery(this), "style", 2);
+
+            }
+        });
+
+        if (localStorage.getItem("vgt_input_manage_check_string") == "stop")
+        {
+            localStorage.setItem("vgt_input_manage_check_string", "");
+            return "stop";
+        } else
+        {
+            //reset vgt_input_manage_check_string for next time check
+            localStorage.setItem("vgt_input_manage_check_string", "");
+            return "ok";
+        }
+
+    }
+
+
+    jQuery(document).ready(function(){
+        jQuery('[rel^=lightcase]').lightcase('init');
+    });
+
+    jQuery('#vgt_button_settings_tab a').click(function (e) {
+        e.preventDefault();
+        jQuery(this).tab('show');
+    })
+
+    //enable and disable resize
+    jQuery(document).on("click","#vgt_enable_resize", function(){
+        if (jQuery(this).val() == "Enable Resize")
+        {
+            jQuery("#site_area > div").resizable();
+            jQuery(this).val("Disable Resize");
+        } else
+        {
+            jQuery("#site_area > div").resizable("destroy");
+            jQuery(this).val("Enable Resize");
+        }
+
+    });
+
+    function sq_smart_toggle(id) {
+        if (jQuery('#'+id).is(":visible")) {
+            jQuery('#'+id).fadeOut();
+        } else
+        {
+            jQuery('#'+id).fadeIn();
+        }
+    }
+
+    jQuery(document).ready(function(){
+        localStorage.setItem("totalClassText", "");
+        localStorage.setItem("buttonAndLinkTag", "");
+
+        //Load button styles
+        var data = {
+            action: "vgt_get_buttons"
+
+        };
+
+        jQuery.post(ajaxurl, data, function(response){
+            data = vgt_parse_json_output(response);
+            var style_code = "";
+
+            for (var i = 0; i < data.styles.length; i ++)
+            {
+
+                style_code += '<button alt_class="'+data.styles[i]+'" class="'+ data.styles[i] +' green" >Hello</button>';
+            }
+
+            style_code = style_code;
+
+            var color_code = "";
+            for (var i = 0; i < data.colors.length; i ++)
+            {
+                color_code += '<button alt_class="vgt_btn_1" class="vgt_btn_1 '+ data.colors[i] +'" >Hello</button>';
+            }
+
+            jQuery("#vgt_styles").html(style_code);
+
+
+            jQuery("#vgt_colors").html(color_code);
+
+        });
+
+
+        //hide the editor when the click is not on editable elements
+        jQuery(document).on("click", "body *" ,function(){
+
+            /*
+            totalClassText: When the user clicks on the page, record all class of the clicked element. If the user clicks on
+            the MCE editor (which has classes start with mce-), the MCE editor will not be called.
+
+            The MCE editor will be called only on .editable or link/button/a/image
+
+             buttonAndLinkTag: this variable is used to check if one of the clicked element is a button/a. If yes, the text
+             vgt_link_or_button will be appended to the variable. Later on setTimeout function, it will be used to check the position
+             of vgt_link_or_button in its string content. If there is vgt_link_or_button string in the buttonAndLinkTag variable,
+             show the MCE editor
+             */
+            //record tag to disable inline editor on input
+            if ( jQuery(this).is("a") ||  jQuery(this).is("input") ||  jQuery(this).is("button")  )
+            {
+                localStorage.setItem("buttonAndLinkTag", localStorage.getItem("buttonAndLinkTag") + "vgt_link_or_button" );
+            } else
+
+            if (jQuery(this).attr("class") != undefined)
+            {
+                localStorage.setItem("totalClassText", localStorage.getItem("totalClassText") + jQuery(this).attr("class") );
+            }
+
+
+            if (localStorage.getItem("totalClassText") == null)
+            {
+                localStorage.setItem("totalClassText", "");
+            }
+
+
+            setTimeout(function(){
+                if (localStorage.getItem("totalClassText").indexOf("mce-") != -1)
+                {
+                    return false;
+                } else if (localStorage.getItem("totalClassText").indexOf("editable") == -1)
+                {
+                    jQuery(".mce-tinymce-inline").fadeOut();
+                    jQuery(".editable").blur();//remove the focus of editable (a bug of chrome)
+
+                } else
+                {
+                    vgt_wpl_enable_tinymce();
+                    console.log("enabled editor");
+                }
+
+                if ((localStorage.getItem("buttonAndLinkTag") != null) && localStorage.getItem("buttonAndLinkTag").indexOf("vgt_link_or_button") == -1)
+                {
+                    vgt_remove_tinymce_on_buttons_n_links();
+
+                }
+
+            }, 50);
+
+            setTimeout(function() {
+                localStorage.setItem("buttonAndLinkTag", "");
+                localStorage.setItem("totalClassText", "");
+            }, 200);
+        });
+    });
+
+    //function to show then hide a div after a certain amount of second (4), mostly sq_bgt_general_notification
+    function vgt_general_notification(type, message, appear_seconds)
+    {
+
+        if (type == "warning")
+        {
+            bg_color = "#ff4141";
+        }
+        else if (type == "info")
+        {
+            bg_color = "#41b5ff";
+        }
+
+        else if (type == "success")
+        {
+            bg_color = "#6bda19";
+        }
+
+        var text_color = "#fff";
+
+        var notification_id = "sq_bgt_general_notification";
+        jQuery('#'+ notification_id).css('background-color', bg_color);
+        jQuery('#'+ notification_id).css('color', text_color);
+        jQuery('#'+ notification_id).html(message);
+        jQuery('#' + notification_id).slideDown();
+        setTimeout(function(){ jQuery('#' + notification_id).fadeOut(); }, appear_seconds * 1000);
+    }
+
+
+    //function to remove attribute after a specific time
+    function vgt_remove_attr(element, attribute, time)
+    {
+        setTimeout(function(){ element.removeAttr(attribute); }, time * 1000);
+    }
+
 
 //EDIT THE TEXT OF THE THEME
 jQuery(document).ready(function(){
 	
 		//reset position button
-		jQuery('#edit_resetb').click(function(){
+		jQuery('#vgt_resetb').click(function(){
 			jQuery('#sq_box_container').css("top", "");
 			jQuery('#sq_box_container').css("left", "");
 		});
 	
-		//use submit button as a link
-		jQuery("#sq_submit_url").blur(function(){
-			var target = jQuery("#" + localStorage.getItem("current_button_link_id"));
-			
-			if ( target.is("input[type=submit]") || target.is("input[type=button]") || target.is("input[type=image]") )
-			{
-				var url = jQuery(this).val();
-				if (url.indexOf("http") == -1 )
-				{
-					return false;
-				}
-				
-				//generate the code
-				if (jQuery("#sq_open_new_window").is(":checked"))
-				{
-					var code = 'jQuery("'+"#" + localStorage.getItem("current_button_link_id")+'").click(function(){window.open("'+url+'", "_blank", false); returl false;});';
-				} else
-				{
-					var code = 'jQuery("'+"#" + localStorage.getItem("current_button_link_id")+'").click(function(){window.open("'+url+'", "_self", false); return false;});';
-				}
-				
-				//clear the code for this button first before inserting in
-				jQuery("li[for_button='"+localStorage.getItem("current_button_link_id")+"']").remove();
-				
-				//append the style to custom Javascript code list
-				jQuery("<li for_button='"+localStorage.getItem("current_button_link_id")+"'>"+ code +"</li>").appendTo("#custom_button_js_code");
-				
-			}
-		});
-		
 		
 	jQuery(document).on("click", ".editable", function(){
+		jQuery("#vgt_button_settings_button").fadeOut();
 		vgt_wpl_enable_tinymce();
 
 		
@@ -262,40 +403,47 @@ jQuery(document).ready(function(){
 
 	jQuery(document).on("click", ".editable", function(){
 		
-		vgt_remove_button_link_editor();
+		vgt_remove_tinymce_on_buttons_n_links();
 	});
 	
 	jQuery(document).on("click", "#site_area", function(){
-		console.log("out");
 		setTimeout(function(){
 			if (jQuery(".mce-tinymce-inline").is(":visible"))
 			{
-				vgt_remove_button_link_editor();
+				vgt_remove_tinymce_on_buttons_n_links();
 			}
 			
 		}, 10);
 	});
 	//editing the submit button
-	jQuery(document).on("click", "#site_area a, #site_area input[type=submit], #site_area input[type=button] , #site_area input[type=image], #site_area input[type=text], #site_area input[type=email], #site_area input[type=number]", function(){
+	jQuery(document).on("click", "#site_area a, #site_area input[type=submit], #site_area input[type=button] , #site_area button, #site_area input[type=image], #site_area input[type=text], #site_area input[type=email], #site_area input[type=number]", function(e){
 		//insert a context editor near the button, if not exists already
-
+		
+		//show the button settings button if the element got clicked is a button
+		if ( jQuery(this).is("button") || jQuery(this).is("input[type=button]") || jQuery(this).is("input[type=submit]") || jQuery(this).is("input[type=image]") )
+		{
+			jQuery("#vgt_button_settings_button").fadeIn();
+            jQuery("#vgt_button_background_color").val("#000002"); //set this value, should be unique, so if the user doesn't set the value
+            //for button's color, the color will not apply
+		} else {
+			jQuery("#vgt_button_settings_button").fadeOut();
+		}
+			
 		jQuery("#crazy_vgt").append("<div id='button_editor'></div>");
-		vgt_wpl_enable_tinymce_button();
-	
-		//get current position of the button/link, then append the editor below that
-		jQuery("#button_editor").siblings(".mce-tinymce").css("position", "absolute");
 
+
+        vgt_enable_tinymce_on_links_n_buttons();
+
+		//get current position of the button/link, then append the editor below that
 		var elem_offset = jQuery(this).offset();
 		var elem_offset_top 	= elem_offset.top;
 		var elem_offset_left 	= elem_offset.left;
-		var elem_height			= jQuery(this).height();
-		var elem_width			= jQuery(this).width();
-		
-		
-		jQuery("#button_editor").siblings(".mce-tinymce").css("max-width", "300px");
-		jQuery("#button_editor").siblings(".mce-tinymce").offset({top: elem_offset_top + elem_height, left: elem_offset_left});
-		
-		jQuery("#button_editor").siblings(".mce-tinymce").css("z-index", 90);
+		var elem_height			= jQuery(this).outerHeight();
+
+
+		jQuery("#crazy_vgt").children(".mce-tinymce").offset({top: elem_offset_top + elem_height, left: elem_offset_left});
+
+        jQuery("#crazy_vgt").children(".mce-tinymce").css("z-index", 90);
 		
 
 
@@ -312,12 +460,15 @@ jQuery(document).ready(function(){
 		}
 		
 		//log current button id
-		localStorage.setItem("current_button_link_id", btn_id);
+        localStorage.setItem(VGT_CURRENT_BUTTON_LINK_ID, btn_id);
+
+
+
+
 		//get the current editor
 		var button_editor = tinyMCE.get("button_editor");
 		var selected = jQuery(this);
 		
-		//if the element that was clicked is an input
 		if (selected.is("input"))
 		{
 			//get the current style of button's text
@@ -326,8 +477,23 @@ jQuery(document).ready(function(){
 			var btn_font_style 		= selected.css("font-style");
 			var btn_font_weight 	= selected.css("font-weight");
 			var btn_text_decoration = selected.css("text-decoration");
+
+
+            var text = "";
+
+            if (jQuery(this).attr("value") != "")
+            {
+                text = jQuery(this).attr("value");
+            } else if (jQuery(this).attr("placeholder") != "")
+            {
+                text = jQuery(this).attr("placeholder");
+            } else
+            {
+                text = "set your text";
+            }
+
 			
-			var pass_to_editor_content = "<span style='font-size: "+btn_size+"; color: "+btn_color+"; font-style: "+btn_font_style+"; font-weight: "+btn_font_weight+"; text-decoration: "+btn_text_decoration+";'>"+jQuery(this).val()+"</span>";
+			var pass_to_editor_content = "<span style='font-size: "+btn_size+"; color: "+btn_color+"; font-style: "+btn_font_style+"; font-weight: "+btn_font_weight+"; text-decoration: "+btn_text_decoration+";'>"+text+"</span>";
 
 			
 		} else if (selected.is("a"))
@@ -341,107 +507,23 @@ jQuery(document).ready(function(){
 			var a_target			= selected.attr("target");
 			
 			var pass_to_editor_content = "<a target='"+ a_target +"' href='"+ a_val +"' style='font-size: "+a_size+"; color: "+a_color+"; font-style: "+a_font_style+"; font-weight: "+a_font_weight+"; text-decoration: "+a_text_decoration+";>"+ selected.text() +"</a>";
-		}
+		} else if (selected.is("button"))
+        {
+            var text_size 		= selected.css("font-size");
+            var text_color 		= selected.css("color");
+            var text_style 		= selected.css("font-style");
+            var font_weight 	= selected.css("font-weight");
+            var text_decoration = selected.css("text-decoration");
+            var text_value 		= selected.text();
+            var pass_to_editor_content = "<span style='font-size: "+text_size+"; color: "+text_color+"; font-style: "+text_style+"; font-weight: "+font_weight+"; text-decoration: "+text_decoration+";'>"+text_value+"</span>";
+
+        }
+
 		button_editor.setContent(pass_to_editor_content);
 
 		return false;
 	});
-	//ADD AND REMOVE BUTTON
-		/* get the current element, decide what it is, if it's an editable, remove its parent, if it's an image, remove
-		 * itself, if it's a link inside a li, remove its parent, do nothing with a input
-		 */
-	jQuery("#edit_removeb").click(function(){
-		//get the current selected id
-		var current_element = jQuery("#"+ localStorage.getItem("vgt_current_selected_item"));
-		if (current_element.is("a"))
-		{
-			if (current_element.parent().is("li"))
-			{
-				current_element.parent().toggle()
-				
-				//if the parent doesn't have an ID, add one
-				if (current_element.parent().attr("id") == undefined) {
-					current_element.parent().attr("id", "rmvid"+Math.random(1,1000) + Math.random(1,10000));
-				}	
-				
-				//append the hidden element id to the history
-				if (!current_element.parent().is(":visible"))
-				{
-					jQuery('#sq_remove_history').append("<li>"+current_element.parent().attr("id")+"</li>");	
-				}
-				
-			} else
-			{
-				current_element.toggle();
-				//append the hidden element id to the history
-				if (!current_element.is(":visible"))
-				{
-					jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
-				}
-				
-			}	
-			
-		} else if (current_element.is("img"))
-		{
-			current_element.toggle();
-			//append the hidden element id to the history
-			if (!current_element.is(":visible"))
-			{
-				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
-			}
-			
-		} else if (current_element.is("li"))
-		{
-            current_element.toggle();
-			//append the hidden element id to the history
-			if (!current_element.is(":visible"))
-			{
-				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
-			}
-			
-		} else if (current_element.is("input"))
-		{
-            current_element.toggle();
-			//append the hidden element id to the history
-			if (!current_element.is(":visible"))
-			{
-				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
-			}
-			
-		} else if (current_element.hasClass("editable") || current_element.children("iframe").length > 0)
-		{
-			if (current_element.is("div"))
-			{
-				current_element.toggle();
-			} else
-			{
-				current_element.parent().toggle();	
-			}
-			
-			
-			//if the parent doesn't have an ID, add one
-			if (current_element.parent().attr("id") == undefined) {
-				current_element.parent().attr("id", "rmvid"+Math.round(Math.random()*10000 )+ Math.round(Math.random()*10000));
-			}
-			//append the hidden element id to the history
-			if (!current_element.parent().is(":visible"))
-			{
-				jQuery('#sq_remove_history').append("<li>"+current_element.parent().attr("id")+"</li>");
-			}
-			
-		} else if (current_element.is("select"))
-		{
-			current_element.toggle();
-			//append the hidden element id to the history
-			if (!current_element.is(":visible"))
-			{
-				jQuery('#sq_remove_history').append("<li>"+current_element.attr("id")+"</li>");	
-			}
-		}
-		
-		
-	});
-	
+
 	//add ID and record ID when .editable/li/a is clicked
 	jQuery(document).on("click", "#site_area a, #site_area li, #site_area .editable", function(){
 		if (jQuery(this).attr("id") == undefined)
@@ -451,495 +533,652 @@ jQuery(document).ready(function(){
 			jQuery(this).attr("id", rid);
 		}
 		
-		localStorage.setItem("vgt_current_selected_item", jQuery(this).attr("id"));
+		localStorage.setItem(VGT_CURRENT_SELECTED_ITEM, jQuery(this).attr("id"));
 		
 	});
-	
-	//the add button
-	jQuery("#edit_addb").click(function(){
-		//get the current selected id
-		var current_element = jQuery("#"+ localStorage.getItem("vgt_current_selected_item"));
-		if (current_element.is("a"))
-		{
-			if (current_element.parent().is("li"))
-			{
-				var clone_elem = current_element.parent().clone();
-				var chil = clone_elem.find("*");//get all the children of current tr
-				var randnum = Math.floor((Math.random()*1000)+1); //generate a random number
-				for (var i = 0; i<chil.length; i++)
-				{
-					if (chil.eq(i).attr("id") != undefined)
-					{
-						chil.eq(i).removeAttr("id");//remove the current id
-						chil.eq(i).attr("id", "adder"+randnum+i);//assign new id
-					}
-				}
-				//get a new id for the inserted element
-				clone_elem.attr("id", "cloner"+randnum);
-				
-				//insert the newly created element into the page
-				clone_elem.insertAfter(current_element.parent());
-				
-			} else
-			{
-				var clone_elem = current_element.clone();
-				
-				//generate a random number
-				var randnum = Math.floor((Math.random()*1000)+1); //generate a random number
-				clone_elem.attr("id", "aclone"+ randnum);
-				//insert into dom
-				clone_elem.insertAfter(current_element);
-			}
-		} else if (current_element.hasClass("editable")) //it could be span or li
-		{
-			if (current_element.is("li"))
-                        {
-                            var clone_elem = current_element.clone();
-                            var chil = clone_elem.find("*");//get all the children of current tr
-                            var randnum = Math.floor((Math.random()*10000)+1); //generate a random number
-                            for (var i = 0; i<chil.length; i++)
-                            {
-                                    if (chil.eq(i).attr("id") != undefined)
-                                    {
-                                            chil.eq(i).removeAttr("id");//remove the current id
-                                            chil.eq(i).attr("id", "adder"+randnum+i);//assign new id
-                                    }
-                            }
-                            //get a new id for the inserted element
-                            clone_elem.attr("id", "ecloner"+randnum);
-                            //insert the newly created element into the page
-                            clone_elem.insertAfter(current_element);      
-                        } else
-                        {
-                            var clone_elem = current_element.parent().clone();
-                            var chil = clone_elem.find("*");//get all the children of current tr
-                            var randnum = Math.floor((Math.random()*10000)+1); //generate a random number
-                            for (var i = 0; i<chil.length; i++)
-                            {
-                                    if (chil.eq(i).attr("id") != undefined)
-                                    {
-                                            chil.eq(i).removeAttr("id");//remove the current id
-                                            chil.eq(i).attr("id", "adder"+randnum+i);//assign new id
-                                    }
-                            }
-                            //get a new id for the inserted element
-                            clone_elem.attr("id", "ecloner"+randnum);
-                            //insert the newly created element into the page
-                            clone_elem.insertAfter(current_element.parent());    
-                        }
-                        
-			
-		} 
-		
-		vgt_wpl_enable_tinymce();
-		
-		
-	});
-	
-	//show and hide the custom code box	
-	jQuery("#code_customb").click(function(){
-		jQuery('#face_panel').fadeOut();
-		jQuery("#code_boxes textarea").not("#custom_code").fadeOut();
-		//jQuery("#custom_code").fadeToggle();
-	
-		jQuery("#custom_code_position").fadeToggle();
-		
-	
-	});
+
+
 	
 	//show and hide panels
 	jQuery("#codeb").click(function(){
-		jQuery(panel_list).fadeOut();
+		jQuery(".vgt_vertical_menu").fadeOut();
 		sq_smart_toggle('code_panel')
 	});
 	
 	//edit button
 	jQuery("#editb").click(function(){
-		jQuery(panel_list).fadeOut();
+		jQuery(".vgt_vertical_menu").fadeOut();
 		sq_smart_toggle("editing_panel");
 	});
 	
 	jQuery('#editorb').click(function(){
-		jQuery(panel_list).fadeOut();
+		jQuery(".vgt_vertical_menu").fadeOut();
 		sq_smart_toggle('editor_control_panel');		
 		
 	});
 	
 		//open the gallery to select a template
 	jQuery("#selectb").click(function(){
-			jQuery(panel_list).fadeOut();
+            jQuery(".vgt_gallery").fadeOut();
+			jQuery(".vgt_vertical_menu").fadeOut();
 			sq_smart_toggle("gallery_panel");
 	});
-	//hide the editor
-	//Insert the custom HTML code into the page
-	jQuery("#custom_html_code").blur(function(){
-		jQuery(this).fadeOut();
-		jQuery('#custom_code_position').fadeOut();
-		
-		if ((jQuery(this).val() == "") || (jQuery(this).val() == "Enter your custom HTML code here"))
-		{
-			return;
-		}		
-		
-		var id = "custom" + Math.round(Math.random()*10000) + Math.round(Math.random()*10000)
-		//need to search through the entered code to inser the id to element
-		var clone_elem = jQuery(jQuery(this).val());
-		clone_elem.addClass("editable");
-		var chil = clone_elem.find("*");//get all the children of current tr
-		var randnum = Math.floor((Math.random()*1000)+1); //generate a random number
-		for (var i = 0; i<chil.length; i++)
-		{
-			chil.eq(i).addClass("editable");
-			if (chil.eq(i).attr("id") != undefined)
-			{
-				chil.eq(i).removeAttr("id");//remove the current id
-				chil.eq(i).attr("id", "adder"+randnum+i);//assign new id
-			} else
-			{
-				chil.eq(i).attr("id", "adder"+randnum+i);//assign new id
-			}
-		}
-		//get a new id for the inserted element
-		clone_elem.attr("id", "cloner"+randnum);
-		
-		
-		var text = "<div id='"+id+"'></div>";
-		if (jQuery('#custom_code_position input[name=custom_code]:checked').val() == "above")
-		{
-			//if the user select pure
-			if (jQuery('#pure_code').is(":checked") )
-			{
-				jQuery(clone_elem).insertBefore('#'+ localStorage.getItem("vgt_current_selected_item"));
-			} else
-			{
-				jQuery(text).insertBefore('#'+localStorage.getItem("vgt_current_selected_item"));
-				//insert the code into the newly created element
-				jQuery('#'+ id).append(clone_elem);
-			}
-			
-		} else
-		{
-			//if the user select pure
-			if (jQuery('#pure_code').is(":checked") )
-			{
-				jQuery(clone_elem).insertAfter('#'+localStorage.getItem("vgt_current_selected_item"));
-			} else
-			{
-				jQuery(text).insertAfter('#'+localStorage.getItem("vgt_current_selected_item"));
-				jQuery('#'+ id).append(clone_elem);
-			}
-			
-		}		
-		vgt_wpl_enable_tinymce();
-		
-	});
-	
-	//insert custom Javascript code into the page
-	jQuery("#custom_javascript_code").blur(function(){
-		jQuery(this).fadeOut();
-		jQuery('#custom_code_position').fadeOut();
-		
-		if ((jQuery(this).val() == "") || (jQuery(this).val() == "Enter your custom Javascript code here"))
-		{
-			return;
-		}
+		/*
+		 * THIS SECTION IS FOR THE NEW VERSION. ALL NEW CODE IS WRITTEN BELOW
+		 * THIS SECTION IS FOR THE NEW VERSION. ALL NEW CODE IS WRITTEN BELOW 
+		 *  THIS SECTION IS FOR THE NEW VERSION. ALL NEW CODE IS WRITTEN BELOW
+		 *  THIS SECTION IS FOR THE NEW VERSION. ALL NEW CODE IS WRITTEN BELOW
+		 *  THIS SECTION IS FOR THE NEW VERSION. ALL NEW CODE IS WRITTEN BELOW
+		 *  THIS SECTION IS FOR THE NEW VERSION. ALL NEW CODE IS WRITTEN BELOW
+		 *  THIS SECTION IS FOR THE NEW VERSION. ALL NEW CODE IS WRITTEN BELOW
+		 *  */
 
-		jQuery("#sq_user_js_code").html(BASE64.encode(jQuery(this).val()));//enter the code in the div
-		
-	});
-	
-/*	
-	//the undo button
-	jQuery('#edit_undob').click(function(){
-		//get the latest removed element's id and restore it then remove the li in the history
-		if (!jQuery('#' + jQuery('#sq_remove_history li:last-child').text()).is(":visible")) {
-			jQuery('#' + jQuery('#sq_remove_history li:last-child').text() ).fadeIn();
-		}
-		
-		jQuery('#sq_remove_history li:last-child').remove();
-	
-	});
-	
-*/	
-		//insert the email code
-	jQuery("#email_code, #popup_email_code, #widget_email_code").blur(function(){
+        //Display code boxes
+        jQuery("#code_custom_css_btn").click(function(){
 
-		if(jQuery(this).val().indexOf("method") != -1)//in case the user has pased the autoresponder code in, at least not default
-		{
-			//filter the data before sending to server
-			var email_code = (jQuery(this).val());
-			
-			//jQuery("#tempo_responder").html(email_code);
-			//jQuery("#tempo_responder li, #tempo_responder div").filter(function(){return jQuery(this).css("display") == 'none';}).find("input[type='text']").remove();
-			//prepare the data before sending to server
-			data = {
-					action: 'parse_autoresponder',
-					ar_code: BASE64.encode(escape(email_code))
-			};
-			//send the code to server to process
-			jQuery.post(ajaxurl, data, function(response){
-				var response_array = response.split("123dddsacxz");
-				response = response_array[1];
-				
-				if (response == 'something wrong')
-				{
-					alert("something wrong with your code, please check it again");
-				} else 
-				{
-					var form_elements = jQuery.parseJSON(response);
-					
-					action_url = form_elements['action_url'];
-					var inputs = (form_elements['input']);
-					
-					var textarea = (form_elements['textarea']);
-					//var styles = form_elements['style'];
-					
-					jQuery("#site_area form").attr("action", action_url);//add the action path to the form
-					jQuery('#site_area form').attr("method", "post");
-					if (form_elements['form_id'] != "")
-					{
-						jQuery("#site_area form").attr("id", form_elements['form_id']);
-					}
-					if (form_elements['form_name'] != "")
-					{
-						jQuery("#site_area form").attr("name", form_elements['form_name']);
-					}
-					
-					
-					//add the input fields to the form
-					var field_code = "";
-					for (var i=0; i<inputs.length - 1; i++)
-					{
-						field_code += inputs[i];
-					}
-					//console.log(inputs);
-					//add the select to the form
-					if (form_elements['select'] != undefined) {
-						var selects = (form_elements['select']);
-						try
-						{
-							for (var i=0; i<selects.length; i++)
-							{
-								field_code += selects[i];
-							}	
-						}
-						catch(e)
-						{
-							console.log(e);
-						}							
-					}
+            jQuery("#vgt_custom_css_code_div").modal({fadeDuration: 500, clickClose: true});
 
-					
-					//add the textarea to the form
-					if (form_elements['textarea'] != undefined) {
-						var textarea = form_elements['textarea'];
-						try
-						{
-							for (var i=0; i<textarea.length; i++)
-							{
-								field_code += textarea[i];
-							}	
-						}
-						catch(e)
-						{
-							console.log(e);
-						}											
-					}
-					field_code += inputs[inputs.length - 1];
+        });
 
-					//insert into form
-					jQuery("#site_area form").html(field_code);
-				}
-			});
-		} 
-		
-		jQuery(this).fadeOut();
-	});
-	
-	//the expand button
-	jQuery('#xpand').click(function(){
-		if (jQuery(this).val() == "Xpand") {
-			jQuery('#editparent').css("width", "500px");
-			jQuery('#editparent > *').css("width", "500px");
-			jQuery('#editparent iframe').css("width", "500px");
-			jQuery(this).val("Shrink");
-		} else
-		{
-			jQuery('#editparent').css("width", "220px");
-			jQuery('#editparent > *').css("width", "220px");
-			jQuery('#editparent iframe').css("width", "220px");
-			jQuery(this).val("Xpand");	
-		}
-		
-	});
-	
-	//hide editor button
-	jQuery('#hide_editorb').click(function(){
-		if (jQuery(this).val() == "Hide")
-		{
-			jQuery('#editparent').fadeOut();
-			jQuery(this).val("Show");
-		} else
-		{
-			jQuery('#editparent').fadeIn();
-			jQuery(this).val("Hide");
-		}
-		
-	});
-	
-	//toggle the custom submit url, background... on the left
-	jQuery('#code_otherb').click(function(){
-		jQuery('#sq_bgt_customize_left').fadeToggle();
-	});
-	
-	//CUSTOM HTML AND JAVASCRIPT FOR THE SQUEEZE PAGE ONLY
-	jQuery("#custom_code_position input[value='html']").click(function(){
-		
-		jQuery("#custom_code_html").fadeIn(); //the option area
-		jQuery("#custom_html_code").fadeIn(); //the textarea box
-		
-		jQuery("#custom_javascript_code").fadeOut(); //the textarea box
-		jQuery("#custom_code_js").fadeOut();
-	});
+        jQuery("#code_custom_js_btn").click(function(){
 
-	jQuery("#custom_code_position input[value='javascript']").click(function(){
-		
-		jQuery("#custom_code_js").fadeIn();
-		jQuery("#custom_javascript_code").fadeIn(); //the textarea box
+            //hide the position selector in popup and widget pages
+            if (jQuery("#vgt_page_type").text() != "squeeze")
+            {
+                jQuery("#custom_javascript_position").fadeOut();
+                jQuery("#custom_javascript_position").siblings("h4").fadeOut();
+            }
 
-		jQuery("#custom_html_code").fadeOut(); //the textarea box
-		jQuery("#custom_code_html").fadeOut();
-	});
+            jQuery("#vgt_custom_javascript_code_div").modal({fadeDuration: 500, clickClose: true});
 
-	//show and hide the custom css code //
-	jQuery("#code_custom_css").click(function(){
-		jQuery("#code_boxes textarea").not("#custom_css").fadeOut();
-		jQuery('#face_panel').fadeOut();
-		jQuery("#custom_css").fadeToggle();
-		
-	});
-	
-	//insert custom css to the header of the page
-	jQuery('#custom_css').blur(function(){
-		jQuery(this).fadeOut();
-
-		//return false if the user enters nothing
-		if ((jQuery(this).val() == "Enter your custom css here") || (jQuery.trim(jQuery(this).val()) == "")) {
-			
-			return false;
-			
-		} else 	if (jQuery.trim(jQuery(this).val()) == "clear code") 	//clear the style if the user enters clear
-		{
-			if (jQuery("head style.custom_css_style") == undefined) {
-				
-			} else
-			{
-				//clear the stye
-				jQuery("head style.custom_css_style").remove();
-
-			}
-			return false;
-		} else //if the code entered is valid code 
-		{
-			if (jQuery("head style.custom_css_style").html() == undefined)
-			{
-				jQuery("<style class='custom_css_style'>"+jQuery.trim(jQuery(this).val())+"</style>").appendTo("head");
-				console.log("done");
-			} else
-			{
-				//append the code if there are differences
-				jQuery('head style.custom_css_style').html(jQuery.trim(jQuery(this).val()));			 
-				
-			}			
-		}		
-
-	});	
-
-	
-	//switch color
-	//define a function to switch color
-		/* get to the current theme folder, if it contains more than one child folder, that means the theme will switch color using the images, otherwise,
-		 * it will use the color picker.
-		 */
-
-		jQuery('#edit_switch_colorb').click(function(){
-			var theme_type = jQuery('#current_theme_type').text();
-			//get theme id
-			var theme_id = jQuery('#current_theme_id').text();
-			
-			var data = {action: 'sq_bgt_switch_color', theme_type: theme_type, theme_id: theme_id};
-			//send the ajax post
-			jQuery.post(ajaxurl, data, function(response){
-					var respon_array = response.split("123dddsacxz");
-					response = respon_array[1];
-					if (response == "hex")
-					{
-						jQuery('#sq_bgt_hex_color_changer').fadeIn();
-						jQuery('#sq_bgt_hide_picker').fadeIn();
-					} else if (response == "image")
-					{
-						var code = '';
-						//display the number from 1 to 9
-						for (var i = 1; i < 10; i++)
-						{
-							code += '<div class="color_switch_img" style="float: left; text-align: center;">';
-							code += '<img src="'+jQuery('#sq_bgt_link_to_colors').text() + i+'.jpg" /><br />';
-							code += '<input type="radio" theme="'+(i)+'" name="switch_color" color="'+i+'" /></div>';
-						}
-						
-						jQuery('#color_switch_number').html(code);
-						jQuery('#color_switch_number').fadeToggle();
-					} else //in case json is returned
-					{
-						
-						var return_array = jQuery.parseJSON(response);
-
-						var code = '';
-						//display the number from 1 to 9
-						for (var i = 0; i < return_array.length; i++)
-						{
-							code += '<div class="color_switch_img" style="float: left; text-align: center;">';
-							code += '<img src="'+jQuery('#sq_bgt_link_to_colors').text() + return_array[i]+'" /><br />';
-							code += '<input type="radio" theme="'+parseInt(return_array[i])+'" name="switch_color" color="'+return_array[i]+'" /></div>';
-						}
-						jQuery('#color_switch_number').html(code);
-						jQuery('#color_switch_number').fadeToggle();
-					}			
-					
-			});
+        });
 
 
+        jQuery("#code_mediab").click(function(){
+
+            jQuery("#vgt_media_code_div").modal({fadeDuration: 500, clickClose: true});
+
+        });
+
+
+        jQuery("#code_emailb").click(function(){
+
+            jQuery("#vgt_email_code_div").modal({fadeDuration: 500, clickClose: true});
+
+        });
+
+
+        //BACKGROUND BOXES
+        jQuery("#vgt_outer_background").click(function(){
+            jQuery(".bg_value").hide();
+
+            jQuery("#vgt_outer_background_div").modal({fadeDuration: 500, clickClose: false});
+
+        });
+
+        jQuery("#vgt_inner_background").click(function(){
+            jQuery(".bg_value").hide();
+
+            jQuery("#vgt_inner_background_div").modal({fadeDuration: 500, clickClose: false});
+
+        });
+
+        jQuery(document).on("change", "#vgt_inner_background_div select, #vgt_outer_background_div select", function(){
+                var for_value = jQuery(this).val() + "_value";
+
+                if ( jQuery("[for="+for_value+"]").length > 0 )
+                {
+                    jQuery(this).siblings(".bg_value").hide();
+                    jQuery("[for="+for_value+"]").parent().fadeIn();
+                }
+
+            });
+        //END BACKGROUND BOXES
+
+
+
+        jQuery(".code_box_close").click(function(){
+
+            jQuery.modal.close();
+        });
+
+        //save button behavior
+        jQuery(".code_box_save").click(function(){
+
+            jQuery.modal.close();
+
+            var code = jQuery(this).parent().siblings("textarea").val();
+            var for_code = jQuery(this).attr("for-code");
+
+            //if the code is CSS
+            if (for_code == "css")
+            {
+                vgt_process_css_code(code);
+            }
+
+            //if the code is JS
+            else if (for_code == "javascript")
+            {
+                var code_position = jQuery("#custom_javascript_position").val();
+                vgt_process_js_code(code, code_position);
+            }
+
+            //if the code is HTML
+            else if (for_code == "html")
+            {
+                vgt_process_html_code(code);
+            }
+
+            //if the code is autoresponder
+            else if (for_code == "autoresponder")
+            {
+                vgt_process_autoresponder_code(code, "#site_area");
+            }
+
+            //if the code is media
+            else if (for_code == "media")
+            {
+                vgt_process_media_code(code, "#site_area #media_box");
+            }
+
+            //if the code is outer background
+            else if (for_code == "outer_bg")
+            {
+
+                var bg_type = jQuery(this).parent().siblings("select").val();
+
+                var bg_value = jQuery(this).parent().siblings().children("[for="+bg_type+"_value]").val();
+
+                vgt_process_outer_background_code(bg_type, bg_value);
+            }
+
+            else if (for_code == "inner_bg")
+            {
+
+                var bg_type = jQuery(this).parent().siblings("select").val();
+
+                var bg_value = jQuery(this).parent().siblings().children("[for="+bg_type+"_value]").val();
+
+                vgt_process_inner_background_code(bg_type, bg_value);
+
+            }
+
+
+
+        });
+
+
+        //BACKGROUND BOXES
+
+
+		//SELECTING A TEMPLATE
+		jQuery("#withOptin").click(function(){
+			jQuery(".vgt_gallery").fadeOut();
+            jQuery("#nooptin_gallery").fadeOut();
+			jQuery("#optin_gallery").fadeIn();
+			jQuery("#vgt_gallery").fadeIn();
 		});
 		
-		var type = jQuery('#current_theme_type').text();
-		sq_bgt_apply_hex_color(type);
+		jQuery("#noOptin").click(function(){
+            jQuery(".vgt_gallery").fadeOut();
+			jQuery("#optin_gallery").fadeOut();
+			jQuery("#nooptin_gallery").fadeIn();
+			jQuery("#vgt_gallery").fadeIn();			
+		});
 		
-		//show the color picker on changeable divs
-		jQuery(document).on("click", ".bgt_bg_change", function(){
-			/* When the element is clicked, record the id of the element in order to change the color
-			 * generate an ID of the current element doesn't have one
-			 *  */	
-			if (jQuery(this).attr("id") == undefined)
+		//response to radio-button click
+		jQuery("#vgt_gallery input[type=radio]").click(function(){
+
+            jQuery(".vgt_edit_btn").hide();
+            jQuery("#editthisb").fadeIn();
+			
+		});
+		
+		//response to Edit this button clicked, this is when a new template is loaded, reset all localStorage values, also, codes in textarea
+		jQuery("#editthisb").click(function(){
+			jQuery(this).fadeOut();
+
+            //clear current title
+            jQuery("#pw_item_name, #page_title").val("");
+
+			jQuery("#optin_gallery, #nooptin_gallery, #vgt_gallery, #gallery_panel").fadeOut();
+			//get the selected theme
+			var theme_id = jQuery('#vgt_gallery input[type="radio"]:checked').attr("theme_id");
+			var theme_type = jQuery('#vgt_gallery input[type="radio"]:checked').attr("theme_type");
+			var page_type = jQuery("#vgt_page_type").text();
+			var data = {
+					action: 'theme_loader',
+					theme_id: theme_id,
+					theme_type: theme_type,
+					page_type: page_type
+				};
+			//processing the return data
+			
+			jQuery.post(ajaxurl, data, function(response){
+                //reset all localStorage variables
+                vgt_reset_all_localStorage();
+
+
+				var return_array = vgt_parse_json_output(response);
+				//decode the return values
+				var css_content = vgt_de_serialize_data(return_array[VGT_CSS_CONTENT]);
+				var theme_content = vgt_de_serialize_data(return_array[VGT_PAGE_CONTENT]);
+				
+				jQuery("head").children("style.vgt_theme_css").remove();
+				//set the class so it will be easier to remove later
+				jQuery("<style class='vgt_theme_css'>"+css_content+"</style>").appendTo("head");
+					
+				//put content in site_area
+				jQuery("#site_area").html(theme_content);
+
+                jQuery("#site_area *").not("a,h1,h2,h3,h4,h5,h6,p,input,button").contents().filter(function(){	return (this.nodeType == 3); }).wrap("<span class='editable'></span>");
+
+                jQuery("#site_area h1, #site_area h2, #site_area h3, #site_area h4, #site_area h5, #site_area h6, #site_area p, #site_area ul").addClass("editable");
+				
+				//remove blanks spans
+				jQuery(".editable").filter(function(){return ((jQuery.trim(jQuery(this).text())).length == false);}).remove();
+
+				//show the publish button
+				jQuery("#publishb").fadeIn();
+                jQuery("#pwpublishb").fadeIn(); //for popup and widget
+				vgt_wpl_enable_tinymce();
+
+/*
+                //add id to all buttons, link if not available
+                jQuery("#site_area a, #site_area button, #site_area input").each(function(){
+                    if (jQuery(this).attr("id") == undefined)
+                    {
+                        var random_id = "rid_" + Math.round(Math.random() * 999999);
+                        jQuery(this).attr("id", random_id);
+
+                    }
+
+                });
+*/
+                //store the theme CSS content in base64 format, this string will be posted to server when saving the template
+                localStorage.setItem(VGT_CSS_CONTENT, return_array[VGT_CSS_CONTENT]);
+
+                //set the page_outer ID to the unique ID
+                localStorage.setItem(VGT_PAGE_OUTER_ID, return_array[VGT_PAGE_OUTER_ID]);
+
+			});
+			
+		});
+
+		//SETTINGS FOR BUTTONS AND INPUTS
+		jQuery("#vgt_button_settings_button").click(function(){
+            //send ajax request to get the list of popup options, in case the user select the action of the button to show all the popups
+
+            var data = {
+                action: "vgt_get_popup_widget_options",
+                type: "popup"
+            };
+            jQuery.post(ajaxurl, data, function(response){
+                var options_array = vgt_parse_json_output(response);
+
+                jQuery("#vgt_hidden_advanced_settings").fadeIn();
+                jQuery("#vgt_button_settings").fadeIn();
+
+                var options = "<option value=''></option>";
+                for (var i = 0; i < options_array.length; i ++)
+                {
+                    options += '<option value="'+options_array[i].id+'">'+vgt_de_serialize_data(options_array[i].title)+'</option>';
+                }
+
+                jQuery("#vgt_popup_to_display").html("");
+                jQuery("#vgt_popup_to_display").append(options);
+            });
+		});
+		
+		//close the button and link settings box
+		jQuery(".vgt_close_btn").click(function(){
+			jQuery("#vgt_hidden_advanced_settings").fadeOut();
+		});
+		
+		//response to button behavior selection
+		jQuery(document).on("change","#vgt_button_behavior",function(){
+			var value = jQuery(this).val();
+			console.log(value);
+			
+			if (value == "open_link")
 			{
-				var rand_id = "bg_changer" +  Math.round(Math.random()*100000) + "" + Math.round(Math.random()*100000);
-				jQuery(this).attr("id", rand_id);
-				jQuery('#bgt_bg_change_id').text(rand_id);
-			} else 
+				jQuery("#vgt_popup_to_display").parent().fadeOut();
+				jQuery("#vgt_url_to_open").fadeIn();
+				
+			} else if (value == "open_popup")
 			{
-				jQuery('#bgt_bg_change_id').text(jQuery(this).attr("id"));
+				jQuery("#vgt_url_to_open").fadeOut();
+				jQuery("#vgt_popup_to_display").parent().fadeIn();
+				
+			} else
+			{
+				jQuery("#vgt_url_to_open").fadeOut();
+				jQuery("#vgt_popup_to_display").parent().fadeOut();
 			}
 			
-			jQuery('#sq_bgt_hex_color_changer').fadeIn();
-			jQuery('#sq_bgt_hide_picker').fadeIn();
+		});
+
+		//save settings for button
+		jQuery("#vgt_save_button_settings").click(function(){
+			jQuery("#vgt_hidden_advanced_settings").fadeOut();
 			
-		});		
-		jQuery('#sq_bgt_hide_picker').click(function(){
-			jQuery('#sq_bgt_hex_color_changer').fadeOut();
-			jQuery(this).fadeOut();
-			return false;
-		});	
-	
-	
+			//get the id of current selected button
+			var button_id = localStorage.getItem(VGT_CURRENT_BUTTON_LINK_ID);
+
+            jQuery("#"+button_id).attr("vgt-action", "");
+
+            if (jQuery("#vgt_button_behavior").val() == "open_link")
+            {
+                jQuery("#"+button_id).attr("vgt-action", "open-link");
+                jQuery("#"+button_id).attr("vgt-action-value", jQuery("#vgt_url_to_open_value").val());
+
+                if (jQuery("input[name=vgt_new_window]").is(":checked"))
+                {
+                    jQuery("#"+button_id).attr("vgt-new-window", "true");
+                }
+
+            } else if (jQuery("#vgt_button_behavior").val() == "open_popup")
+            {
+                jQuery("#"+button_id).attr("vgt-action", "open-popup");
+                jQuery("#"+button_id).attr("vgt-action-value", jQuery("#vgt_popup_to_display").val());
+
+                //add unique class, make it easier to trigger the popup later
+                jQuery("#"+button_id).attr("vgt-popup-trigger-id", "vgt-trigger-"+jQuery("#vgt_popup_to_display").val());
+
+            }
+
+            //apply button style to selected button
+            if (localStorage.getItem("vgt_selected_button_style") != "")
+            {
+                //remove current class first
+                jQuery("#"+button_id).removeAttr("class");
+
+                jQuery("#"+button_id).addClass(localStorage.getItem("vgt_selected_button_style"));
+
+                //reset button style
+                localStorage.setItem("vgt_selected_button_style", "");
+            }
+
+
+			
+		});
+
+    //POPUP AND WIDGET COMMON FUNCTIONS
+
+
+
+    //GET POPUP/WIDGET CODE, save the code to db
+    jQuery('#pwpublishb').click(function(){
+
+        if (jQuery.trim(jQuery('#site_area').html()) == false) {
+            return;
+        }
+        if (jQuery.trim(jQuery("#pw_item_name").val()) == "")
+        {
+
+            vgt_general_notification('warning', "Name required!", 4);
+            jQuery("#pw_item_name").css("background", "#ffd3d3");
+
+            setTimeout(function(){
+                jQuery("#pw_item_name").css("background", "");
+
+            }, 2000);
+
+            return false;
+        }
+
+
+
+        //add class vgt_popup to the popup, this will be used to replace position class later
+        jQuery("#site_area > div").addClass("vgt_popup");
+
+        var page_content = vgt_serialize_data( jQuery('#site_area').html() );
+        var item_name = vgt_serialize_data(jQuery.trim( jQuery('#pw_item_name').val()));
+
+        var data = {
+            action			    : 'popup_widget_save_to_db',
+            vgt_page_content    : page_content,
+            vgt_item_type		: jQuery("#vgt_page_type").text() ,
+            vgt_page_title		: item_name,
+            vgt_css_content	    : localStorage.getItem(VGT_CSS_CONTENT),
+            vgt_custom_css_code	: localStorage.getItem(VGT_CUSTOM_CSS_CODE),
+            vgt_custom_js_code	: localStorage.getItem(VGT_CUSTOM_JS_CODE),
+            vgt_page_id         : localStorage.getItem(VGT_PAGE_ID),
+            vgt_page_outer_id   : localStorage.getItem(VGT_PAGE_OUTER_ID),
+            vgt_ar_code         : localStorage.getItem(VGT_AR_CODE)
+        };
+
+        //send the ajax call to server
+        jQuery.post(ajaxurl, data, function(response){
+            var return_data = vgt_parse_json_output(response);
+
+            //update item_id to the new ID
+            localStorage.setItem(VGT_PAGE_ID, return_data["item_id"]);
+            vgt_general_notification('success', return_data["message"], 4);
+
+
+        });
+    });
+
+    //SHOW LIST OF POPUP/WIDGET TO EDIT
+    jQuery(document).on("click", "#vgt_pwedit", function(){
+        var type = jQuery("#vgt_page_type").text();
+
+        var data = {
+            type: type,
+            action: "vgt_popup_widget_get_created"
+        };
+
+        jQuery.post(ajaxurl, data, function(response){
+            var return_data = response.split(VGT_UNIQUE_WRAPER);
+            jQuery(".vgt_gallery").hide();
+            jQuery("#vgt_created_item_gallery").html(return_data[1]);
+            jQuery("#vgt_created_item_gallery").fadeIn();
+
+        });
+
+    });
+
+    //show the Edit this button when user clicks on the radio button
+    jQuery(document).on("click", "input[name=vgt_created_item]", function(){
+        jQuery(".vgt_edit_btn").hide();//hide other edit buttons
+        jQuery("#pwedit_created_item_b").fadeIn();
+        jQuery("#editthispageb").fadeIn(); //for editing squeeze page
+    });
+
+    jQuery(document).on("click", "#pwedit_created_item_b", function(){
+
+        //clear localStorage variables
+        localStorage.clear();
+        localStorage.setItem("totalClassText", "");
+        localStorage.setItem("buttonAndLinkTag", "");
+
+        jQuery(this).fadeOut();
+        jQuery(".vgt_gallery").hide();
+
+        var item_id = jQuery("input[name=vgt_created_item]:checked").attr("item_id");
+        var data = {
+            item_id     : item_id,
+            action      : "vgt_popup_widget_load_created_item"
+        };
+
+        //set  to id of the item
+        jQuery.post(ajaxurl, data, function(response){
+
+            //set the title of the popup/widget
+            jQuery("#pw_item_name").val(jQuery("input[name=vgt_created_item]:checked").siblings(".vgt_single_item_name").text());
+
+            //record the id so the next time user press save button, the post will be updated, not insert to db
+            localStorage.setItem(VGT_PAGE_ID, item_id);
+            var return_array = vgt_parse_json_output(response);
+
+            console.log(return_array);
+            //remove current style sheet on the header
+            //decode the return values
+            var css_content = vgt_de_serialize_data(return_array[VGT_CSS_CONTENT]);
+
+            var theme_content = vgt_de_serialize_data(return_array['popup_widget_code']);
+
+            localStorage.setItem(VGT_CSS_CONTENT, return_array[VGT_CSS_CONTENT]);
+            localStorage.setItem(VGT_PAGE_OUTER_ID, return_array[VGT_PAGE_OUTER_ID]);
+            localStorage.setItem(VGT_CUSTOM_CSS_CODE, return_array[VGT_CUSTOM_CSS_CODE]);
+            localStorage.setItem(VGT_CUSTOM_JS_CODE, return_array[VGT_CUSTOM_JS_CODE]);
+            localStorage.setItem(VGT_AR_CODE, return_array[VGT_AR_CODE]);
+
+
+            jQuery("head").children("style.vgt_theme_css").remove();
+            //set the class so it will be easier to remove later
+            jQuery("<style class='vgt_theme_css'>"+css_content+"</style>").appendTo("head");
+
+            //put content in site_area
+            jQuery("#site_area").html(theme_content);
+
+            jQuery("#site_area *").not("a,li,h1,h2,h3,h4,h5,h6,p,input,button").contents().filter(function(){	return (this.nodeType == 3); }).wrap("<span class='editable'></span>");
+            jQuery("#site_area h1, #site_area h2, #site_area h3, #site_area h4, #site_area h5, #site_area h6, #site_area p, #site_area ul").addClass("editable");
+
+            //remove blanks spans
+            jQuery(".editable").filter(function(){return ((jQuery.trim(jQuery(this).text())).length == false);}).remove();
+
+            //show the publish button
+            jQuery("#publishb").fadeIn();
+            jQuery("#pwpublishb").fadeIn(); //for popup and widget
+            vgt_wpl_enable_tinymce();
+
+        });
+
+
+    });
+
+
+
+    //COMMON FUNCTIONS FOR POPUP AND WIDGET ONLY
+    //GET SHORTCODE
+    jQuery(document).on("click", "#vgt_get_shortcode", function(){
+
+        if (jQuery("#vgt_popup_manager").length > 0)
+        {
+            jQuery("#vgt_shortcode").text("[wpl_show_popup option_id="+localStorage.getItem("vgt_current_popup_option_id")+"]");
+        } else if (jQuery("#vgt_widget_manager").length > 0)
+        {
+            jQuery("#vgt_shortcode").text("[wpl_show_widget option_id="+localStorage.getItem("vgt_current_widget_option_id")+"]");
+        } else if (jQuery("#vgt_ab_left").length > 0)
+        {
+            if (jQuery("#select_page_type").val() == "popup")
+            {
+                jQuery("#vgt_shortcode").text("[wpl_ab_popup_test option_id="+localStorage.getItem("vgt_ab_id")+"]");
+
+            } else if (jQuery("#select_page_type").val() == "widget")
+            {
+                jQuery("#vgt_shortcode").text("[wpl_ab_widget_test option_id="+localStorage.getItem("vgt_ab_id")+"]");
+
+            } else if (jQuery("#select_page_type").val() == "squeeze")
+            {
+                jQuery("#vgt_shortcode").text("[wpl_ab_squeeze_test option_id="+localStorage.getItem("vgt_ab_id")+"]");
+
+            }
+
+        }
+
+    });
+
+    //DELETE OPTION
+    jQuery(document).on("click", "#vgt_delete_option", function(){
+
+        var item_id = jQuery("#vgt_list_of_options").val();
+        var data = {
+            action: "vgt_delete_option",
+            item_id: item_id
+
+        };
+
+        jQuery.post(ajaxurl, data, function(response){
+
+            jQuery("#vgt_list_of_options option[value="+item_id+"]").remove();
+            jQuery("#vgt_popup_manager select, #vgt_popup_manager input, #vgt_widget_manager select, #vgt_widget_manager input").val("");
+        });
+    });
+
+
+    //BUTTON COLORS
+    jQuery(document).on("click", "#vgt_styles button", function(){
+        var style_to_apply = jQuery(this).attr("alt_class");
+
+        jQuery(".vgt_tick").remove();
+
+        var style_to_replace = jQuery("#vgt_colors button:first").attr("alt_class");
+
+        jQuery("#vgt_colors button").removeClass(style_to_replace);
+        jQuery("#vgt_colors button").addClass(style_to_apply);
+        jQuery("#vgt_colors button").attr("alt_class", style_to_apply);
+
+        jQuery("#vgt_colors").fadeIn();
+
+    });
+
+    //SELECT A BUTTON A MARK IT AS SELECTED
+    jQuery(document).on("click", "#vgt_colors button", function(){
+
+        jQuery(".vgt_tick").remove();
+        jQuery(this).after('<span class="vgt_tick"></span>');
+
+        var btn_offset = jQuery(this).offset();
+
+        var height = jQuery(this).outerHeight();
+        var width = jQuery(this).outerWidth();
+        jQuery(".vgt_tick").offset({top: btn_offset.top + height - 16, left: btn_offset.left + width - 16 });
+
+        //save the class
+        localStorage.setItem("vgt_selected_button_style", jQuery(this).attr("class"));
+
+    });
+
+    //ADD AND REMOVE ITEMS
+    /*
+    Add and remove works on clonnable and list items only
+
+     */
+    jQuery(document).on("click", ".vgt_clonnable, li", function(){
+
+        if (jQuery(this).attr("id") != undefined)
+        {
+            localStorage.setItem("vgt_clonnable_id", jQuery(this).attr("id"));
+        } else
+        {
+            var random_id = "rand_" + Math.round(Math.random() *29999232);
+            jQuery(this).attr("id", random_id);
+            localStorage.setItem("vgt_clonnable_id", random_id);
+        }
+    });
+
+    jQuery(document).on("click", "#vgt_addb", function(){
+        if (localStorage.getItem("vgt_clonnable_id") != null)
+        {
+            var clonner = jQuery("#" + localStorage.getItem("vgt_clonnable_id")).clone();
+            console.log(clonner);
+            clonner.children().each(function(){
+                if (jQuery(this).attr("id") != undefined)
+                {
+                    var random_id = "rand_" + Math.round(Math.random() *29999232);
+                    jQuery(this).attr("id", random_id);
+                }
+
+            });
+
+           //insert the new element after current element
+            clonner.insertAfter(jQuery("#" + localStorage.getItem("vgt_clonnable_id")));
+
+
+        }
+
+    });
+
+
+    jQuery(document).on("click", "#vgt_removeb", function(){
+        if (localStorage.getItem("vgt_clonnable_id") != null)
+        {
+            jQuery("#" + localStorage.getItem("vgt_clonnable_id")).remove();
+
+        }
+
+    });
 });
-
-
