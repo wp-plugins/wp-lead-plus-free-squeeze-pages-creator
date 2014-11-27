@@ -5,7 +5,28 @@
 	right: 0;
 	left: 0;
 	overflow: visible !important;
+
 	
+}
+
+.vgt_tick {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    position: absolute;
+    background: url(img/tick.png) no-repeat;
+}
+
+
+#wpcontent, body, html {
+    background: #fff !important;
+}
+.vgt_clear {
+	clear: both;
+}
+
+.vgt_hidden {
+    display: none;
 }
 
 textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
@@ -14,11 +35,23 @@ textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
 
 #wpbody {
 	position: relative;
+    background: #fff !important;
 }
-#site_area {
+
+
+#site_area{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
     padding-bottom: 250px;
-    padding-top: 50px;
- 
+    padding-top: 100px;
+}
+#site_info {
+    position: fixed;
+    top: 40px;
+    left: 180px;
+    z-index: 100;
 }
 
 #button_editor {
@@ -133,7 +166,7 @@ textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
 }
 
 /* BUTTONS */
-#buttons_right input[type="button"], #face_panel input[type="button"], #foot_panel input[type="button"], #gallery_panel input[type="button"], #editing_panel input[type="button"], #code_panel input[type="button"], #editor_control_panel input[type="button"] {
+#code_boxes button, #save_buttons input, #buttons_right input[type="button"], #vgt_button_settings_button, #face_panel input[type="button"], #foot_panel input[type="button"], #gallery_panel input[type="button"], #editing_panel input[type="button"], #code_panel input[type="button"], #editor_control_panel input[type="button"] {
 	cursor: pointer;
 	border: medium none;
     font-family: "Segoe UI",Helvetica,Arial,sans-serif;
@@ -144,9 +177,10 @@ textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
     padding: 5px 7px;
     text-align: center;
     color: white;
-	width: 6em;
+	min-width: 6em;
+    width: 8em;
 	height: 30px;
-	line-heigth: 30px;
+	border-radius: 3px;
 }
 
 
@@ -183,18 +217,7 @@ textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
 	display: block;
 }
 
-#face_panel {
-	position: fixed;
-	right: 7.2em;
-	text-align: right;
-	bottom: 47px;
-	display: none;
-	z-index: 100;	
-}
 
-#face_panel input[type="button"]{
-	display: block;
-}
 /* CODING PANEL */
 
 #buttons_right {
@@ -219,19 +242,52 @@ textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
 }
 /* END HTML AND JAVASCRIPT POSITION */
 
-.bgt_thumb {
+.vgt_thumbnail {
 	width: 149px;
 	padding: 5px;
 	float: right;
 	text-align: center;
 }
 
-.bgt_thumb img {
+.vgt_thumbnail img {
 	width: 140px;
 	height: 86px;
 	margin: auto;
 	
 }
+
+/* THEME GALLERY */
+.vgt_gallery {
+	position: absolute;
+	width: 80%;
+    padding-left: 40px;
+	bottom: 0;
+	right: 0;
+	top: 20px;
+	background-color: white;
+	display: none;
+}
+
+#nooptin_gallery {
+	display: none;
+}
+
+#optin_gallery {
+	display: none;
+}
+
+/* END THEME GALLERY */
+
+/* THEME GALLERY PANEL */
+#gallery_panel {
+	position: fixed;
+	right: 5px;
+	bottom: 45px;
+	display: none;
+	z-index: 100;
+}
+	
+/* END THEME GALLERY PANEL */
 
 /* CHANGEABLE BACKGROUND IMAGES */
 .bgt_bg_change {
@@ -252,25 +308,314 @@ textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
 	display: none;
 }
 
-#go_pro_page, #main_page {
-	margin: auto;
-	line-height: 150%;
-	width: 80%;
+
+/*  SETTINGS FOR BUTTONS AND BACKGRROUND IMAGES  */
+#vgt_hidden_advanced_settings {
+	display: none;
+	width: 100%;
+	position: fixed;
+	height: 100%;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: url(img/bg.png);
+	z-index: 1000;
 }
-#go_pro_page h1 {
-	margin: auto;
-	padding: 10px 5px 15px;
-	color: #f07203;
-	text-align: center;
+
+.vgt_close_btn {
+	width: 32px;
+	height: 32px;
+	background: url(img/close_btn.png) no-repeat;
+	position: fixed;
+	top: 40px;
+	right: 10px;
+	cursor: pointer;
+}
+.vgt_extra_settings {
+	display: none;
+	width: 90%;
+	margin: 40px auto 10px;
+	padding: 20px 10px 40px;
+	background: #fff;
+	border-radius: 5px;
+}
+
+.vgt_extra_settings * {
+	max-width: 100%;
+	margin: 5px auto;
+	display: block;
 	
 }
 
-#go_pro_page h2, #main_page h2 {
-	color: #038ef0;
+
+/* BUTTON SETTINGS  */
+#vgt_button_settings_button {
+	position: fixed;
+	bottom: 2px;
+	left: 180px;
+	z-index: 101;
+	display: none;
 }
 
-#go_pro_page p, #main_page p{
-	font-size: 16px;
-	color: #777;
-	font-style: italic;
+#crazy_vgt .mce-tinymce {
+    max-width: 350px;
+    position: absolute;
+}
+
+
+#vgt_get_shortcode {
+    margin-left: 20px;
+    display: none;
+}
+
+
+/* MANAGING POPUP AND WIDGETS */
+.vgt_manage_extra_settings {
+    margin-left: 30px;
+}
+
+
+/* CODE BOXES */
+#code_boxes {
+    width: 600px;
+    max-height: 350px;
+    margin: auto;
+    text-align: center;
+}
+
+#code_boxes > div{
+    width: 500px;
+    max-height: 350px;
+    font-size: 14px;
+    display: none;
+}
+
+#code_boxes > div textarea{
+    width: 100%;
+    height: 200px;
+}
+
+#code_boxes input, #code_boxes select{
+    width: 100%;
+    margin: auto;
+    display: block;
+    margin: 0px auto 10px;
+}
+
+#code_boxes button {
+    display: inline-block;
+    margin: 10 0 10 20;
+
+}
+
+#code_boxes .code_boxes_buttons {
+    text-align: right;
+    width: 100%;
+    margin: auto;
+}
+
+#vgt_outer_background_div div, #vgt_inner_background_div div {
+    margin: 10px auto;
+}
+
+#vgt_outer_background_div label, #vgt_inner_background_div label {
+    display: inline-block;
+    text-align: left;
+    margin-left: 0px;
+}
+
+/* STYLING DELETE BUTTON */
+.vgt_single_list_item {
+    padding: 5px;
+    border-bottom: 1px solid #bfe6ff;
+    width: 400px;
+}
+
+.vgt_single_item_name {
+    padding-bottom: 0;
+    font-size: 1.1em;
+    display: inline-block;
+    margin-bottom: 0px;
+    width: 200px;
+    vertical-align: bottom;
+
+}
+.vgt_delete_item {
+    display: inline-block;
+    cursor: pointer;
+    padding: 2px 4px;
+    color: #ff5d0a;
+    margin-left: 30px;
+    background: #bfe6ff;
+    border-radius: 4px;
+}
+
+
+/* MANAGE POPUP WIDGETS */
+
+
+#vgt_popup_manager .delete_option {
+    width: 20%;
+    display: inline-block;
+}
+
+#on_category_value .list_of_categories input {
+     display: inline-block;
+}
+
+#on_category_value span {
+    display: block;
+}
+
+.vgt-header {
+    display: inline-block;
+    width: 40%;
+    color: #777;
+    float: left;
+    border-bottom: 1px solid #dedede;
+    text-align: center;
+    border-radius: 2px;
+    padding: 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.vgt-header:hover {
+    background: #acdfff;
+}
+
+.vgt-header-active {
+    background: #acdfff;
+}
+
+/* BUTTON STYLES */
+#vgt_button_styles {
+
+
+}
+
+#vgt_styles {
+    width: 20%;
+    padding: 10px 4%;
+    border: 0;
+    margin: 0;
+    display: inline-block;
+    float: left;
+}
+
+#vgt_styles button{
+    display: block;
+    margin: 5px 10px;
+}
+
+#vgt_colors {
+    width: 70%;
+    padding: 10px 1%;
+    border: 0;
+    margin: 0;
+    display: inline-block;
+    float: left;
+}
+
+#vgt_colors button {
+    margin: 10px;
+    display: inline-block;
+}
+
+/* STYLING FOR TINYMCE LIST */
+[page_type] ul,[page_type] ol {
+    max-width: 90%;
+    text-align: left;
+    margin-left: 2% !important;
+
+}
+
+
+[page_type] ul.arrow_green li {
+    list-style-type: none;
+    background: url(img/arrow_green.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+[page_type] ul.arrow_blue li {
+    list-style-type: none;
+    background: url(img/arrow_blue.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+
+[page_type] ul.arrow_orange li {
+    list-style-type: none;
+    background: url(img/arrow_orange.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+[page_type] ul.arrow_red li {
+    list-style-type: none;
+    background: url(img/arrow_red.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+[page_type] ul.tick_green li {
+    list-style-type: none;
+    background: url(img/tick_green.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+[page_type] ul.tick_blue li {
+    list-style-type: none;
+    background: url(img/tick_blue.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+
+[page_type] ul.tick_orange li {
+    list-style-type: none;
+    background: url(img/tick_orange.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+[page_type] ul.tick_red li {
+    list-style-type: none;
+    background: url(img/tick_red.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+[page_type] ul.circle_green li {
+    list-style-type: none;
+    background: url(img/circle_green.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+[page_type] ul.circle_blue li {
+    list-style-type: none;
+    background: url(img/circle_blue.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+
+[page_type] ul.circle_orange li {
+    list-style-type: none;
+    background: url(img/circle_orange.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+[page_type] ul.circle_red li {
+    list-style-type: none;
+    background: url(img/circle_red.png) no-repeat !important;
+    padding-left: 25px !important;
+}
+
+/* SETTINGS */
+#vgt_settings *{
+    max-width: 50%;
+}
+
+#vgt_settings input, #vgt_settings textarea {
+    margin: 10px 0;
+}
+
+#vgt_button_action > select, #vgt_button_action > div {
+    max-width: 500px;
 }

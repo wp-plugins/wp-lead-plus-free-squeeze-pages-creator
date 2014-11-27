@@ -40,15 +40,6 @@
 	width: 17%;
 }
 
-#site_area{
-	position: absolute;
-	left: 20%;
-	top: 0;
-	right: 0;
-	width: 79%;
-	float: left;
-}
-
 #foot_panel, #widget_foot_panel {
 	height: 40px;
 	position: fixed;
@@ -227,37 +218,6 @@
 
 /* END BACKGROUNDS PANEL */
 
-/* CODE BOXES */
- #code_boxes {
-	position: fixed;
-	width: 17%;
-	bottom: 45px;
-}
-
-#code_boxes textarea{
-	display: none;
-	width: 100%;
-	height: 200px;
-	font-size: 14px;
-}
-
-#code_boxes textarea#tracking_code {
-	background-color: #97FF91;
-}
-
-#code_boxes textarea#video_code {
-	background-color: #FFA04D;
-}
-
-#code_boxes textarea#email_code {
-	background-color: #5EC7FF;
-}
-
-#code_boxes textarea#face_code {
-	background-color: #86D986;
-}
-
-/* END CODE BOXES */
 
 /* POST PANEL */
 #posts_panel {
@@ -437,3 +397,40 @@
 #sq_bgt_current_widget_options table {
 	border-collapse: collapse;
 }
+
+/* CODE FOR NEW VERSION */
+
+/* MANAGE WIDGET */
+#vgt_widget_manager {
+    width: 100%;
+    margin: auto;
+}
+
+#vgt_widget_manager #vgt_manager_left, #vgt_widget_manager #vgt_manager_right {
+    width: 44%;
+    padding: 0 2%;
+    float: left;
+}
+
+#vgt_widget_manager select, #vgt_widget_manager input[type=text] {
+    width: 60%;
+
+}
+
+#vgt_widget_manager label {
+    display: inline-block;
+}
+
+#vgt_widget_manager .form-control {
+    display: block;
+    margin: 1px 5px 10px;
+}
+
+#vgt_created_options {
+    display: none;
+}
+
+#vgt_option_settings {
+    display: none;
+}
+
