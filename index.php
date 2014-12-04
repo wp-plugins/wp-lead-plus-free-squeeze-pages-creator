@@ -4,7 +4,7 @@
 	 * Author: Gato Vago
 	 * Author URI: http://gatovago.com/
 	 * Description: Create your reponsive landing pages, squeeze pages, popup widgets within minutes. Working well on mobile, desktop, tablets
-	 * Version: 1.6.8
+	 * Version: 1.6.9
 	 */
 
 	include_once ('settings.php');

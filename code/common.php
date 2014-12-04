@@ -68,9 +68,12 @@
          * 8. Parse the form to get select boxes
          *
          */
+        $pattern = '/<div style="position: absolute; left: -5000px;">.*div\>/';
+        $code = preg_replace($pattern, '', vgt_de_serialize_data($_POST["code"]));
 
 
-        $form_object = str_get_dom(vgt_de_serialize_data($_POST["code"]));
+
+        $form_object = vgt_str_get_dom($code);
         $input_text = array();
         $input_radio = array();
         $input_checkbox = array();
@@ -80,7 +83,7 @@
         $select = array();
 
         $i = 0;
-        $all = $form_object("input, button, textarea");
+        $all = $form_object->select("input, button, textarea");
 
         foreach ($all as $a)
         {
@@ -89,14 +92,9 @@
             $i++;
         }
 
-        //delete stupid input box of mailchimp
-        $chimp_shit = $form_object(".hidden-from-view");
-        foreach ($chimp_shit as $shit)
-        {
-            $shit->deleteChild(0);
-        }
 
-        $form = $form_object("form");
+
+        $form = $form_object->select("form");
 
         $form_array = array();
 
@@ -107,7 +105,7 @@
         }
 
         //get all input text
-        $object = $form_object("input[type=text], input[type=email], input[type=number], input[type=search], input[type=color]");
+        $object = $form_object->select("input[type=text], input[type=email], input[type=number], input[type=search], input[type=color]");
 
 
         foreach($object as $o)
@@ -123,14 +121,14 @@
         }
 
         //get all input hidden
-        $object = $form_object("input[type=hidden]");
+        $object = $form_object->select("input[type=hidden]");
 
         foreach($object as $o)
         {
             $input_hidden[]       = $o->html();
         }
         //get all input radio
-        $object = $form_object("input[type=radio]");
+        $object = $form_object->select("input[type=radio]");
 
         foreach($object as $o)
         {
@@ -139,7 +137,7 @@
         }
 
         //get all input checkbox
-        $object = $form_object("input[type=checkbox]");
+        $object = $form_object->select("input[type=checkbox]");
 
         foreach($object as $o)
         {
@@ -148,7 +146,7 @@
         }
 
         //get all select
-        $object = $form_object("select");
+        $object = $form_object->select("select");
 
         foreach($object as $o)
         {
@@ -157,7 +155,7 @@
         }
 
         //get all textarea
-        $object = $form_object("textarea");
+        $object = $form_object->select("textarea");
 
         foreach($object as $o)
         {
@@ -167,7 +165,7 @@
 
         //get submit button
 
-        $object = $form_object("input[type=submit], input[type=image]");
+        $object = $form_object->select("input[type=submit], input[type=image]");
 
         foreach($object as $o)
         {
@@ -240,8 +238,8 @@
 
         //1. Load theme index.html and style.css
 		$theme_files = vgt_load_theme_file($theme_path.'/index.html', $theme_path.'/assets/style.css');
-        $theme_body = str_get_dom($theme_files[0]);
-        $theme_object = $theme_body("body");
+        $theme_body = vgt_str_get_dom($theme_files[0]);
+        $theme_object = $theme_body->select("body");
         foreach($theme_object as $t)
         {
             $theme_body = $t->getInnerText();

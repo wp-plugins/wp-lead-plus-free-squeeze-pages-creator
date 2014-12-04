@@ -1,5 +1,6 @@
 <?php
-	
+	//define some constants
+	define('VGT_PLUGIN_NAME', 'wp-lead-plus-free-squeeze-pages-creator');
 	include_once vgt_get_site_installation_path().'/wp-load.php';
 	//get the document root
 	function vgt_get_site_installation_path()
@@ -29,8 +30,7 @@
 	
 
 	global $wpdb;	
-	//define some constants
-	define('VGT_PLUGIN_NAME', 'wp-lead-plus-free-squeeze-pages-creator');
+	
 
 	//widget and popup will use same tables
 	
