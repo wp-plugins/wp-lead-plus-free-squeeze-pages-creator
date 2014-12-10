@@ -4,25 +4,14 @@
 
     //FRONT END
     function vgt_front_end_scripts() {
-        wp_register_script('vgt_open_popup', plugins_url('js/open_popup.js', __FILE__));
+        wp_register_script('vgt_front_script', plugins_url('js/front.js', __FILE__));
         wp_register_script('vgt_bg_stretch', plugins_url('js/backs.js', __FILE__));
         wp_register_style('vgt_front_style', plugins_url('css/front.css', __FILE__));
         wp_register_style('vgt_button_styles', plugins_url('css/button-styles.css', __FILE__));
 
-        wp_register_script('vgt_tracking', plugins_url('js/tracking.js', __FILE__));
         wp_enqueue_script('jquery');
-        wp_enqueue_script('jquery-ui-core');
-        wp_enqueue_script('jquery-effects-core');
-        wp_enqueue_script('jquery-effects-bounce');
-        wp_enqueue_script('jquery-effects-shake');
-        wp_enqueue_script('jquery-effects-slide');
-        wp_enqueue_script('jquery-effects-highlight');
-        wp_enqueue_script('jquery-effects-pulsate');
 
-
-
-        wp_enqueue_script('vgt_tracking');
-        wp_enqueue_script('vgt_open_popup');
+        wp_enqueue_script('vgt_front_script');
         wp_enqueue_script('vgt_bg_stretch');
         wp_enqueue_style('vgt_front_style');
         wp_enqueue_style('vgt_button_styles');

@@ -36,7 +36,7 @@ function vgt_write_custom_js($id, $position)
     <script src="<?php echo get_option('vgt_wpl_plugin_url') . '/js/jq.js' ?>"></script>
     <!-- include tracking js -->
     <script src="<?php echo get_option('vgt_wpl_plugin_url') . '/js/tracking.js' ?>"></script>
-    <script src="<?php echo get_option('vgt_wpl_plugin_url') . '/js/open_popup.js' ?>"></script>
+    <script src="<?php echo get_option('vgt_wpl_plugin_url') . '/js/front.js' ?>"></script>
 
     <?php echo vgt_de_serialize_data(get_post_meta($id, "vgt_custom_tracking_code", true)); ?>
     <?php vgt_write_custom_js($id, "before_head_close"); ?>

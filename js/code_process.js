@@ -15,6 +15,8 @@ function vgt_process_autoresponder_code(code, form_div) //form_div: the part in 
     //1. Save the code
     localStorage.setItem(VGT_AR_CODE, vgt_serialize_data(code));
 
+    //if the code is from mailpoet, do nothing
+
     //2. Process the code
     var data = {
         action  : "vgt_parse_autoresponder",
@@ -35,6 +37,9 @@ function vgt_process_autoresponder_code(code, form_div) //form_div: the part in 
 
         //append input, checkboxes and radios
         var form_html = data.input_text + data.input_checkbox + data.input_radio + data.input_hidden + data.textarea + data.submit;
+
+        //add some notification to the form
+        form_html += '<div class="vgt_form_notification">  <span class="vgt_notification_success vgt_form_messages">Thanks for subscribing. Please check your email</span>  <span class="vgt_notification_missing vgt_form_messages">Please fill in all required fields</span></div>';
 
         jQuery(form_div + " form").html(form_html);
 

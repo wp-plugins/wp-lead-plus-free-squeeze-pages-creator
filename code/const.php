@@ -1,6 +1,5 @@
 <?php
-	//define some constants
-	define('VGT_PLUGIN_NAME', 'wp-lead-plus-free-squeeze-pages-creator');
+	
 	include_once vgt_get_site_installation_path().'/wp-load.php';
 	//get the document root
 	function vgt_get_site_installation_path()
@@ -10,12 +9,6 @@
 		
 		return $path = $ar[0];
 
-		if ( (substr($path, -1) != '/') || (substr($path, -1) != '\\') )
-		{
-			$path .= '/';
-		} 
-
-		return $ar[0];
 	}
 	
 	function vgt_get_plugins_location()
@@ -26,11 +19,34 @@
 
 		return $ar[0];
 	}
-	
-	
 
-	global $wpdb;	
-	
+    //get plugin folder
+    function vgt_get_plugin_folder_name()
+    {
+        $path = plugin_dir_path(__FILE__);
+        //replace backlash to forwardslash
+        $path = str_replace("\\", "/", $path);
+        $path = str_replace("/code", "", $path);
+
+        //remove the last slash
+        if (substr($path, strlen($path) - 1, 1 ) == "/")
+        {
+            $path = substr_replace($path, "", strlen($path) - 1, 1);
+
+        }
+
+        //get the name
+        $array = explode("/", $path);
+
+        return $array[count($array) - 1];
+    }
+
+
+
+
+    global $wpdb;
+	//define some constants
+	define('VGT_PLUGIN_NAME', vgt_get_plugin_folder_name());
 
 	//widget and popup will use same tables
 	

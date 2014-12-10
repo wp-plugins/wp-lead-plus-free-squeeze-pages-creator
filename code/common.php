@@ -68,9 +68,18 @@
          * 8. Parse the form to get select boxes
          *
          */
-        $pattern = '/<div style="position: absolute; left: -5000px;">.*div\>/';
+
+        //remove the hidden box from mailchimp
+        $pattern = '/<div style="position: absolute; left: -5000px;">.*?div\>/s';
         $code = preg_replace($pattern, '', vgt_de_serialize_data($_POST["code"]));
 
+        //remove checking fields in mailpoet
+        if (stripos($code, "wysija"))
+        {
+            $pattern = '/<span class="abs-req">.*?span\>/s';
+            $code = preg_replace($pattern, '', $code);
+
+        }
 
 
         $form_object = vgt_str_get_dom($code);

@@ -619,3 +619,27 @@ textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
 #vgt_button_action > select, #vgt_button_action > div {
     max-width: 500px;
 }
+
+/* ADDITIONAL PARTS TO FORM */
+.vgt_form_notification {
+    text-align: center;
+    margin: auto;
+    max-width: 100%;
+}
+.vgt_form_messages {
+    display: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    max-width: 100%;
+    color: #fff;
+}
+
+.vgt_notification_success {
+    background-color: #7ad5ff;
+}
+
+.vgt_notification_missing {
+    background-color: #ff7a93;
+}
+
