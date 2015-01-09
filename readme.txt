@@ -3,7 +3,7 @@ Contributors: codingpuss
 Tags: squeeze page, landing page, squeeze page plugin, lead capture page, lead capturing page, WordPress squeeze page, best squeeze page, squeeze page for WordPress, sidebar, widget, newsletter
 Requires at least: 3
 Tested up to: 4.0
-Stable tag: 1.7.1
+Stable tag: 1.7.3
 
 Create stunning squeeze page/newsletter pages with ease. Simply point-click-edit and your squeeze page is ready in less than 3 minutes.
 
@@ -18,7 +18,7 @@ Have you ever wanted to create stunning squeeze pages just like othe pros do? Yo
 *	Easy logo integration: Have a cool logo, banner? It can't be easier to put them into your squeeze page using WP Lead Plus
 *	Flexible background options: Use the provided background or use your own background, your choice
 *	Multiple color choice: There are multiple colors avaible for templates of WP Lead Plus
-*	WP Lead Plus works with all autoresponder provider including Aweber, Maichimp, GetResponse, iContact, MailPoet (WYSIJA Newsletters), GVO...
+
 
 ### WP Lead Plus PRO Cool Features:
 *	More than 20 stunning squeeze page templates (compare to 3 of free version) with responsive design (i.e. fit in any device desktop/laptop/table/phone)
@@ -33,8 +33,7 @@ Have you ever wanted to create stunning squeeze pages just like othe pros do? Yo
 *	Insert your own code into the page
 *	Easy facebook comment box integration. You can place the facebook comment box easily on the squeeze page.
 *	Transparent squeeze pages templates
-*	Conversion tracking for squeeze pages, popups, widget. You will find which ones have the best conversion rate. 
-*	Easy to setup A/B testing on squeeze page, popup, widget
+*	Conversion tracking for squeeze pages, popups, widget. You will find which ones have the best conversion rate.
 *	No limit on using background. You can use your own background images
 *	Support WPMU
 *	NEW! You can use YouTube Videos as the backgrounds of your squeeze pages

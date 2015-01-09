@@ -1,4 +1,5 @@
 <div style="position: fixed; top: 0px; right: 0; z-index: 1000000;">
+<a style="color: white !important;" target="_blank" href="http://wpleadplus.com/?scr=inusing" ><strong>Get A/B testing, Conversion Tracking and Popups </strong></a>
 <a target="_blank"  href="http://www.youtube.com/playlist?list=PL6rw2AEN42Eoyq6_ht0TA-SM55jUWU8m5" class="btn btn-success glyphicon glyphicon-book"> Tutorials</a>
 <a target="_blank"  href="http://wpleadplus.com/contact/" class="btn btn-danger glyphicon glyphicon-send"> Support</a>
 </div>

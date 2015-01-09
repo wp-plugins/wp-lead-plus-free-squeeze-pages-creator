@@ -167,6 +167,7 @@ jQuery(document).ready(function(){
 
 
         //hide and show text on input (click hide, blur show)
+        /*
         localStorage.setItem("vgtinputText", "");
         jQuery("[page_type] input[type=text], [page_type] input[type=email]").each(function(){
             localStorage.setItem("vgtinputText", jQuery(this).val());
@@ -194,6 +195,39 @@ jQuery(document).ready(function(){
         });
 
 
+        */
+
+        localStorage.setItem("vgtinputText", "");
+        jQuery("[page_type] input[type=text], [page_type] input[type=email]").each(function(){
+            var currentText = localStorage.getItem("vgtinputText");
+            
+            localStorage.setItem("vgtinputText", jQuery(this).attr("value") + currentText);
+            console.log(currentText);
+
+        });
+
+        //On click, hide text
+        jQuery("[page_type] input[type=text],[page_type] input[type=email]").click(function(){
+            localStorage.setItem("vgtoldText", jQuery(this).val());
+
+            console.log(localStorage.getItem("vgtinputText"));
+            console.log(jQuery(this).val());
+            if ((localStorage.getItem("vgtinputText").indexOf(jQuery(this).val())) != -1)
+            {
+                jQuery(this).val("");
+            }
+
+        });
+
+        //On blur, restore text if there is no change
+        jQuery("[page_type] input[type=text], [page_type] input[type=email]").blur(function(){
+
+            if ( (jQuery(this).val() == ""))
+            {
+                jQuery(this).val(localStorage.getItem("vgtoldText"));
+            }
+
+        });
 
     var my_ajaxurl = jQuery(".vgt_ajax_url").text();
 

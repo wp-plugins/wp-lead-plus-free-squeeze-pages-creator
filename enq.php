@@ -28,7 +28,6 @@
 		wp_register_script('sq_custom_ebox', plugins_url('js/ebox.js', __FILE__));
 		wp_register_script('editscript', plugins_url('js/edit.js', __FILE__));
 		wp_register_script('widgetscript', plugins_url('js/widget.js', __FILE__));
-		wp_register_script('popupscript', plugins_url('js/popup.js', __FILE__));
 		wp_register_script('sq_gallery_script', plugins_url('js/gallery.js', __FILE__));
         wp_register_script('vgt_code_processing', plugins_url('js/code_process.js', __FILE__));
 		wp_register_script('sqcommon', plugins_url('js/common.js', __FILE__));
@@ -42,8 +41,6 @@
         wp_register_script('vgt_ab', plugins_url('js/ab.js', __FILE__));
         wp_register_script('vgt_tracking_backend', plugins_url('js/tracking_backend.js', __FILE__));
         wp_register_script('vgt_bootstrap', plugins_url('css/bs/js/bootstrap.min.js', __FILE__));
-        wp_register_script('vgt_chart', plugins_url('js/charts/Chart.js', __FILE__));
-        wp_register_script('vgt_custom_chart', plugins_url('js/vgt_chart.js', __FILE__));
 
 	}
 //load scripts for default page, create and edit and others	
@@ -128,24 +125,6 @@
 		}
 	}
 
-    //ab
-    function vgt_enq_load_script_ab()
-    {
-        wp_enqueue_script('vgt_bootstrap');
-        wp_enqueue_script('vgt_ab');
-        wp_enqueue_script('vgt_chart');
-    }
-
-    //tracking
-    function vgt_enq_load_script_tracking_backend()
-    {
-        wp_enqueue_script('vgt_bootstrap');
-        wp_enqueue_script('base64code');
-        wp_enqueue_script('sqcommon');
-        wp_enqueue_script('vgt_tracking_backend');
-        wp_enqueue_script('vgt_chart');
-        wp_enqueue_script('vgt_custom_chart');
-    }
 	
 	//including the custom stylesheet
 	add_action('admin_init', 'vgt_enq_add_style_sheet');
