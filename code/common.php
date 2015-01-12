@@ -174,7 +174,7 @@
 
         //get submit button
 
-        $object = $form_object->select("input[type=submit], input[type=image]");
+        $object = $form_object->select("input[type=submit], input[type=image], input[type=button]");
 
         foreach($object as $o)
         {
@@ -188,6 +188,12 @@
             }
 
             $submit[] = $tag;
+        }
+
+        //in case there is no submit button (use link and js to submit form)
+        if (count($submit) == 0)
+        {
+            $submit[] = "<input elem-order='100' type='submit' name='Submit' value='Submit'  />";
         }
 
         if (count($input_radio) > 0)

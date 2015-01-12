@@ -183,7 +183,17 @@
 
         var return_data = response.split(VGT_UNIQUE_WRAPER);
 
-        var code = (decodeURIComponent(return_data[1]));
+        var code;
+        try {
+
+            code = (decodeURIComponent(return_data[1]));
+        } catch(e )
+        {
+            code = return_data[1];
+        }
+        
+        
+
         return JSON.parse(code);
     }
 
