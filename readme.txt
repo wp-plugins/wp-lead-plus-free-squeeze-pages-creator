@@ -35,7 +35,6 @@ Have you ever wanted to create stunning squeeze pages just like othe pros do? Yo
 *	Transparent squeeze pages templates
 *	Conversion tracking for squeeze pages, popups, widget. You will find which ones have the best conversion rate.
 *	No limit on using background. You can use your own background images
-*	Support WPMU
 *	NEW! You can use YouTube Videos as the backgrounds of your squeeze pages
 *   [Upgrade to the Pro Version Now!&raquo;](http://wpleadplus.com/?src=wp.org)
 
