@@ -52,7 +52,7 @@
         curl_setopt($ch, CURLOPT_URL, $path);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
         $index_file = curl_exec($ch);
         curl_close($ch);
