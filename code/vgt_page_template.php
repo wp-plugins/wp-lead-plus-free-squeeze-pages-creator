@@ -49,14 +49,13 @@ $background_value = get_post_meta($id, "vgt_outer_background", true);
 if ( $background_type == "image_pattern")
 {
     echo "<body style='background: url(".$background_value.");'";
-} else if ($background_type == "image")
-{
-    echo "<body>";
-    echo "<script>jQuery(document).ready(function(){ jQuery('body').backstretch('".$background_value."'); });</script>";
+
 } else if ($background_type == "color")
 {
     echo "<body style='background: ".$background_value.";'";
-} else
+}
+
+else
 {
     echo "<body>";
 }
@@ -82,6 +81,7 @@ echo '<span item_type="squeeze" for_item="'.get_post_meta($id, 'vgt_page_outer_i
     jQuery("*").removeAttr("contenteditable");
 
 </script>
+<?php if ($background_type == "image") { echo '<script>jQuery(document).ready(function(){ $("body").backstretch("'.$background_value.'"); });</script>'; } ?>
 </body>
 
 </html>
