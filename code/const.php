@@ -99,7 +99,7 @@
     define('VGT_PAGE_TEMPLATE', "vgt_page_template.php");
     define('VGT_PAGE_TEMPLATE_AB', "vgt_page_template_ab.php");
 
-    $return_data = array("page_id" => $page_id, "message" => "Done!");
+    //$return_data = array("page_id" => $page_id, "message" => "Done!");
 
 
 	//define an unique string to wrap around json response
