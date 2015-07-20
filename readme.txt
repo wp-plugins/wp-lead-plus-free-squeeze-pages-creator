@@ -38,6 +38,9 @@ Have you ever wanted to create stunning squeeze pages just like othe pros do? Yo
 *	NEW! You can use YouTube Videos as the backgrounds of your squeeze pages
 *   [Upgrade to the Pro Version Now!&raquo;](http://wpleadplus.com/?src=wp.org)
 
+### Create landing pages with our new plugin
+* Check out our new tool to create awesome landing pages within minutes now. It's free [Check out landing page builder plugin](https://wordpress.org/plugins/all-in-one-wp-builder/)
+
 == Installation ==
 *	Upload the extracted folder of the plugin to `/wp-content/plugins/` directory
 *	Activate the plugin in your WordPress dashboard

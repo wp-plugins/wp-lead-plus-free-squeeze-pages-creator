@@ -320,7 +320,7 @@ textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
 	left: 0;
 	right: 0;
 	background: url(img/bg.png);
-	z-index: 1000;
+	z-index: 9999999;
 }
 
 .vgt_close_btn {
@@ -354,7 +354,7 @@ textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
 	position: fixed;
 	bottom: 2px;
 	left: 180px;
-	z-index: 101;
+	z-index: 110;
 	display: none;
 }
 
@@ -643,3 +643,16 @@ textarea:focus, input:focus, .editable:focus, span:focus , #site_area *:focus{
     background-color: #ff7a93;
 }
 
+#wpl-promotion {
+	position: fixed;
+	right: 300px;
+	border-radius: 5px;
+	height: 30px;
+	top: 0;
+	background: #ecf0f1;
+	min-width: 100px;
+	z-index: 900000;
+	padding: 0 10px;
+	display: none;
+	line-height: 30px;
+}

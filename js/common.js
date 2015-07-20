@@ -1191,4 +1191,48 @@ jQuery(document).ready(function(){
         }
 
     });
+
+
+
+    setInterval(promoContent, 8000);
+
+    function promoContent()
+    {
+        var wplPromo = [
+            "Check out pro version with more awesome templates now",
+            "Get popup and widget on your sites too?",
+            "Get pro version with lots of awesome features today",
+            "Want to add widgets to your posts? Get pro version now"
+        ];
+
+        var aioPromo = [
+            "New free plugin to create landing pages is available. Download now",
+            "You want to create landing pages too? Check this out",
+            "Create responsive landing pages for free? Download this plugin now",
+            "Want to make some cool landing pages? Check this out"
+        ];
+
+        var linkArray = new Array();
+        linkArray[0] = "http://wpleadplus.com/?src=wp.org";
+        linkArray[1] = "https://wordpress.org/plugins/all-in-one-wp-builder/";
+
+        var content = "";
+
+        var rand = Math.floor((Math.random() * 10000) + 1);
+
+        if (rand % 2 == 0)
+        {
+            var text = wplPromo[Math.floor(Math.random()*wplPromo.length)];
+
+            content = '<a target="_blank" href="' + linkArray[0] + '">'+text + '</a>';
+        } else
+        {
+            var text = aioPromo[Math.floor(Math.random()*aioPromo.length)];
+
+            content = '<a target="_blank" href="' + linkArray[1] + '">'+text + '</a>';
+        }
+
+        jQuery("#wpl-promotion").html(content);
+        jQuery("#wpl-promotion").fadeIn();
+    }
 });
